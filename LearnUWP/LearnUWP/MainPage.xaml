@@ -1,0 +1,58 @@
+﻿<Page
+    x:Class="LearnUWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LearnUWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:LearnUWP.Models"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+    <StackPanel>
+        <RelativePanel BorderBrush="Orange" BorderThickness="12">
+            <TextBox x:Name="Text"
+                Header="Hello there"
+                Width="250"
+            />
+            <Rectangle 
+                RelativePanel.RightOf="Text"
+                x:Name="Box1"
+                Fill="Red" 
+                Width="100" 
+                Height="100"/>
+            <Rectangle 
+                x:Name="Box2"
+                Fill="Green" 
+                Width="100" 
+                Height="100"
+                RelativePanel.Below="Box1"
+                RelativePanel.AlignLeftWith="Box1"
+                />
+        </RelativePanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="300" />
+            </Grid.RowDefinitions>
+            <Rectangle Fill="Purple" Grid.Row="0" Grid.Column="0"/>
+            <Rectangle Fill="DarkGreen" Grid.Row="0" Grid.Column="1"/>
+        </Grid>
+        <ListView
+            ItemsSource="{x:Bind MyModels}">
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:AwesomeModel">
+                    <TextBlock Text="{x:Bind CoolField}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+            
+            
+    </StackPanel>
+</Page>
