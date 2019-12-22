@@ -1,4 +1,5 @@
 ﻿using FinancialDucks.Models;
+using FinancialDucks.Models.Recurences;
 using System;
 using System.Collections.Generic;
 
@@ -32,5 +33,9 @@ namespace FinancialDucks.Services
             return new Recurrence(occurences, new DateRange(startDate, end), period);
         }
 
+        public Recurrence CreateOneTimeOccurence(DateTime date)
+        {
+            return CreateRecurrence(date, 1, new OneTimeOccurence());
+        }
     }
 }

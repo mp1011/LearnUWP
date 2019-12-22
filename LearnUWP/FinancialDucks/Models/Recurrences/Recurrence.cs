@@ -24,7 +24,7 @@ namespace FinancialDucks.Models
             var date = DateRange.StartDate;
             date = Period.GetNextDate(date, allowCurrentDate: true);
 
-            while (date <= DateRange.EndDate)
+            while (date < DateRange.EndDate)
             {
                 yield return date;
                 date = Period.GetNextDate(date, allowCurrentDate: false);

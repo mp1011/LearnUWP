@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace FinancialDucks.Models.Transactions
 {
-    public class RecurringTransaction
-        : TransactionBase<RecurringFinancialEntity, FinancialEntity>
+    public class DatedTransaction
+        : TransactionBase<DatedFinancialEntity, FinancialEntity>
     {
-        public RecurringTransaction(RecurringFinancialEntity source, FinancialEntity destination) 
+        public DatedTransaction(DatedFinancialEntity source, FinancialEntity destination) 
             : base(source, destination)
         {
         }
