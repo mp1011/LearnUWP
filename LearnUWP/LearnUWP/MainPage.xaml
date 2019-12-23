@@ -9,50 +9,28 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="4*" />
+        </Grid.RowDefinitions>
+        <Frame 
+            Grid.Row="0"
+            Grid.Column="0">
 
-    <StackPanel>
-        <RelativePanel BorderBrush="Orange" BorderThickness="12">
-            <TextBox x:Name="Text"
-                Header="Hello there"
-                Width="250"
-            />
-            <Rectangle 
-                RelativePanel.RightOf="Text"
-                x:Name="Box1"
-                Fill="Red" 
-                Width="100" 
-                Height="100"/>
-            <Rectangle 
-                x:Name="Box2"
-                Fill="Green" 
-                Width="100" 
-                Height="100"
-                RelativePanel.Below="Box1"
-                RelativePanel.AlignLeftWith="Box1"
-                />
-        </RelativePanel>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="300" />
-            </Grid.RowDefinitions>
-            <Rectangle Fill="Purple" Grid.Row="0" Grid.Column="0"/>
-            <Rectangle Fill="DarkGreen" Grid.Row="0" Grid.Column="1"/>
-        </Grid>
-        <ListView
-            ItemsSource="{x:Bind MyModels}">
+            <HyperlinkButton x:Name="GotoAddBankAccount">
+                Add Bank Account
+            </HyperlinkButton> 
 
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="models:AwesomeModel">
-                    <TextBlock Text="{x:Bind CoolField}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+        </Frame>
+        <Frame 
+            Grid.Row="1"
+            Grid.Column="0"
+            Background="Blue">
 
-        </ListView>
-            
-            
-    </StackPanel>
+        </Frame>
+    </Grid>
 </Page>

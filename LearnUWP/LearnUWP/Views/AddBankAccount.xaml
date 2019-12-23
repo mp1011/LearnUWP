@@ -1,0 +1,21 @@
+﻿<Page
+    x:Class="LearnUWP.Views.AddBankAccount"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LearnUWP.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding Source={StaticResource Locator}, Path=[AddBankAccountViewModel]}"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <StackPanel>
+        <TextBlock>Add Bank Account</TextBlock>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>Name of Bank:</TextBlock>
+            <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.BankAccountName}"/>
+        </StackPanel>
+        <Button Content="Create" x:Name="CreateButton"/>
+    </StackPanel>
+
+</Page>

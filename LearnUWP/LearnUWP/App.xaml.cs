@@ -1,4 +1,11 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using FinancialDucks.IOC;
+using FinancialDucks.Services.UserServices;
+using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Views;
+using LearnUWP.Views;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,6 +36,10 @@ namespace LearnUWP
         public App()
         {
             this.InitializeComponent();
+            DIRegistrar.RegisterTypes(c =>
+            {
+                 c.AddSingleton<ViewModels.AddBankAccountViewModel>();
+            });
             this.Suspending += OnSuspending;
         }
 
