@@ -83,9 +83,11 @@ namespace LearnUWP.ViewModels
 
             var startDate = FirstPayDate.DateTime;
 
+            //todo, recurrence needs to be on another screen
+
             userFinances.AddEntity(new Paycheck(
                 companyName: CompanyName,
-                recurrence: _dateService.CreateRecurrence(startDate, startDate.AddYears(100), PayCycle),
+                //recurrence: _dateService.CreateRecurrence(startDate, startDate.AddYears(100), PayCycle),
                 initialAmount: Amount));
         }
     }

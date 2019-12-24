@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FinancialDucks.Models
+﻿namespace FinancialDucks.Models
 {
     public class BankAccount : FinancialEntity
     {
-        public BankAccount(string name) : base(name)
+        public BankAccount(string name, decimal initialAmount) : base(name, initialAmount)
         {
 
         }

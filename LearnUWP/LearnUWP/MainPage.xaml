@@ -35,7 +35,18 @@
         <Frame 
             Grid.Row="1"
             Grid.Column="1"
-            Background="Blue">
+            Background="LightBlue">
+
+            <ListView ItemsSource="{x:Bind ViewModel.Timeline}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Amount}" Padding="0,0,20,0" />
+                            <TextBlock Text="{Binding Date}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
         </Frame>
         <StackPanel Grid.Row="1" Grid.Column="0">

@@ -4,11 +4,14 @@ namespace FinancialDucks.Models
 {
     public class FinancialSnapshot : IComparable<FinancialSnapshot>
     {
+        public FinancialEntity Entity { get; }
         public decimal Amount { get; }
         public DateTime Date { get; }
 
-        public FinancialSnapshot(decimal amount, DateTime date)
+
+        public FinancialSnapshot(FinancialEntity entity, decimal amount, DateTime date)
         {
+            Entity = entity;
             Amount = amount;
             Date = date;
         }

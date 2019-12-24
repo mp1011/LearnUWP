@@ -1,9 +1,9 @@
 ﻿namespace FinancialDucks.Models
 {
-    public class Paycheck : DatedFinancialEntity
+    public class Paycheck : FinancialEntity
     {
-        public Paycheck(string companyName, Recurrence recurrence, decimal initialAmount) 
-            :base($"{companyName} paycheck", recurrence, initialAmount)
+        public Paycheck(string companyName, decimal initialAmount) 
+            :base($"{companyName} paycheck", initialAmount)
         {
 
         }

@@ -30,7 +30,7 @@ namespace LearnUWP.ViewModels
         public void AddBankAccount()
         {
             var userFinances = _sessionManager.GetCurrentUserFinances();
-            var bank = new BankAccount(BankAccountName);
+            var bank = new BankAccount(BankAccountName,0);
             userFinances.AddEntity(bank);
         }
     }
