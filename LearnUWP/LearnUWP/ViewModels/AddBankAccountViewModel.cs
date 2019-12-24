@@ -9,7 +9,7 @@ namespace LearnUWP.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private IUserSessionManager _sessionManager;
+        private readonly IUserSessionManager _sessionManager;
 
         private string _bankAccountName;
         public string BankAccountName

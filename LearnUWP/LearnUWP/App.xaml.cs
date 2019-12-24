@@ -3,6 +3,7 @@ using FinancialDucks.IOC;
 using FinancialDucks.Services.UserServices;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
+using LearnUWP.ViewModels;
 using LearnUWP.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -38,7 +39,9 @@ namespace LearnUWP
             this.InitializeComponent();
             DIRegistrar.RegisterTypes(c =>
             {
-                 c.AddSingleton<ViewModels.AddBankAccountViewModel>();
+                c.AddSingleton<AddBankAccountViewModel>();
+                c.AddSingleton<AddPaycheckViewModel>();
+                c.AddSingleton<MainPageViewModel>();
             });
             this.Suspending += OnSuspending;
         }

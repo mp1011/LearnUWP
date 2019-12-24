@@ -3,11 +3,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ioc="using:LearnUWP.IOC"
-    xmlns:local="using:LearnUWP">
+    xmlns:local="using:LearnUWP"
+    xmlns:con="using:LearnUWP.Converters">
 
     <Application.Resources>
         <ResourceDictionary>
             <ioc:ViewModelLocator x:Key="Locator"/>
+            <con:EnumToStringFormatter x:Key="EnumToStringFormatter"/>
+            <con:TextToDecimal x:Key="TextToDecimal"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

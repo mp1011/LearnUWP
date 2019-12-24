@@ -1,4 +1,5 @@
-﻿using FinancialDucks.Services.UserServices;
+﻿using FinancialDucks.Services;
+using FinancialDucks.Services.UserServices;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace FinancialDucks.IOC
             var serviceCollection = new ServiceCollection();
 
             serviceCollection.AddSingleton(typeof(IUserSessionManager),typeof(SingleUserInMemoryUserSessionManager));
+            serviceCollection.AddSingleton(typeof(DateService));
+            serviceCollection.AddSingleton(typeof(TransactionService));
 
             registerTypes(serviceCollection);
 

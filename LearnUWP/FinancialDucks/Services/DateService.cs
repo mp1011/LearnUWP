@@ -1,5 +1,6 @@
 ﻿using FinancialDucks.Models;
 using FinancialDucks.Models.Recurences;
+using FinancialDucks.Models.Recurrences;
 using System;
 using System.Collections.Generic;
 
@@ -31,6 +32,26 @@ namespace FinancialDucks.Services
                 end = period.GetNextDate(end, allowCurrentDate: false);
             
             return new Recurrence(occurences, new DateRange(startDate, end), period);
+        }
+
+        public Recurrence CreateRecurrence(DateTime start, DateTime end, PayCycle payCycle)
+        {
+            //todo - end date should not be implied
+            switch(payCycle)
+            {
+                case PayCycle.Weekly:
+                    return CreateRecurrence(start, end, new WeekRecurring(1, start));
+                case PayCycle.Biweekly:
+                    return CreateRecurrence(start, end, new WeekRecurring(2, start));
+                case PayCycle.FirstOfTheMonth:
+                    return CreateRecurrence(start, end, new DaysOfMonth(1));
+                case PayCycle.FirstAndFifteenthOfTheMonth:
+                    return CreateRecurrence(start, end, new DaysOfMonth(1,15));
+                case PayCycle.EndOfTheMonth:
+                    return CreateRecurrence(start, end, new DaysOfMonth(-1));
+                default:
+                    throw new NotSupportedException($"Unsupported pay cycle: {payCycle}");
+            }
         }
 
         public Recurrence CreateOneTimeOccurence(DateTime date)

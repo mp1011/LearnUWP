@@ -9,6 +9,8 @@ namespace FinancialDucks.Models.UserData
 
         public BankAccount[] BankAccounts => _userFinancialEntities.OfType<BankAccount>().ToArray();
 
+        public Paycheck[] Paychecks => _userFinancialEntities.OfType<Paycheck>().ToArray();
+
         public void AddEntity(FinancialEntity entity)
         {
             _userFinancialEntities.Add(entity);

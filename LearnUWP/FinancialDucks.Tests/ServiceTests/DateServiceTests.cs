@@ -52,5 +52,28 @@ namespace FinancialDucks.Tests.ServiceTests
                 .Be(DateTime.Parse(expectedLastDate));
 
         }
+
+        [TestCase("2020/1/1", PayCycle.Weekly, "2020/1/8")]
+        [TestCase("2020/1/1", PayCycle.Biweekly, "2020/1/15")]
+        [TestCase("2020/1/1", PayCycle.FirstOfTheMonth, "2020/2/1")]
+        [TestCase("2020/1/1", PayCycle.FirstAndFifteenthOfTheMonth, "2020/1/15")]
+        [TestCase("2020/1/1", PayCycle.EndOfTheMonth, "2020/2/29")]
+        public void CanCreateRecurrenceFromPayCycle(string date, PayCycle cycle, string expectedNextDate)
+        {
+            var dateService = new DateService();
+
+            var recurrence = dateService.CreateRecurrence(
+                start: DateTime.Parse(date),
+                end: DateTime.Parse(date).AddYears(1),
+                payCycle: cycle);
+
+            var nextDate = recurrence.GetDates()
+                .Take(2)
+                .Last();
+
+            nextDate
+                .Should()
+                .Be(DateTime.Parse(expectedNextDate));
+        }
     }
 }

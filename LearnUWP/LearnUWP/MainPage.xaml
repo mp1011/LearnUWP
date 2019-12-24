@@ -6,31 +6,60 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:LearnUWP.Models"
+    DataContext="{Binding Source={StaticResource Locator}, Path=[MainPageViewModel]}"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="4*" />
         </Grid.RowDefinitions>
-        <Frame 
+        <StackPanel 
             Grid.Row="0"
             Grid.Column="0">
 
             <HyperlinkButton x:Name="GotoAddBankAccount">
                 Add Bank Account
-            </HyperlinkButton> 
-
-        </Frame>
+            </HyperlinkButton>
+            
+            <HyperlinkButton x:Name="GotoAddPaycheck">
+                Add Paycheck
+            </HyperlinkButton>
+            
+        </StackPanel>
         <Frame 
             Grid.Row="1"
-            Grid.Column="0"
+            Grid.Column="1"
             Background="Blue">
 
         </Frame>
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <ListView 
+                Header="Bank Accounts"
+              
+                ItemsSource="{x:Bind ViewModel.BankAccounts}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView 
+                Header="Paychecks"
+                ItemsSource="{x:Bind ViewModel.Paychecks}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+        </StackPanel>
+        
     </Grid>
 </Page>
