@@ -1,35 +1,35 @@
 ﻿<Page
-    x:Class="LearnUWP.Views.AddPaycheck"
+    x:Class="LearnUWP.Views.AddExpense"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:LearnUWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    DataContext="{Binding Source={StaticResource Locator}, Path=[AddPaycheckViewModel]}"
+    DataContext="{Binding Source={StaticResource Locator}, Path=[AddExpenseViewModel]}"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <StackPanel>
         <TextBlock>Add Paycheck</TextBlock>
         <StackPanel Orientation="Horizontal">
-            <TextBlock>Name of Company:</TextBlock>
-            <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.CompanyName}"/>
+            <TextBlock>Description:</TextBlock>
+            <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.Description}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock>Amount: $</TextBlock>
             <TextBox Text="{x:Bind Mode=TwoWay, Converter={StaticResource TextToDecimal}, Path=ViewModel.Amount}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock>First Pay Date: $</TextBlock>
-            <DatePicker Date="{x:Bind Mode=TwoWay, Path=ViewModel.FirstPayDate}"/>
+            <TextBlock>Recurrence: $</TextBlock>
+            <local:EnumPicker DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.RecurrenceType}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock>Pay Schedule: </TextBlock>
-            <local:EnumPicker DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.PayCycle}"/>
+            <TextBlock x:Name="PayDateLabel">First Pay Date: $</TextBlock>
+            <DatePicker Date="{x:Bind Mode=TwoWay, Path=ViewModel.PayDate}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock>Deposit to: $</TextBlock>
-            <ComboBox SelectedValue="{x:Bind Mode=TwoWay, Path=ViewModel.DepositBank}" ItemsSource="{x:Bind ViewModel.BankAccounts}">
+            <TextBlock>Withdraw from: $</TextBlock>
+            <ComboBox SelectedValue="{x:Bind Mode=TwoWay, Path=ViewModel.WithdrawalBank}" ItemsSource="{x:Bind ViewModel.BankAccounts}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>
@@ -39,4 +39,5 @@
         </StackPanel>
         <Button Content="Create" x:Name="CreateButton"/>
     </StackPanel>
+    
 </Page>

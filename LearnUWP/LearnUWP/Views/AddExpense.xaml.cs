@@ -22,20 +22,40 @@ namespace LearnUWP.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AddPaycheck : Page
+    public sealed partial class AddExpense : Page
     {
+        public AddExpenseViewModel ViewModel => DataContext as AddExpenseViewModel;
 
-        public AddPaycheckViewModel ViewModel => DataContext as AddPaycheckViewModel;
-
-        public AddPaycheck()
+        public AddExpense()
         {
             this.InitializeComponent();
             CreateButton.Click += CreateButton_Click;
+            this.DataContextChanged += AddExpense_DataContextChanged;
+
+        }
+
+        private void AddExpense_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            if (ViewModel != null)
+            {
+                ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+            }
+        }
+
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ViewModel.RecurrenceType))
+            {
+                if (ViewModel.RecurrenceType == RecurrenceType.OneTime)
+                    PayDateLabel.Text = "Payment Date:";
+                else
+                    PayDateLabel.Text = "First Payment Date:";
+            }
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.AddPaycheck();
+            ViewModel.AddExpense();
             Frame.Navigate(typeof(MainPage));
         }
 
@@ -43,5 +63,6 @@ namespace LearnUWP.Views
         {
             ViewModel.Initialize();
         }
+
     }
 }

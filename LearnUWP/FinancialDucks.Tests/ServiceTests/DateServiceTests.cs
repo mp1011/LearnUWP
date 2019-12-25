@@ -75,5 +75,35 @@ namespace FinancialDucks.Tests.ServiceTests
                 .Should()
                 .Be(DateTime.Parse(expectedNextDate));
         }
+
+        [TestCase("2020/1/15", RecurrenceType.OneTime, "2020/1/15")]
+        [TestCase("2020/1/15", RecurrenceType.Weekly, "2020/1/15,2020/1/22,2020/1/29")]
+        [TestCase("2020/1/15", RecurrenceType.Biweekly, "2020/1/15,2020/1/29")]
+        [TestCase("2020/1/15", RecurrenceType.Annual, "2020/1/15,2021/1/15")]
+        [TestCase("2020/1/15", RecurrenceType.Monthly, "2020/1/15,2020/2/15")]
+        public void CanCreateRecurrenceFromRecurrenceType(string date, RecurrenceType type, string expectedDatesCSV)
+        {
+            var dateService = new DateService();
+
+            var recurrence = dateService.CreateRecurrence(
+                start: DateTime.Parse(date),
+                end: DateTime.Parse(date).AddYears(1),
+                recurrenceType: type);
+
+            var expectedDates = expectedDatesCSV
+                .Split(',')
+                .Select(s => DateTime.Parse(s))
+                .ToArray();
+
+            var dates = recurrence.GetDates().ToArray();
+
+            foreach(int index in Enumerable.Range(0,expectedDates.Length))
+            {
+                dates[index]
+                   .Should()
+                   .Be(expectedDates[index]);
+            }
+           
+        }
     }
 }

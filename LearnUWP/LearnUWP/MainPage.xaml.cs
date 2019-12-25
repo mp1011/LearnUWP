@@ -22,8 +22,10 @@ namespace LearnUWP
             this.InitializeComponent();
             GotoAddBankAccount.Click += GotoAddBankAccount_Click;
             GotoAddPaycheck.Click += GotoAddPaycheck_Click;
+            GotoAddExpense.Click += GotoAddExpense_Click;   
         }
 
+      
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -39,5 +41,11 @@ namespace LearnUWP
         {
             Frame.Navigate(typeof(AddPaycheck));
         }
+
+        private void GotoAddExpense_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(AddExpense));
+        }
+
     }
 }

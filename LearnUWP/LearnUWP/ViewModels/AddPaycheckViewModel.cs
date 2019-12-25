@@ -1,7 +1,9 @@
 ﻿using FinancialDucks.Models;
+using FinancialDucks.Models.Transactions;
 using FinancialDucks.Services;
 using FinancialDucks.Services.UserServices;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace LearnUWP.ViewModels
@@ -56,6 +58,22 @@ namespace LearnUWP.ViewModels
             }
         }
 
+        private BankAccount _depositBank;
+        public BankAccount DepositBank
+        {
+            get => _depositBank;
+            set
+            {
+                if (_depositBank != value)
+                {
+                    _depositBank = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DepositBank)));
+                }
+            }
+        }
+
+        public ObservableCollection<BankAccount> BankAccounts { get; private set; }
+
         private decimal _amount;
         public decimal Amount
         {
@@ -77,18 +95,27 @@ namespace LearnUWP.ViewModels
             FirstPayDate = DateTime.Now;
         }
 
+        public void Initialize()
+        {
+            var userFinances = _sessionManager.GetCurrentUserFinances();
+            BankAccounts = new ObservableCollection<BankAccount>(userFinances.BankAccounts);
+        }
+
         public void AddPaycheck()
         {
             var userFinances = _sessionManager.GetCurrentUserFinances();
 
             var startDate = FirstPayDate.DateTime;
-
-            //todo, recurrence needs to be on another screen
-
-            userFinances.AddEntity(new Paycheck(
+            var paycheck = new Paycheck(
                 companyName: CompanyName,
-                //recurrence: _dateService.CreateRecurrence(startDate, startDate.AddYears(100), PayCycle),
-                initialAmount: Amount));
+                initialAmount: Amount);
+
+            userFinances.AddEntity(paycheck);
+            userFinances.AddTransactionSchedule
+            (
+                new TransactionSchedule(paycheck, DepositBank,
+                _dateService.CreateRecurrence(startDate, startDate.AddYears(100), PayCycle))
+            );
         }
     }
 }

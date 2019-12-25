@@ -126,14 +126,22 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AddExpenseViewModel.cs" />
     <Compile Include="ViewModels\AddPaycheckViewModel.cs" />
     <Compile Include="ViewModels\AddBankAccountViewModel.cs" />
+    <Compile Include="ViewModels\EnumPickerViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="Views\AddBankAccount.xaml.cs">
       <DependentUpon>AddBankAccount.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AddExpense.xaml.cs">
+      <DependentUpon>AddExpense.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddPaycheck.xaml.cs">
       <DependentUpon>AddPaycheck.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EnumPicker.xaml.cs">
+      <DependentUpon>EnumPicker.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -164,7 +172,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AddExpense.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\AddPaycheck.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EnumPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

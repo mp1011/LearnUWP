@@ -1,7 +1,9 @@
 ﻿using FinancialDucks.Models;
+using FinancialDucks.Models.FinancialEntities;
 using FinancialDucks.Models.Transactions;
 using FinancialDucks.Services;
 using FinancialDucks.Services.UserServices;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -17,6 +19,7 @@ namespace LearnUWP.ViewModels
 
         public ObservableCollection<BankAccount> BankAccounts { get; private set; }
         public ObservableCollection<Paycheck> Paychecks { get; private set; }
+        public ObservableCollection<GoodOrService> Expenses { get; private set; }
 
         public ObservableCollection<FinancialSnapshot> Timeline { get; private set; }
 
@@ -32,8 +35,21 @@ namespace LearnUWP.ViewModels
             var userFinances = _sessionManager.GetCurrentUserFinances();
             BankAccounts = new ObservableCollection<BankAccount>(userFinances.BankAccounts);
             Paychecks = new ObservableCollection<Paycheck>(userFinances.Paychecks);
+            Expenses = new ObservableCollection<GoodOrService>(userFinances.Expenses);
 
-           Timeline = new ObservableCollection<FinancialSnapshot>();
+            //temporary
+            var bank = BankAccounts.FirstOrDefault();
+            if (bank != null)
+            {
+                var history = _transactionService.CreateHistory(userFinances.TransactionSchedules);
+                var timeline = _transactionService.CreateTimeline(bank, history,
+                    new DateRange(DateTime.Now, DateTime.Now.AddMonths(12)),
+                    TimeSpan.FromDays(7));
+
+                Timeline = new ObservableCollection<FinancialSnapshot>(timeline);
+            }
+            else 
+                Timeline = new ObservableCollection<FinancialSnapshot>();
         }
     }
 }

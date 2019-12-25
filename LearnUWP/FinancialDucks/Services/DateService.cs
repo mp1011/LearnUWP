@@ -14,7 +14,7 @@ namespace FinancialDucks.Services
             int occurences = 0;
             var startDate = period.GetNextDate(start, allowCurrentDate: true);
             var date = startDate;
-            while(date <= end)
+            while(end > start && date <= end)
             {
                 date = period.GetNextDate(date, allowCurrentDate: false);
                 occurences++;
@@ -51,6 +51,25 @@ namespace FinancialDucks.Services
                     return CreateRecurrence(start, end, new DaysOfMonth(-1));
                 default:
                     throw new NotSupportedException($"Unsupported pay cycle: {payCycle}");
+            }
+        }
+
+        public Recurrence CreateRecurrence(DateTime start, DateTime end, RecurrenceType recurrenceType)
+        {
+            switch (recurrenceType)
+            {
+                case RecurrenceType.Biweekly:
+                    return CreateRecurrence(start, end, new WeekRecurring(2, start));
+                case RecurrenceType.Weekly:
+                    return CreateRecurrence(start, end, new WeekRecurring(1, start));
+                case RecurrenceType.Monthly:
+                    return CreateRecurrence(start, end, new DaysOfMonth(start.Day));
+                case RecurrenceType.OneTime:
+                    return CreateRecurrence(start, start, new OneTimeOccurence());
+                case RecurrenceType.Annual:
+                    return CreateRecurrence(start, end, new YearRecurring(start));
+                default:
+                    throw new NotSupportedException($"Unsupported recurrence type: {recurrenceType}");
             }
         }
 

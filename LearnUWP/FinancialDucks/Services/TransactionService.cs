@@ -9,6 +9,27 @@ namespace FinancialDucks.Services
 {
     public class TransactionService
     {
+        public FinancialHistory CreateHistory(IEnumerable<TransactionSchedule> transactionSchedules)
+        {
+            var history = new FinancialHistory();
+
+            var transactions = transactionSchedules
+                .SelectMany(ts =>
+                    ts.GetDates()
+                    .Select(date => new PercentTransfer
+                    (
+                          source: ts.Source,
+                          destination: ts.Destination,
+                          date: date,
+                          percent: 1.0M
+                    )
+                ))
+                .ToArray();
+
+            ProcessTransactions(history, transactions);
+            return history;
+        }
+
         public void ProcessTransactions(FinancialHistory history, TransactionSchedule transactionSchedule)
         {
             var transactions = transactionSchedule

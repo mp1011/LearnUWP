@@ -30,7 +30,11 @@
             <HyperlinkButton x:Name="GotoAddPaycheck">
                 Add Paycheck
             </HyperlinkButton>
-            
+
+            <HyperlinkButton x:Name="GotoAddExpense">
+                Add Expense
+            </HyperlinkButton>
+
         </StackPanel>
         <Frame 
             Grid.Row="1"
@@ -63,6 +67,15 @@
             <ListView 
                 Header="Paychecks"
                 ItemsSource="{x:Bind ViewModel.Paychecks}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView 
+                Header="Expenses"
+                ItemsSource="{x:Bind ViewModel.Expenses}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>
