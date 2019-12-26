@@ -56,11 +56,13 @@
         <StackPanel Grid.Row="1" Grid.Column="0">
             <ListView 
                 Header="Bank Accounts"
-              
+                x:Name="BankAccountsList"
                 ItemsSource="{x:Bind ViewModel.BankAccounts}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
+                        <HyperlinkButton Click="HyperlinkButton_Click" >
+                            <TextBlock Text="{Binding Name}"/>
+                        </HyperlinkButton>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

@@ -4,6 +4,7 @@ using FinancialDucks.Services.UserServices;
 using LearnUWP.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,6 +23,10 @@ namespace LearnUWP.Views
             CreateButton.Click += CreateButton_Click;
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            ViewModel.Initialize(e.Parameter as BankAccount);
+        }
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.AddBankAccount();

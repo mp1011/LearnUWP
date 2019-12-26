@@ -22,10 +22,9 @@ namespace LearnUWP
             this.InitializeComponent();
             GotoAddBankAccount.Click += GotoAddBankAccount_Click;
             GotoAddPaycheck.Click += GotoAddPaycheck_Click;
-            GotoAddExpense.Click += GotoAddExpense_Click;   
+            GotoAddExpense.Click += GotoAddExpense_Click;
         }
 
-      
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -47,5 +46,10 @@ namespace LearnUWP
             Frame.Navigate(typeof(AddExpense));
         }
 
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dataContext = (e.OriginalSource as FrameworkElement).DataContext;
+            Frame.Navigate(typeof(AddBankAccount), dataContext);
+        }
     }
 }

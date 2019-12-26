@@ -27,6 +27,18 @@ namespace LearnUWP.ViewModels
             _sessionManager = sessionManager;
         }
 
+        public void Initialize(BankAccount bankAccount)
+        {
+            if(bankAccount == null)
+            {
+                BankAccountName = string.Empty;
+            }
+            else
+            {
+                BankAccountName = bankAccount.Name;
+            }
+        }
+
         public void AddBankAccount()
         {
             var userFinances = _sessionManager.GetCurrentUserFinances();
