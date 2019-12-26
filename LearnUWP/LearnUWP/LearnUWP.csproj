@@ -195,6 +195,9 @@
     <PackageReference Include="MvvmLight">
       <Version>5.4.1.1</Version>
     </PackageReference>
+    <PackageReference Include="OneConfig.Standard">
+      <Version>1.0.0-beta</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FinancialDucks\FinancialDucks.csproj">

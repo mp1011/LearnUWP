@@ -1,4 +1,6 @@
+using FinancialDucks.IOC;
 using NUnit.Framework;
+using System.IO;
 
 namespace FinancialDucks.Tests
 {
@@ -8,6 +10,8 @@ namespace FinancialDucks.Tests
         [SetUp]
         public void Setup()
         {
+            OneConfig.Services.FileHelper.ApplicationDirectory = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
+            DIRegistrar.RegisterTypes();
         }
     }
 }
