@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper.Contrib.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,8 +16,21 @@ namespace FinancialDucks.Data.Helpers
         public static SqlStringBuilder Select<T>()
         {
             var builder = new SqlStringBuilder();
-            builder.tableName = $"{typeof(T).Name}s";
+            builder.tableName = GetTableName<T>();
             return builder;
+        }
+
+        private static string GetTableName<T>()
+        {
+            var nameAttr = typeof(T)
+                .GetCustomAttributes(false)
+                .OfType<TableAttribute>()
+                .FirstOrDefault();
+
+            if (nameAttr != null)
+                return nameAttr.Name;
+            else 
+                return $"{typeof(T).Name}s";
         }
 
         public SqlStringBuilder Where(string clause)

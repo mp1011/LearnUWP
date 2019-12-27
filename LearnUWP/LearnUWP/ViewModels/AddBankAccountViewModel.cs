@@ -1,4 +1,5 @@
-﻿using FinancialDucks.Models;
+﻿using FinancialDucks.Data.Models;
+using FinancialDucks.Models;
 using FinancialDucks.Services.UserServices;
 using System.ComponentModel;
 
@@ -11,13 +12,14 @@ namespace LearnUWP.ViewModels
 
         private readonly IUserSessionManager _sessionManager;
 
-        private string _bankAccountName;
+        private BankAccountDataModel _model;
+
         public string BankAccountName
         {
-            get => _bankAccountName;
+            get => _model.Name;
             set
             {
-                _bankAccountName = value;
+                _model.Name = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BankAccountName)));
             }
         }
@@ -29,14 +31,23 @@ namespace LearnUWP.ViewModels
 
         public void Initialize(BankAccount bankAccount)
         {
-            if(bankAccount == null)
+            if (bankAccount != null)
             {
-                BankAccountName = string.Empty;
+                _model = new BankAccountDataModel
+                {
+                    ID = bankAccount.ID,
+                    InitialAmount = bankAccount.InitialAmount,
+                    Name = bankAccount.Name
+                };
             }
             else
             {
-                BankAccountName = bankAccount.Name;
+                _model = new BankAccountDataModel
+                {
+                    Name = string.Empty
+                };
             }
+          
         }
 
         public void AddBankAccount()

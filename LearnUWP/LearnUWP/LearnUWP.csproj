@@ -200,6 +200,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FinancialDucks.Data\FinancialDucks.Data.csproj">
+      <Project>{5884CD7A-65FE-4398-A952-32967BB4CB5C}</Project>
+      <Name>FinancialDucks.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FinancialDucks\FinancialDucks.csproj">
       <Project>{C44F2F21-EFE1-4A75-9198-E2D834520A06}</Project>
       <Name>FinancialDucks</Name>

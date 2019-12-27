@@ -30,7 +30,7 @@ namespace FinancialDucks.Tests.DataTests
         public void CanReadFromDatabase()
         {
             var dao = IOCContainer.Resolve<DAO>();
-            var bankAccounts = dao.Read<BankAccount>();
+            var bankAccounts = dao.Read<BankAccountDataModel>();
             bankAccounts.Length
                 .Should()
                 .BeGreaterThan(0);

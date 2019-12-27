@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.30" />
+    <PackageReference Include="Dapper.Contrib" Version="2.0.30" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="1.1.0" />
     <PackageReference Include="OneConfig.Standard" Version="1.0.0-beta" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />

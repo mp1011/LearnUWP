@@ -1,10 +1,8 @@
 ﻿using Dapper;
+using Dapper.Contrib.Extensions;
 using FinancialDucks.Data.Helpers;
-using Microsoft.Data.SqlClient;
-using OneConfig;
-using System.Data;
+using FinancialDucks.Data.Interfaces;
 using System.Linq;
-using System.Text;
 
 namespace FinancialDucks.Data.Services
 {
@@ -16,6 +14,17 @@ namespace FinancialDucks.Data.Services
             _connectionProvider = connectionProvider;
         }
 
+        public void Upsert<T>(T model)
+            where T:class,IWithID
+        {
+            using (var conn = _connectionProvider.CreateConnection())
+            {
+                if(model.ID==0)
+                    model.ID = (int)conn.Insert(model);
+                else
+                    conn.Update(model);
+            }
+        }
 
         //todo, params
         public T[] Read<T>(string whereClause=null, object param=null)

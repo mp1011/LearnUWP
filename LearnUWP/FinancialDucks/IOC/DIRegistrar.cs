@@ -22,6 +22,7 @@ namespace FinancialDucks.IOC
             serviceCollection.AddSingleton(typeof(TransactionService));
             serviceCollection.AddSingleton(typeof(IConnectionProvider), typeof(ConnectionFromAppSettingsProvider));
             serviceCollection.AddSingleton(typeof(DAO));
+            serviceCollection.AddSingleton(typeof(StorageService));
 
             registerTypes?.Invoke(serviceCollection);
 
