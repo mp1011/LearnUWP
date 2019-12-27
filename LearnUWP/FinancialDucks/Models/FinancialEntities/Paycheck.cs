@@ -2,10 +2,10 @@
 {
     public class Paycheck : FinancialEntity
     {
-        public Paycheck(string companyName, decimal initialAmount) 
-            :base($"{companyName} paycheck", initialAmount)
+        public Paycheck(string companyName, decimal initialAmount)
         {
-
+            Name = $"{companyName} paycheck";
+            InitialAmount = initialAmount;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using OneConfig;
+using System.Configuration;
 using System.Data;
 
 namespace FinancialDucks.Data.Services
@@ -13,7 +14,7 @@ namespace FinancialDucks.Data.Services
     {
         public IDbConnection CreateConnection()
         {
-            var connectionString = AppConfig.GetValue("SqlConnection");
+            var connectionString = AppConfig.GetValue("SqlConnection", required:true);
             return new SqlConnection(connectionString);
         }
     }

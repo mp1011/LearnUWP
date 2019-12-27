@@ -29,5 +29,13 @@ namespace FinancialDucks.Models.UserData
         {
             _transactionSchedules.Add(schedule);
         }
+
+        public T TryGetEntity<T>(int ID)
+            where T:FinancialEntity
+        {
+            return _userFinancialEntities
+                .OfType<T>()
+                .FirstOrDefault(p => p.ID == ID);
+        }
     }
 }

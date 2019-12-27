@@ -1,5 +1,6 @@
 ﻿using FinancialDucks.Data.Models;
 using FinancialDucks.Models;
+using FinancialDucks.Services;
 using FinancialDucks.Services.UserServices;
 using System.ComponentModel;
 
@@ -11,8 +12,11 @@ namespace LearnUWP.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         private readonly IUserSessionManager _sessionManager;
+        private readonly StorageService _storageService;
 
         private BankAccountDataModel _model;
+
+        public string SaveActionName => _model.ID > 0 ? "Save" : "Create";
 
         public string BankAccountName
         {
@@ -24,28 +28,21 @@ namespace LearnUWP.ViewModels
             }
         }
 
-        public AddBankAccountViewModel(IUserSessionManager sessionManager)
+        public AddBankAccountViewModel(IUserSessionManager sessionManager, StorageService storageService)
         {
             _sessionManager = sessionManager;
+            _storageService = storageService;
         }
 
         public void Initialize(BankAccount bankAccount)
         {
             if (bankAccount != null)
             {
-                _model = new BankAccountDataModel
-                {
-                    ID = bankAccount.ID,
-                    InitialAmount = bankAccount.InitialAmount,
-                    Name = bankAccount.Name
-                };
+                _model = bankAccount.ToDataModel();
             }
             else
             {
-                _model = new BankAccountDataModel
-                {
-                    Name = string.Empty
-                };
+                _model = new BankAccount().ToDataModel();
             }
           
         }
@@ -53,8 +50,16 @@ namespace LearnUWP.ViewModels
         public void AddBankAccount()
         {
             var userFinances = _sessionManager.GetCurrentUserFinances();
-            var bank = new BankAccount(BankAccountName,0);
-            userFinances.AddEntity(bank);
+
+            var bankAccount = userFinances.TryGetEntity<BankAccount>(_model.ID);
+            if(bankAccount == null)
+            {
+                bankAccount = new BankAccount();
+                userFinances.AddEntity(bankAccount);
+            }
+
+            bankAccount.SetFrom(_model);
+            _storageService.StoreModel(bankAccount);
         }
     }
 }

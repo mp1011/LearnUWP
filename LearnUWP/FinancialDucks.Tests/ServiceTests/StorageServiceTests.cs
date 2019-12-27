@@ -42,5 +42,20 @@ namespace FinancialDucks.Tests.ServiceTests
             modelInDatabase.Should().NotBeNull();
             modelInDatabase.InitialAmount.Should().Be(dataModel.InitialAmount);
         }
+
+        [Test]
+        public void CanLoadBankAccounts()
+        {
+            var storageService = IOCContainer.Resolve<StorageService>();
+            var dao = IOCContainer.Resolve<DAO>();
+
+            var banksInDB = dao.Read<BankAccountDataModel>();
+            var bankModels = storageService.LoadModels<BankAccount>();
+
+            bankModels.Length.Should().BeGreaterThan(0);
+            bankModels.Length.Should().Be(banksInDB.Length);
+            bankModels.Max(p => p.ID).Should().Be(banksInDB.Max(p => p.ID));
+        }
+
     }
 }

@@ -21,6 +21,12 @@ namespace LearnUWP.Views
         {
             this.InitializeComponent();
             CreateButton.Click += CreateButton_Click;
+            CancelButton.Click += CancelButton_Click;
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainPage));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

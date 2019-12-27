@@ -15,7 +15,8 @@
             <TextBlock>Name of Bank:</TextBlock>
             <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.BankAccountName}"/>
         </StackPanel>
-        <Button Content="Create" x:Name="CreateButton"/>
+        <Button Content="{x:Bind Path=ViewModel.SaveActionName}" x:Name="CreateButton"/>
+        <Button Content="Cancel" x:Name="CancelButton"/>
     </StackPanel>
 
 </Page>
