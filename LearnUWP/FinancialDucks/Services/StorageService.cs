@@ -1,55 +1,58 @@
-﻿using FinancialDucks.Data.Interfaces;
-using FinancialDucks.Data.Services;
-using FinancialDucks.Extensions;
-using FinancialDucks.Interfaces;
+﻿using FinancialDucks.Data.Services;
+using FinancialDucks.Services.ModelStorageServices;
+using FinancialDucks.Services.UserServices;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace FinancialDucks.Services
 {
     public class StorageService
     {
-        private readonly DAO _dao;
+        private readonly IModelStorageService[] _modelStorageServices;
+        private readonly IUserSessionManager _userSessionManager;
 
-        public StorageService(DAO dao)
+        internal DAO DAO { get; }
+
+        public StorageService(
+            DAO dao,
+            IModelStorageService[] modelStorageServices, 
+            IUserSessionManager userSessionManager)
         {
-            _dao = dao;
+            DAO = dao;
+            _modelStorageServices = modelStorageServices;
+            _userSessionManager = userSessionManager;
         }
 
-        public void StoreModel<TDataModel>(IStoreable<TDataModel> model)
-            where TDataModel : class, IWithID
+        private IModelStorageService<T> GetStorageService<T>()
         {
-            var dataModel = model.ToDataModel();
-            _dao.Upsert(dataModel);
-            model.SetFrom(dataModel);
+            var result = _modelStorageServices
+                .OfType<IModelStorageService<T>>()
+                .FirstOrDefault();
+
+            if (result == null)
+                throw new NullReferenceException($"There is no IModelStorageService implementation for type {typeof(T).Name}");
+
+            return result;
         }
 
-        //todo - need to filter by user or something
+        public void StoreModel<T>(T model)
+        {
+            GetStorageService<T>()
+                .Store(this, model);
+        }
+
+        public T LoadModel<T>(int id)
+        {
+            return GetStorageService<T>()
+                .Load(this, id);
+        }
+
         public T[] LoadModels<T>()
-            where T:IStoreable,new()
         {
-            return this.DynamicDispatch<T[]>
-            (
-                methodName: nameof(this.LoadModels), 
-                typeArguments: new Type[] { typeof(T), new T().DataModelType },
-                args: null
-            );
+            return GetStorageService<T>()
+                .LoadAllForUser(this, _userSessionManager.CurrentUserID);
         }
 
-        public T[] LoadModels<T,TDataModel>()
-            where T:IStoreable<TDataModel>, new()
-            where TDataModel:IWithID
-        {
-            var dataModels = _dao.Read<TDataModel>();
-
-            return dataModels.Select(dataModel =>
-            {
-                var model = new T();
-                model.SetFrom(dataModel);
-                return model;
-            }).ToArray();
-        }
+        
     }
 }

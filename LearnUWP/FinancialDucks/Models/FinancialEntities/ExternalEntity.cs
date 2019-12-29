@@ -2,10 +2,9 @@
 {
     public class ExternalEntity : FinancialEntity
     {
-        public ExternalEntity() 
+        public ExternalEntity() :
+            base(0, "External Entity", decimal.MaxValue)
         {
-            Name = "External Entity";
-            InitialAmount = decimal.MaxValue;
         }
     }
 }

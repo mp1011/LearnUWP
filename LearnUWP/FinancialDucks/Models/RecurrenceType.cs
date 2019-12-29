@@ -2,7 +2,7 @@
 {
     public enum RecurrenceType
     {
-        OneTime,
+        OneTime=1,
         Weekly,
         Biweekly,
         Monthly,

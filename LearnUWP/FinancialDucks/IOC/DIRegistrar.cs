@@ -1,14 +1,14 @@
 ﻿using FinancialDucks.Data.Services;
 using FinancialDucks.Services;
+using FinancialDucks.Services.ModelStorageServices;
 using FinancialDucks.Services.UserServices;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace FinancialDucks.IOC
 {
-    public class DIRegistrar
+    public static class DIRegistrar
     {
         public static void RegisterTypes(Action<ServiceCollection> registerTypes=null)
         {
@@ -22,12 +22,26 @@ namespace FinancialDucks.IOC
             serviceCollection.AddSingleton(typeof(TransactionService));
             serviceCollection.AddSingleton(typeof(IConnectionProvider), typeof(ConnectionFromAppSettingsProvider));
             serviceCollection.AddSingleton(typeof(DAO));
+
+            serviceCollection.AddImplementationsOf<IModelStorageService>();
             serviceCollection.AddSingleton(typeof(StorageService));
 
             registerTypes?.Invoke(serviceCollection);
 
             var container = serviceCollection.BuildServiceProvider();
             IOCContainer.SetContainer(container);
+        }
+
+        public static IServiceCollection AddImplementationsOf<T>(this IServiceCollection serviceCollection)
+        {
+            var assembly = typeof(T).Assembly;
+            foreach (var type in assembly.GetTypes())
+            {
+                if (typeof(T).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
+                    serviceCollection.AddSingleton(typeof(T), type);
+            }
+
+            return serviceCollection.AddSingleton<T[]>(sp => sp.GetServices<T>().ToArray());
         }
     }
 }

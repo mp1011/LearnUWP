@@ -2,64 +2,26 @@
 using FinancialDucks.Models;
 using FinancialDucks.Services;
 using FinancialDucks.Services.UserServices;
-using System.ComponentModel;
 
 namespace LearnUWP.ViewModels
 {
-    public class AddBankAccountViewModel : INotifyPropertyChanged
+    public class AddBankAccountViewModel : CreateOrEditViewModel<BankAccount>
     {
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private readonly IUserSessionManager _sessionManager;
-        private readonly StorageService _storageService;
-
-        private BankAccountDataModel _model;
-
-        public string SaveActionName => _model.ID > 0 ? "Save" : "Create";
+        private BankAccountDataModel _dataModel;
 
         public string BankAccountName
         {
-            get => _model.Name;
+            get => _dataModel.Name;
             set
             {
-                _model.Name = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BankAccountName)));
+                _dataModel.Name = value;
+                InvokePropertyChange(nameof(BankAccountName));
             }
         }
 
         public AddBankAccountViewModel(IUserSessionManager sessionManager, StorageService storageService)
+            :base(sessionManager, storageService)
         {
-            _sessionManager = sessionManager;
-            _storageService = storageService;
-        }
-
-        public void Initialize(BankAccount bankAccount)
-        {
-            if (bankAccount != null)
-            {
-                _model = bankAccount.ToDataModel();
-            }
-            else
-            {
-                _model = new BankAccount().ToDataModel();
-            }
-          
-        }
-
-        public void AddBankAccount()
-        {
-            var userFinances = _sessionManager.GetCurrentUserFinances();
-
-            var bankAccount = userFinances.TryGetEntity<BankAccount>(_model.ID);
-            if(bankAccount == null)
-            {
-                bankAccount = new BankAccount();
-                userFinances.AddEntity(bankAccount);
-            }
-
-            bankAccount.SetFrom(_model);
-            _storageService.StoreModel(bankAccount);
         }
     }
 }

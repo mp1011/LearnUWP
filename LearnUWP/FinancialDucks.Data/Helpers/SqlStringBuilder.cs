@@ -15,14 +15,19 @@ namespace FinancialDucks.Data.Helpers
    
         public static SqlStringBuilder Select<T>()
         {
+            return Select(typeof(T));
+        }
+
+        public static SqlStringBuilder Select(Type tableType)
+        {
             var builder = new SqlStringBuilder();
-            builder.tableName = GetTableName<T>();
+            builder.tableName = GetTableName(tableType);
             return builder;
         }
 
-        private static string GetTableName<T>()
+        private static string GetTableName(Type tableType)
         {
-            var nameAttr = typeof(T)
+            var nameAttr = tableType
                 .GetCustomAttributes(false)
                 .OfType<TableAttribute>()
                 .FirstOrDefault();
@@ -30,7 +35,7 @@ namespace FinancialDucks.Data.Helpers
             if (nameAttr != null)
                 return nameAttr.Name;
             else 
-                return $"{typeof(T).Name}s";
+                return $"{tableType.Name}s";
         }
 
         public SqlStringBuilder Where(string clause)

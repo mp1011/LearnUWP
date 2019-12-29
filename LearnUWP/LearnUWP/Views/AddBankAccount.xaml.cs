@@ -35,7 +35,7 @@ namespace LearnUWP.Views
         }
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.AddBankAccount();
+            ViewModel.CreateOrUpdate();
             Frame.Navigate(typeof(MainPage));
         }
     }

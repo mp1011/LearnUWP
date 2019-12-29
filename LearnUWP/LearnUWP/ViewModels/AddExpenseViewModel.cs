@@ -1,4 +1,5 @@
-﻿using FinancialDucks.Models;
+﻿using FinancialDucks.Data.Models;
+using FinancialDucks.Models;
 using FinancialDucks.Models.FinancialEntities;
 using FinancialDucks.Models.Transactions;
 using FinancialDucks.Services;
@@ -9,24 +10,19 @@ using System.ComponentModel;
 
 namespace LearnUWP.ViewModels
 {
-    public class AddExpenseViewModel : INotifyPropertyChanged
+    public class AddExpenseViewModel : CreateOrEditViewModel<GoodOrService>
     {
+        private ExpensesDataModel _dataModel;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private readonly IUserSessionManager _sessionManager;
-        private readonly DateService _dateService;
-
-        private string _description;
         public string Description
         {
-            get => _description;
+            get => _dataModel.Description;
             set
             {
-                if (_description != value)
+                if (_dataModel.Description != value)
                 {
-                    _description = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
+                    _dataModel.Description = value;
+                    InvokePropertyChange(nameof(Description));
                 }
             }
         }
@@ -41,7 +37,8 @@ namespace LearnUWP.ViewModels
                 if (_withdrawalBank != value)
                 {
                     _withdrawalBank = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WithdrawalBank)));
+                    throw new System.NotImplementedException();
+                  //  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WithdrawalBank)));
                 }
             }
         }
@@ -55,23 +52,24 @@ namespace LearnUWP.ViewModels
                 if(_recurrenceType != value)
                 {
                     _recurrenceType = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RecurrenceType)));
+
+                    throw new System.NotImplementedException();
+                    //  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RecurrenceType)));
                 }
             }
         }
 
         public ObservableCollection<BankAccount> BankAccounts { get; private set; }
 
-        private decimal _amount;
         public decimal Amount
         {
-            get => _amount;
+            get => _dataModel.InitialAmount;
             set
             {
-                if (_amount != value)
+                if (_dataModel.InitialAmount != value)
                 {
-                    _amount = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Amount)));
+                    _dataModel.InitialAmount = value;
+                    InvokePropertyChange(nameof(Amount));
                 }
             }
         }
@@ -84,42 +82,44 @@ namespace LearnUWP.ViewModels
             {
                 if (_firstPayDate != value)
                 {
-                    _firstPayDate = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PayDate)));
+                    _firstPayDate = value; throw new System.NotImplementedException();
+                    // PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PayDate)));
                 }
             }
         }
 
 
 
-        public AddExpenseViewModel(IUserSessionManager sessionManager, DateService dateService)
+        public AddExpenseViewModel(IUserSessionManager sessionManager, StorageService storageService, DateService dateService) 
+            :base(sessionManager,storageService)
         {
-            _sessionManager = sessionManager;
-            _dateService = dateService;
+            throw new System.NotImplementedException("date service?");
             PayDate = DateTime.Now;
         }
 
         public void Initialize()
         {
-            var userFinances = _sessionManager.GetCurrentUserFinances();
-            BankAccounts = new ObservableCollection<BankAccount>(userFinances.BankAccounts);
+            throw new System.NotImplementedException();
+            //var userFinances = _sessionManager.GetCurrentUserFinances();
+            //BankAccounts = new ObservableCollection<BankAccount>(userFinances.BankAccounts);
         }
 
-        public void AddExpense()
-        {
-            var userFinances = _sessionManager.GetCurrentUserFinances();
+        //todo - replace this
+        //public void AddExpense()
+        //{
+        //    var userFinances = _sessionManager.GetCurrentUserFinances();
 
-            var payDate = PayDate.DateTime;
-            var expense = new GoodOrService(
-                description: Description,
-                initialAmount: Amount);
+        //    var payDate = PayDate.DateTime;
+        //    var expense = new GoodOrService(
+        //        description: Description,
+        //        initialAmount: Amount);
 
-            userFinances.AddEntity(expense);
-            userFinances.AddTransactionSchedule
-            (
-                new TransactionSchedule(expense, WithdrawalBank,
-                _dateService.CreateRecurrence(payDate, payDate.AddYears(100), RecurrenceType))
-            );
-        }
+        //    userFinances.AddEntity(expense);
+        //    userFinances.AddTransactionSchedule
+        //    (
+        //        new TransactionSchedule(expense, WithdrawalBank,
+        //        _dateService.CreateRecurrence(payDate, payDate.AddYears(100), RecurrenceType))
+        //    );
+        //}
     }
 }

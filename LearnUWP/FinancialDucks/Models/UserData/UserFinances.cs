@@ -1,5 +1,6 @@
 ﻿using FinancialDucks.Models.FinancialEntities;
 using FinancialDucks.Models.Transactions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +10,7 @@ namespace FinancialDucks.Models.UserData
     {
         private List<FinancialEntity> _userFinancialEntities = new List<FinancialEntity>();
 
-        private List<TransactionSchedule> _transactionSchedules = new List<TransactionSchedule>();
+        private List<ITransactionSchedule> _transactionSchedules = new List<ITransactionSchedule>();
 
         public BankAccount[] BankAccounts => _userFinancialEntities.OfType<BankAccount>().ToArray();
 
@@ -17,7 +18,7 @@ namespace FinancialDucks.Models.UserData
 
         public GoodOrService[] Expenses => _userFinancialEntities.OfType<GoodOrService>().ToArray();
 
-        public TransactionSchedule[] TransactionSchedules => _transactionSchedules.ToArray();
+        public ITransactionSchedule[] TransactionSchedules => _transactionSchedules.ToArray();
 
 
         public void AddEntity(FinancialEntity entity)
@@ -25,7 +26,7 @@ namespace FinancialDucks.Models.UserData
             _userFinancialEntities.Add(entity);
         }
 
-        public void AddTransactionSchedule(TransactionSchedule schedule)
+        public void AddTransactionSchedule(ITransactionSchedule schedule)
         {
             _transactionSchedules.Add(schedule);
         }
@@ -36,6 +37,13 @@ namespace FinancialDucks.Models.UserData
             return _userFinancialEntities
                 .OfType<T>()
                 .FirstOrDefault(p => p.ID == ID);
+        }
+
+        public FinancialEntity[] GetEntities(Type entityType)
+        {
+            return _userFinancialEntities
+                .Where(p => p.GetType().IsAssignableFrom(entityType))
+                .ToArray();
         }
     }
 }

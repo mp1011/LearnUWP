@@ -23,10 +23,10 @@ namespace FinancialDucks.Tests.ServiceTests
                 new DateTime(2019, 12, 1),
                 new DaysOfMonth(1));
 
-            var bankAccount = new BankAccount("My Bank",0);
-            var paycheck = new Paycheck("My Job", 1000);
+            var bankAccount = new BankAccount(0,"My Bank",0);
+            var paycheck = new Paycheck(0, "My Job", 1000);
 
-            var depositPaycheck = new TransactionSchedule(paycheck, bankAccount, paySchedule);
+            var depositPaycheck = new IncomeSchedule(paycheck, bankAccount, paySchedule);
 
             var transactionService = new TransactionService();
             var history = new FinancialHistory();
@@ -56,12 +56,12 @@ namespace FinancialDucks.Tests.ServiceTests
                 new DateTime(2019, 12, 1),
                 new DaysOfMonth(1));
 
-            var bankAccount = new BankAccount("My Bank", 0);
-            var paycheck = new Paycheck("My Job", 1000);
+            var bankAccount = new BankAccount(0, "My Bank", 0);
+            var paycheck = new Paycheck(0, "My Job", 1000);
 
             var payIncrease = new MoneyTransfer(new ExternalEntity(), paycheck, new DateTime(2019, 5, 1), 500);
 
-            var depositPaycheck = new TransactionSchedule(paycheck, bankAccount, paySchedule);
+            var depositPaycheck = new IncomeSchedule(paycheck, bankAccount, paySchedule);
 
             var transactionService = new TransactionService();
             var history = new FinancialHistory();
@@ -89,19 +89,17 @@ namespace FinancialDucks.Tests.ServiceTests
         [Test]
         public void CanProcessOneTimeTransaction()
         {
-            var bankAccount = new BankAccount("My Bank", 5000);
-          
+            var bankAccount = new BankAccount(0, "My Bank", 5000);
             var dateService = new DateService();
-            var oneTimeOccurrence = dateService.CreateOneTimeOccurence(
-                new DateTime(2019, 5, 1));
-
-            var purchase = new GoodOrService("New TV", -400);
-
-            var transactionSchedule = new TransactionSchedule(purchase, bankAccount, oneTimeOccurrence);
-
+            
+            var purchase = new GoodOrService(0, "New TV", -400);
+      
             var transactionService = new TransactionService();
             var history = new FinancialHistory();
-            transactionService.ProcessTransactions(history, transactionSchedule);
+            transactionService.ProcessTransactions(history, new FinancialTransaction[]
+            {
+                new PercentTransfer(purchase, bankAccount, new DateTime(2019,5,1), 1.0M)
+            });
 
             history.GetLatestAmountFor(bankAccount, new DateTime(2019, 4, 1))
                 .Should()
@@ -123,10 +121,10 @@ namespace FinancialDucks.Tests.ServiceTests
                 new DateTime(2019, 12, 1),
                 new WeekRecurring(1, new DateTime(2019,1,1)));
 
-            var bankAccount = new BankAccount("My Bank", 0);
-            var paycheck = new Paycheck("My Job", 1000);
+            var bankAccount = new BankAccount(0, "My Bank", 0);
+            var paycheck = new Paycheck(0, "My Job", 1000);
 
-            var depositPaycheck = new TransactionSchedule(paycheck, bankAccount, paySchedule);
+            var depositPaycheck = new IncomeSchedule(paycheck, bankAccount, paySchedule);
 
             var transactionService = new TransactionService();
             var history = new FinancialHistory();

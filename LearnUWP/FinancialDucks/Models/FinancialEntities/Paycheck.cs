@@ -2,10 +2,18 @@
 {
     public class Paycheck : FinancialEntity
     {
-        public Paycheck(string companyName, decimal initialAmount)
+
+        public string CompanyName
         {
-            Name = $"{companyName} paycheck";
-            InitialAmount = initialAmount;
+            get
+            {
+                return Name.Replace(" paycheck", "");
+            }
+        }
+
+        public Paycheck(int id, string companyName, decimal initialAmount) 
+            : base(id, $"{companyName} paycheck",initialAmount)
+        {
         }
     }
 }

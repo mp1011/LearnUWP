@@ -9,13 +9,13 @@ namespace FinancialDucks.Services
 {
     public class TransactionService
     {
-        public FinancialHistory CreateHistory(IEnumerable<TransactionSchedule> transactionSchedules)
+        public FinancialHistory CreateHistory(IEnumerable<ITransactionSchedule> transactionSchedules)
         {
             var history = new FinancialHistory();
 
             var transactions = transactionSchedules
                 .SelectMany(ts =>
-                    ts.GetDates()
+                    ts.Recurrence.GetDates()
                     .Select(date => new PercentTransfer
                     (
                           source: ts.Source,
@@ -30,9 +30,10 @@ namespace FinancialDucks.Services
             return history;
         }
 
-        public void ProcessTransactions(FinancialHistory history, TransactionSchedule transactionSchedule)
+        public void ProcessTransactions(FinancialHistory history, ITransactionSchedule transactionSchedule)
         {
             var transactions = transactionSchedule
+                .Recurrence
                 .GetDates()
                 .Select(date => new PercentTransfer
                 (

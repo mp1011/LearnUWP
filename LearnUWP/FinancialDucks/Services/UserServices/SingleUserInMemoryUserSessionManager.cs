@@ -10,12 +10,16 @@ namespace FinancialDucks.Services.UserServices
     {
         private readonly UserFinances _userFinances;
 
-        public SingleUserInMemoryUserSessionManager(StorageService storageService)
-        {
-            _userFinances = new UserFinances();
+        public int CurrentUserID => -1;
 
-            foreach(var bankAccount in storageService.LoadModels<BankAccount>())
-                _userFinances.AddEntity(bankAccount);
+        public SingleUserInMemoryUserSessionManager()
+        {
+            //fix me
+
+            //_userFinances = new UserFinances();
+            ////todo, should be in a different class
+            //foreach(var bankAccount in storageService.LoadModels<BankAccount>())
+            //    _userFinances.AddEntity(bankAccount);
         }
 
         public UserFinances GetCurrentUserFinances()

@@ -1,64 +1,62 @@
-﻿using FinancialDucks.Models;
+﻿using FinancialDucks.Data.Models;
+using FinancialDucks.Models;
 using FinancialDucks.Models.Transactions;
 using FinancialDucks.Services;
 using FinancialDucks.Services.UserServices;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 
 namespace LearnUWP.ViewModels
 {
-    public class AddPaycheckViewModel : INotifyPropertyChanged
+    public class AddPaycheckViewModel : CreateOrEditViewModel<Paycheck>
     {
+        private PaycheckDataModel _dataModel;
+        private IncomeScheduleDataModel _schedule = new IncomeScheduleDataModel();
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private readonly IUserSessionManager _sessionManager;
-        private readonly DateService _dateService;
-
-        private string _companyName;
         public string CompanyName
         {
-            get => _companyName;
+            get => _dataModel.CompanyName;
             set
             {
-                if (_companyName != value)
+                if (_dataModel.CompanyName != value)
                 {
-                    _companyName = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CompanyName)));
+                    _dataModel.CompanyName = value;
+                    InvokePropertyChange(nameof(CompanyName));
                 }
             }
         }
 
-        private PayCycle _payCycle;
         public PayCycle PayCycle
         {
-            get => _payCycle;
+            get => (PayCycle)_schedule.PayCycleID;
             set
             {
-                if (_payCycle != value)
+                if (_schedule.PayCycleID != (int)value)
                 {
-                    _payCycle = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PayCycle)));
+                    _schedule.PayCycleID = (int)value;
+                    InvokePropertyChange(nameof(PayCycle));
                 }
             }
         }
 
-        private DateTimeOffset _firstPayDate;
         public DateTimeOffset FirstPayDate
         {
-            get => _firstPayDate;
+            get => _schedule.PaymentDate;
             set
             {
-                if (_firstPayDate != value)
+                if (_schedule.PaymentDate != value.DateTime)
                 {
-                    _firstPayDate = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FirstPayDate)));
+                    _schedule.PaymentDate = value.DateTime;
+                    InvokePropertyChange(nameof(FirstPayDate));
                 }
             }
         }
 
-        private BankAccount _depositBank;
+        //todo
+        private BankAccount _depositBank = null;
+
         public BankAccount DepositBank
         {
             get => _depositBank;
@@ -67,55 +65,62 @@ namespace LearnUWP.ViewModels
                 if (_depositBank != value)
                 {
                     _depositBank = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DepositBank)));
+                    InvokePropertyChange(nameof(DepositBank));
                 }
             }
         }
 
-        public ObservableCollection<BankAccount> BankAccounts { get; private set; }
-
-        private decimal _amount;
         public decimal Amount
         {
-            get => _amount;
+            get => _dataModel.InitialAmount;
             set
             {
-                if (_amount != value)
+                if (_dataModel.InitialAmount != value)
                 {
-                    _amount = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Amount)));
+                    _dataModel.InitialAmount = value;
+                    InvokePropertyChange(nameof(Amount));
                 }
             }
         }
 
-        public AddPaycheckViewModel(IUserSessionManager sessionManager, DateService dateService)
-        {
-            _sessionManager = sessionManager;
-            _dateService = dateService;
+        public AddPaycheckViewModel(IUserSessionManager sessionManager, StorageService storageService, DateService dateService)
+            : base(sessionManager,storageService)
+        {            
             FirstPayDate = DateTime.Now;
         }
 
-        public void Initialize()
+        protected override void Initialize(IUserSessionManager sessionManager)
         {
-            var userFinances = _sessionManager.GetCurrentUserFinances();
-            BankAccounts = new ObservableCollection<BankAccount>(userFinances.BankAccounts);
+            DepositBank = sessionManager
+                .GetCurrentUserFinances()
+                .BankAccounts
+                .First(); 
         }
 
+        protected override void AfterModelSaved(StorageService storageService, Paycheck savedModel)
+        {
+            _schedule.PaycheckID = savedModel.ID;
+            _schedule.DepositBankID = DepositBank.ID;
+            storageService.StoreModel(_schedule);
+            base.AfterModelSaved(storageService, savedModel);
+        }
+
+        //todo
         public void AddPaycheck()
         {
-            var userFinances = _sessionManager.GetCurrentUserFinances();
+            //var userFinances = _sessionManager.GetCurrentUserFinances();
 
-            var startDate = FirstPayDate.DateTime;
-            var paycheck = new Paycheck(
-                companyName: CompanyName,
-                initialAmount: Amount);
+            //var startDate = FirstPayDate.DateTime;
+            //var paycheck = new Paycheck(
+            //    companyName: CompanyName,
+            //    initialAmount: Amount);
 
-            userFinances.AddEntity(paycheck);
-            userFinances.AddTransactionSchedule
-            (
-                new TransactionSchedule(paycheck, DepositBank,
-                _dateService.CreateRecurrence(startDate, startDate.AddYears(100), PayCycle))
-            );
+            //userFinances.AddEntity(paycheck);
+            //userFinances.AddTransactionSchedule
+            //(
+            //    new TransactionSchedule(paycheck, DepositBank,
+            //    _dateService.CreateRecurrence(startDate, startDate.AddYears(100), PayCycle))
+            //);
         }
     }
 }

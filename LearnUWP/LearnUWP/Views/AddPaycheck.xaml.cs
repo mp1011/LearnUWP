@@ -31,17 +31,23 @@ namespace LearnUWP.Views
         {
             this.InitializeComponent();
             CreateButton.Click += CreateButton_Click;
+            CancelButton.Click += CancelButton_Click;
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainPage));
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.AddPaycheck();
+            ViewModel.CreateOrUpdate();
             Frame.Navigate(typeof(MainPage));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.Initialize();
+            ViewModel.Initialize(e.Parameter as Paycheck);
         }
     }
 }

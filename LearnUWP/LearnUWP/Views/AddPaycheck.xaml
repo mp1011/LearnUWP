@@ -29,14 +29,9 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock>Deposit to: $</TextBlock>
-            <ComboBox SelectedValue="{x:Bind Mode=TwoWay, Path=ViewModel.DepositBank}" ItemsSource="{x:Bind ViewModel.BankAccounts}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+            <local:FinancialEntityPicker  DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.DepositBank}"/>
         </StackPanel>
-        <Button Content="Create" x:Name="CreateButton"/>
+        <Button Content="{x:Bind Path=ViewModel.SaveActionName}" x:Name="CreateButton"/>
+        <Button Content="Cancel" x:Name="CancelButton"/>
     </StackPanel>
 </Page>

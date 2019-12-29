@@ -2,6 +2,7 @@
 using Dapper.Contrib.Extensions;
 using FinancialDucks.Data.Helpers;
 using FinancialDucks.Data.Interfaces;
+using System;
 using System.Linq;
 
 namespace FinancialDucks.Data.Services
@@ -26,7 +27,6 @@ namespace FinancialDucks.Data.Services
             }
         }
 
-        //todo, params
         public T[] Read<T>(string whereClause=null, object param=null)
         {
             var sql = SqlStringBuilder

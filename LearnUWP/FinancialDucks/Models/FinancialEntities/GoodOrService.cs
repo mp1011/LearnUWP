@@ -1,11 +1,14 @@
-﻿namespace FinancialDucks.Models.FinancialEntities
+﻿using FinancialDucks.Data.Models;
+
+namespace FinancialDucks.Models.FinancialEntities
 {
     public class GoodOrService : FinancialEntity
     {
-        public GoodOrService(string description, decimal initialAmount)
+
+        public GoodOrService(int id, string description, decimal initialAmount)
+            :base(id, description, initialAmount)
         {
-            Name = description;
-            InitialAmount = initialAmount;
         }
+
     }
 }

@@ -1,34 +1,10 @@
-﻿using FinancialDucks.Data.Interfaces;
-using FinancialDucks.Data.Models;
-using FinancialDucks.Interfaces;
-using System;
-
-namespace FinancialDucks.Models
+﻿namespace FinancialDucks.Models
 {
-    public class BankAccount : FinancialEntity<BankAccountDataModel>
+    public class BankAccount : FinancialEntity
     {
-        public BankAccount() { }
-        public BankAccount(string name, decimal initialAmount)
+        public BankAccount(int id, string name, decimal initialAmount)
+            :base(id, name,initialAmount)
         {
-            Name = name;
-            InitialAmount=initialAmount;
-        }
-
-        public override void SetFrom(BankAccountDataModel dataModel)
-        {
-            ID = dataModel.ID;
-            Name = dataModel.Name;
-            InitialAmount = dataModel.InitialAmount;
-        }
-
-        public override BankAccountDataModel ToDataModel()
-        {
-            return new BankAccountDataModel
-            {
-                ID = ID,
-                Name = Name,
-                InitialAmount = InitialAmount
-            };
         }
     }
 }

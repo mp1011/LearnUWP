@@ -2,6 +2,7 @@
 using FinancialDucks.Data.Services;
 using FinancialDucks.IOC;
 using FinancialDucks.Models;
+using FinancialDucks.Models.UserData;
 using FinancialDucks.Services;
 using FluentAssertions;
 using NUnit.Framework;
@@ -15,12 +16,25 @@ namespace FinancialDucks.Tests.ServiceTests
     public class StorageServiceTests : TestBase
     {
         [Test]
+        public void CanLoadUserFinancesForCurrentUser()
+        {
+            var storageService = IOCContainer.Resolve<StorageService>();
+            var userFinances = storageService.LoadModels<UserFinances>()
+                .FirstOrDefault();
+
+            userFinances.Should().NotBeNull();
+            userFinances.BankAccounts.Should().NotBeEmpty();
+            userFinances.Paychecks.Should().NotBeEmpty();
+        }
+
+        [Test]
         public void CanCreateAndUpdateBankAccountFromDatabase()
         {
             var storageService = IOCContainer.Resolve<StorageService>();
             var dao = IOCContainer.Resolve<DAO>();
 
             var newBankAccount = new BankAccount(
+                id:0,
                 name: "TEST" + Guid.NewGuid().ToString(),
                 initialAmount: 1234.56M);
 
@@ -33,14 +47,12 @@ namespace FinancialDucks.Tests.ServiceTests
             modelInDatabase.Should().NotBeNull();
             modelInDatabase.Name.Should().Be(newBankAccount.Name);
 
-            var dataModel = newBankAccount.ToDataModel();
-            dataModel.InitialAmount = 543.21M;
-            newBankAccount.SetFrom(dataModel);
-
+            newBankAccount = new BankAccount(modelInDatabase.ID, modelInDatabase.Name, 543.21M);
             storageService.StoreModel(newBankAccount);
+
             modelInDatabase = dao.Read<BankAccountDataModel>("Name=@Name", new { newBankAccount.Name }).SingleOrDefault();
             modelInDatabase.Should().NotBeNull();
-            modelInDatabase.InitialAmount.Should().Be(dataModel.InitialAmount);
+            modelInDatabase.InitialAmount.Should().Be(newBankAccount.InitialAmount);
         }
 
         [Test]

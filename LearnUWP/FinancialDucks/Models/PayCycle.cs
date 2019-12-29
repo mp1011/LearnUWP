@@ -2,7 +2,7 @@
 {
     public enum PayCycle
     {
-        Weekly,
+        Weekly=1,
         Biweekly,
         FirstOfTheMonth,
         FirstAndFifteenthOfTheMonth,

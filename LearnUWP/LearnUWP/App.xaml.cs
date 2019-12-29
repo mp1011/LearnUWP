@@ -42,6 +42,7 @@ namespace LearnUWP
                 c.AddSingleton<AddBankAccountViewModel>();
                 c.AddSingleton<AddPaycheckViewModel>();
                 c.AddSingleton<AddExpenseViewModel>();
+                c.AddSingleton<FinancialEntityPickerViewModel>();
                 c.AddSingleton<MainPageViewModel>();
             });
             this.Suspending += OnSuspending;
