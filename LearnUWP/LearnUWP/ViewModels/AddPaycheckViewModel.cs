@@ -14,9 +14,10 @@ namespace LearnUWP.ViewModels
     public class AddPaycheckViewModel : FinancialEntityCreateOrUpdateViewModel<Paycheck>
     {
         private readonly PayCheckStorageService _payCheckStorageService;
+        private readonly IncomeScheduleStorageService _incomeScheduleStorageService;
 
         private PaycheckDataModel _dataModel;
-        private IncomeScheduleDataModel _schedule;
+        private IncomeScheduleDataModel _incomeScheduleDataModel;
 
         public string CompanyName
         {
@@ -33,12 +34,12 @@ namespace LearnUWP.ViewModels
 
         public PayCycle PayCycle
         {
-            get => (PayCycle)_schedule.PayCycleID;
+            get => (PayCycle)_incomeScheduleDataModel.PayCycleID;
             set
             {
-                if (_schedule.PayCycleID != (int)value)
+                if (_incomeScheduleDataModel.PayCycleID != (int)value)
                 {
-                    _schedule.PayCycleID = (int)value;
+                    _incomeScheduleDataModel.PayCycleID = (int)value;
                     InvokePropertyChange(nameof(PayCycle));
                 }
             }
@@ -46,12 +47,12 @@ namespace LearnUWP.ViewModels
 
         public DateTimeOffset FirstPayDate
         {
-            get => _schedule.PaymentDate;
+            get => _incomeScheduleDataModel.FirstPaymentDate;
             set
             {
-                if (_schedule.PaymentDate != value.DateTime)
+                if (_incomeScheduleDataModel.FirstPaymentDate != value.DateTime)
                 {
-                    _schedule.PaymentDate = value.DateTime;
+                    _incomeScheduleDataModel.FirstPaymentDate = value.DateTime;
                     InvokePropertyChange(nameof(FirstPayDate));
                 }
             }
@@ -86,26 +87,26 @@ namespace LearnUWP.ViewModels
             }
         }
 
-        public AddPaycheckViewModel(PayCheckStorageService payCheckStorageService, IUserSessionManager sessionManager, StorageService storageService, DateService dateService)
+        public AddPaycheckViewModel(PayCheckStorageService payCheckStorageService, IncomeScheduleStorageService incomeScheduleStorageService,
+            IUserSessionManager sessionManager, StorageService storageService, RecurrenceFactory dateService)
             : base(sessionManager,storageService)
         {
             _payCheckStorageService = payCheckStorageService;
+            _incomeScheduleStorageService = incomeScheduleStorageService;
         }
 
-        protected override void SetDataModels(StorageService storageService, Paycheck model)
+        protected override void SetDataModels(Paycheck paycheck)
         {
-            _dataModel = _payCheckStorageService.ToDataModel(model);
+            _dataModel = _payCheckStorageService.ToDataModel(StorageService, paycheck);
 
-            throw new NotImplementedException("load schedule");
-            //todo
-            //DepositBank = sessionManager
-            //    .CurrentUserFinances
-            //    .BankAccounts
-            //    .First();
+            var incomeSchedule = paycheck.GetIncomeSchedule(SessionManager.CurrentUserFinances);
+            _incomeScheduleDataModel = _incomeScheduleStorageService.ToDataModel(StorageService, incomeSchedule);
+            DepositBank = incomeSchedule.Destination;
         }
 
-        protected override Paycheck CreateOrUpdate(StorageService storageService)
+        protected override Paycheck SaveModel()
         {
+
             //var userFinances = _sessionManager.GetCurrentUserFinances();
 
             //var startDate = FirstPayDate.DateTime;

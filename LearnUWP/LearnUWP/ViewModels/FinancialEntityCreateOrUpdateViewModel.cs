@@ -10,8 +10,8 @@ namespace LearnUWP.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private readonly IUserSessionManager _sessionManager;
-        private readonly StorageService _storageService;
+        protected IUserSessionManager SessionManager { get; }
+        protected StorageService StorageService { get; }
 
         private T _originalModel;
 
@@ -24,25 +24,25 @@ namespace LearnUWP.ViewModels
 
         public FinancialEntityCreateOrUpdateViewModel(IUserSessionManager sessionManager, StorageService storageService)
         {
-            _sessionManager = sessionManager;
-            _storageService = storageService;
+            SessionManager = sessionManager;
+            StorageService = storageService;
         }
 
         public void Initialize(T model)
         {
-            model = model ?? _storageService.CreateNew<T>();
+            model = model ?? StorageService.CreateNew<T>();
             _originalModel = model;
-            SetDataModels(_storageService, model);
+            SetDataModels(model);
         }
 
-        protected abstract void SetDataModels(StorageService storageService, T model);
+        protected abstract void SetDataModels(T model);
 
-        protected abstract T CreateOrUpdate(StorageService storageService);
+        protected abstract T SaveModel();
 
-        public void CreateOrUpdate()
+        public void SaveModelAndUpdateUserFinances()
         {
-            var savedModel = CreateOrUpdate(_storageService);
-            _sessionManager.CurrentUserFinances.AddEntity(savedModel);
+            var savedModel = SaveModel();
+            SessionManager.CurrentUserFinances.AddEntity(savedModel);
         }
        
     }

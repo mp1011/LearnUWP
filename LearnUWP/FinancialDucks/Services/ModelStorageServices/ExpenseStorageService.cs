@@ -7,7 +7,7 @@ namespace FinancialDucks.Services.ModelStorageServices
     public class ExpenseStorageService
         : SingleModelStorageService<GoodOrService, ExpensesDataModel>
     {
-        public override GoodOrService FromDataModel(ExpensesDataModel dataModel)
+        public override GoodOrService FromDataModel(StorageService storageService, ExpensesDataModel dataModel)
         {
             return new GoodOrService(dataModel.ID, dataModel.Description, dataModel.InitialAmount);
         }
@@ -17,7 +17,7 @@ namespace FinancialDucks.Services.ModelStorageServices
             return new GoodOrService(0, string.Empty, 0);
         }
 
-        public override ExpensesDataModel ToDataModel(GoodOrService model)
+        public override ExpensesDataModel ToDataModel(StorageService storageService, GoodOrService model)
         {
             return new ExpensesDataModel
             {

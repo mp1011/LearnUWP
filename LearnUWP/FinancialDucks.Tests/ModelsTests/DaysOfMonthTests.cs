@@ -15,7 +15,7 @@ namespace FinancialDucks.Tests.ModelsTests
         [TestCase("2019/1/1", new int[] { 10, -1,-3 }, 6, "2019/1/10,2019/1/29,2019/1/31,2019/2/10,2019/2/26,2019/2/28")]
         public void CanGetDaysInAMonth(string startDate,int[] days, int occurences, string expectedDates)
         {
-            var dateService = new DateService();
+            var dateService = new RecurrenceFactory();
             var recurrence = dateService.CreateRecurrence(
                 start: DateTime.Parse(startDate),
                 occurences: occurences,

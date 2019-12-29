@@ -1,4 +1,4 @@
-﻿using FinancialDucks.Data.Models;
+﻿using FinancialDucks.Services;
 using System;
 
 namespace FinancialDucks.Models.Transactions
@@ -6,17 +6,26 @@ namespace FinancialDucks.Models.Transactions
     public class IncomeSchedule :
         TransactionSchedule<Paycheck, BankAccount>
     {
-        public PayCycle PayCycle { get; private set; }
+        public PayCycle PayCycle { get; }
 
-        public DateTime PaymentDate { get; private set; }
+        public DateTime FirstDate { get; }
 
-   
-        public IncomeSchedule(Paycheck paycheck, BankAccount bankAccount, Recurrence recurrence) 
-            :base(paycheck,bankAccount,recurrence)
+        public DateTime LastDate { get; }
+
+        public IncomeSchedule(int id, Paycheck paycheck, BankAccount bankAccount, PayCycle payCycle, DateTime firstDate, DateTime lastDate, RecurrenceFactory recurrenceFactory)
+            : base(id, paycheck, bankAccount, CreateRecurrence(recurrenceFactory, payCycle, firstDate, lastDate))
         {
-
+            PayCycle = payCycle;
+            FirstDate = firstDate;
+            LastDate = lastDate;
         }
 
-        public IncomeSchedule() { }
+        private static Recurrence CreateRecurrence(RecurrenceFactory recurrenceFactory, PayCycle payCycle, DateTime firstDate, DateTime lastDate)
+        {
+            return recurrenceFactory.CreateRecurrence(
+                firstDate,
+                lastDate,
+                recurrenceFactory.CreatePeriod(firstDate, payCycle));
+        }
     }
 }

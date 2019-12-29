@@ -29,17 +29,16 @@ namespace LearnUWP.ViewModels
             _bankAccountStorageService = bankAccountStorageService;
         }
 
-        protected override void SetDataModels(StorageService storageService, BankAccount bankAccount)
+        protected override void SetDataModels(BankAccount bankAccount)
         {
-            _dataModel = _bankAccountStorageService.ToDataModel(bankAccount);
+            _dataModel = _bankAccountStorageService.ToDataModel(StorageService, bankAccount);
         }
 
-        protected override BankAccount CreateOrUpdate(StorageService storageService)
+        protected override BankAccount SaveModel()
         {
-            var newBankAccount = _bankAccountStorageService.FromDataModel(_dataModel);
-            var savedModel = _bankAccountStorageService.Store(storageService, newBankAccount);
+            var newBankAccount = _bankAccountStorageService.FromDataModel(StorageService, _dataModel);
+            var savedModel = _bankAccountStorageService.Store(StorageService, newBankAccount);
             return savedModel;
-
         }
     }
 }

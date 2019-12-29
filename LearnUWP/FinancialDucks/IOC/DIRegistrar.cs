@@ -18,7 +18,7 @@ namespace FinancialDucks.IOC
             var serviceCollection = new ServiceCollection();
 
             serviceCollection.AddSingleton(typeof(IUserSessionManager),typeof(SingleUserInMemoryUserSessionManager));
-            serviceCollection.AddSingleton(typeof(DateService));
+            serviceCollection.AddSingleton(typeof(RecurrenceFactory));
             serviceCollection.AddSingleton(typeof(TransactionService));
             serviceCollection.AddSingleton(typeof(IConnectionProvider), typeof(ConnectionFromAppSettingsProvider));
             serviceCollection.AddSingleton(typeof(DAO));

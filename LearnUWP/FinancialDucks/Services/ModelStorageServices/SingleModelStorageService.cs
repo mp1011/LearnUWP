@@ -11,9 +11,9 @@ namespace FinancialDucks.Services.ModelStorageServices
     public abstract class SingleModelStorageService<T, TDataModel> : IModelStorageService<T>
         where TDataModel : class, IWithID
     {
-        public abstract TDataModel ToDataModel(T model);
+        public abstract TDataModel ToDataModel(StorageService storageService, T model);
 
-        public abstract T FromDataModel(TDataModel dataModel);
+        public abstract T FromDataModel(StorageService storageService, TDataModel dataModel);
 
         public T[] LoadAllForUser(StorageService storageService, int userID)
         {
@@ -22,13 +22,13 @@ namespace FinancialDucks.Services.ModelStorageServices
 
             var models = storageService.DAO.Read<TDataModel>();
             return models
-                .Select(FromDataModel)
+                .Select(m=> FromDataModel(storageService,m))
                 .ToArray();
         }
 
         public T Store(StorageService storageService, T model)
         {
-            var dataModel = ToDataModel(model);
+            var dataModel = ToDataModel(storageService, model);
             storageService.DAO.Upsert(dataModel);
 
             return storageService.LoadModel<T>(dataModel.ID);
@@ -41,7 +41,7 @@ namespace FinancialDucks.Services.ModelStorageServices
             if (model == null)
                 throw new NullReferenceException($"There is no {typeof(T).Name} with ID {id}");
 
-            return FromDataModel(model);
+            return FromDataModel(storageService, model);
         }
 
         public abstract T CreateNew();

@@ -17,6 +17,9 @@ namespace FinancialDucks.Data.Models
 
         public int PayCycleID { get; set; }
 
-        public DateTime PaymentDate { get; set; }
+        public DateTime FirstPaymentDate { get; set; }
+
+        public DateTime? LastPaymentDate { get; set; }
+
     }
 }

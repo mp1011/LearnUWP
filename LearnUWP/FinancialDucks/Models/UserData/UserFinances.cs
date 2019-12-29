@@ -48,5 +48,11 @@ namespace FinancialDucks.Models.UserData
                 .Where(p => p.GetType().IsAssignableFrom(entityType))
                 .ToArray();
         }
+
+        public IEnumerable<ITransactionSchedule> GetTransactionSchedulesFor(FinancialEntity entity)
+        {
+            return _transactionSchedules
+                .Where(p => p.Source == entity);
+        }
     }
 }

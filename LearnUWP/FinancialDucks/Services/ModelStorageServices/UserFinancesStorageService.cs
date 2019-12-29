@@ -1,6 +1,7 @@
 ﻿using FinancialDucks.Data.Services;
 using FinancialDucks.Models;
 using FinancialDucks.Models.FinancialEntities;
+using FinancialDucks.Models.Transactions;
 using FinancialDucks.Models.UserData;
 
 namespace FinancialDucks.Services.ModelStorageServices
@@ -24,6 +25,9 @@ namespace FinancialDucks.Services.ModelStorageServices
 
             foreach (var expense in storageService.LoadModelsForUser<GoodOrService>(id))
                 userFinances.AddEntity(expense);
+
+            foreach (var schedule in storageService.LoadModelsForUser<IncomeSchedule>(id))
+                userFinances.AddTransactionSchedule(schedule);
 
             return userFinances;
         }

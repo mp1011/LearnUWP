@@ -16,7 +16,7 @@ namespace FinancialDucks.Tests.ServiceTests
         [TestCase("2020/3/1", "2020/8/15", 6)]
         public void CanCreateMonthlyRecurrenceFromDates(string from, string to, int expectedOccurences)
         {
-            var dateService = new DateService();
+            var dateService = new RecurrenceFactory();
 
             var recurrence = dateService.CreateRecurrence(
                 start: DateTime.Parse(from),
@@ -34,7 +34,7 @@ namespace FinancialDucks.Tests.ServiceTests
 
         public void CanCreateWeeklyOccurence(string from, string to, int weeks, int expectedOccurences, string expectedLastDate)
         {
-            var dateService = new DateService();
+            var dateService = new RecurrenceFactory();
 
             var recurrence = dateService.CreateRecurrence(
                 start: DateTime.Parse(from),
@@ -60,12 +60,12 @@ namespace FinancialDucks.Tests.ServiceTests
         [TestCase("2020/1/1", PayCycle.EndOfTheMonth, "2020/2/29")]
         public void CanCreateRecurrenceFromPayCycle(string date, PayCycle cycle, string expectedNextDate)
         {
-            var dateService = new DateService();
+            var dateService = new RecurrenceFactory();
 
             var recurrence = dateService.CreateRecurrence(
                 start: DateTime.Parse(date),
                 end: DateTime.Parse(date).AddYears(1),
-                payCycle: cycle);
+                period: dateService.CreatePeriod(DateTime.Parse(date), cycle));
 
             var nextDate = recurrence.GetDates()
                 .Take(2)
@@ -83,12 +83,12 @@ namespace FinancialDucks.Tests.ServiceTests
         [TestCase("2020/1/15", RecurrenceType.Monthly, "2020/1/15,2020/2/15")]
         public void CanCreateRecurrenceFromRecurrenceType(string date, RecurrenceType type, string expectedDatesCSV)
         {
-            var dateService = new DateService();
+            var dateService = new RecurrenceFactory();
 
             var recurrence = dateService.CreateRecurrence(
                 start: DateTime.Parse(date),
-                end: DateTime.Parse(date).AddYears(1),
-                recurrenceType: type);
+                end: type == RecurrenceType.OneTime ? DateTime.Parse(date) : DateTime.Parse(date).AddYears(1),
+                period: dateService.CreatePeriod(DateTime.Parse(date), type));
 
             var expectedDates = expectedDatesCSV
                 .Split(',')

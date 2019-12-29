@@ -6,7 +6,7 @@ namespace FinancialDucks.Services.ModelStorageServices
     public class PayCheckStorageService
         : SingleModelStorageService<Paycheck, PaycheckDataModel>
     {
-        public override Paycheck FromDataModel(PaycheckDataModel dataModel)
+        public override Paycheck FromDataModel(StorageService storageService, PaycheckDataModel dataModel)
         {
             return new Paycheck(dataModel.ID, dataModel.CompanyName, dataModel.InitialAmount);
         }
@@ -16,7 +16,7 @@ namespace FinancialDucks.Services.ModelStorageServices
             return new Paycheck(0, string.Empty, 0);
         }
 
-        public override PaycheckDataModel ToDataModel(Paycheck model)
+        public override PaycheckDataModel ToDataModel(StorageService storageService, Paycheck model)
         {
             return new PaycheckDataModel
             {

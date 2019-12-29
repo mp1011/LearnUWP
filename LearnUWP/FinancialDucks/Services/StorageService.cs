@@ -45,6 +45,7 @@ namespace FinancialDucks.Services
 
         public T LoadModel<T>(int id)
         {
+            //todo, we could avoid hitting the database for financial entity models by reading from the session first
             return GetStorageService<T>()
                 .Load(this, id);
         }

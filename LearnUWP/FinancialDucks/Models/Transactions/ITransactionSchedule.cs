@@ -16,29 +16,25 @@ namespace FinancialDucks.Models.Transactions
         where TSource:FinancialEntity
         where TDestination:FinancialEntity
     {
-        public int ID { get; protected set; }
-        public TSource Source { get; protected set; }
+        public int ID { get; }
+        public TSource Source { get;  }
 
-        public TDestination Destination { get; protected set; }
+        public TDestination Destination { get;  }
 
 
-        public Recurrence Recurrence { get; private set; }
+        public Recurrence Recurrence { get; }
 
         FinancialEntity ITransactionSchedule.Source => Source;
 
         FinancialEntity ITransactionSchedule.Destination => Destination;
 
-        public TransactionSchedule(TSource source, TDestination destination, Recurrence recurrence)
+        public TransactionSchedule(int id, TSource source, TDestination destination, Recurrence recurrence)
         {
+            ID = id;
             Source = source;
             Destination = destination;
             Recurrence = recurrence;
         }
-
-        public TransactionSchedule()
-        {
-        }
-
     
     }
 }

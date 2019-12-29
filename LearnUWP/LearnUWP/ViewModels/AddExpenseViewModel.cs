@@ -90,18 +90,18 @@ namespace LearnUWP.ViewModels
 
 
 
-        public AddExpenseViewModel(IUserSessionManager sessionManager, StorageService storageService, DateService dateService) 
+        public AddExpenseViewModel(IUserSessionManager sessionManager, StorageService storageService, RecurrenceFactory dateService) 
             :base(sessionManager,storageService)
         {
             throw new System.NotImplementedException("date service?");
             PayDate = DateTime.Now;
         }
-        protected override void SetDataModels(StorageService storageService, GoodOrService model)
+        protected override void SetDataModels(GoodOrService model)
         {
             throw new NotImplementedException();
         }
 
-        protected override GoodOrService CreateOrUpdate(StorageService storageService)
+        protected override GoodOrService SaveModel()
         {
             throw new NotImplementedException();
         }

@@ -69,6 +69,5 @@ namespace FinancialDucks.Tests.ServiceTests
             bankModels.Length.Should().Be(banksInDB.Length);
             bankModels.Max(p => p.ID).Should().Be(banksInDB.Max(p => p.ID));
         }
-
     }
 }

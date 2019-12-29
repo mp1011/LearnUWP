@@ -17,16 +17,11 @@ namespace FinancialDucks.Tests.ServiceTests
         [Test]
         public void CanAddMoneyToBankAccountOverTime()
         {
-            var dateService = new DateService();
-            var paySchedule = dateService.CreateRecurrence(
-                new DateTime(2019, 1, 1),
-                new DateTime(2019, 12, 1),
-                new DaysOfMonth(1));
-
+            var recurrenceFactory = new RecurrenceFactory();
             var bankAccount = new BankAccount(0,"My Bank",0);
             var paycheck = new Paycheck(0, "My Job", 1000);
 
-            var depositPaycheck = new IncomeSchedule(paycheck, bankAccount, paySchedule);
+            var depositPaycheck = new IncomeSchedule(0, paycheck, bankAccount, PayCycle.FirstOfTheMonth, new DateTime(2019, 1, 1), new DateTime(2019, 12, 1), recurrenceFactory);
 
             var transactionService = new TransactionService();
             var history = new FinancialHistory();
@@ -50,18 +45,14 @@ namespace FinancialDucks.Tests.ServiceTests
         [Test]
         public void CanAddMoneyToBankAccountOverTimeWithPayIncrease()
         {
-            var dateService = new DateService();
-            var paySchedule = dateService.CreateRecurrence(
-                new DateTime(2019, 1, 1),
-                new DateTime(2019, 12, 1),
-                new DaysOfMonth(1));
-
+            var recurrenceFactory = new RecurrenceFactory();
+      
             var bankAccount = new BankAccount(0, "My Bank", 0);
             var paycheck = new Paycheck(0, "My Job", 1000);
 
             var payIncrease = new MoneyTransfer(new ExternalEntity(), paycheck, new DateTime(2019, 5, 1), 500);
 
-            var depositPaycheck = new IncomeSchedule(paycheck, bankAccount, paySchedule);
+            var depositPaycheck = new IncomeSchedule(0, paycheck, bankAccount, PayCycle.FirstOfTheMonth, new DateTime(2019, 1, 1), new DateTime(2019, 12, 1), recurrenceFactory);
 
             var transactionService = new TransactionService();
             var history = new FinancialHistory();
@@ -90,7 +81,7 @@ namespace FinancialDucks.Tests.ServiceTests
         public void CanProcessOneTimeTransaction()
         {
             var bankAccount = new BankAccount(0, "My Bank", 5000);
-            var dateService = new DateService();
+            var dateService = new RecurrenceFactory();
             
             var purchase = new GoodOrService(0, "New TV", -400);
       
@@ -115,16 +106,12 @@ namespace FinancialDucks.Tests.ServiceTests
         [Test]
         public void CanCreateDailyTimeline()
         {
-            var dateService = new DateService();
-            var paySchedule = dateService.CreateRecurrence(
-                new DateTime(2019, 1, 1),
-                new DateTime(2019, 12, 1),
-                new WeekRecurring(1, new DateTime(2019,1,1)));
-
+            var recurrenceFactory = new RecurrenceFactory();
+         
             var bankAccount = new BankAccount(0, "My Bank", 0);
             var paycheck = new Paycheck(0, "My Job", 1000);
 
-            var depositPaycheck = new IncomeSchedule(paycheck, bankAccount, paySchedule);
+            var depositPaycheck = new IncomeSchedule(0, paycheck, bankAccount, PayCycle.Weekly, new DateTime(2019,1,1), new DateTime(2019, 12, 1), recurrenceFactory);
 
             var transactionService = new TransactionService();
             var history = new FinancialHistory();

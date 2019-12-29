@@ -6,7 +6,7 @@ namespace FinancialDucks.Services.ModelStorageServices
     public class BankAccountStorageService
         : SingleModelStorageService<BankAccount, BankAccountDataModel>
     {
-        public override BankAccount FromDataModel(BankAccountDataModel dataModel)
+        public override BankAccount FromDataModel(StorageService storageService, BankAccountDataModel dataModel)
         {
             return new BankAccount(dataModel.ID, dataModel.Name, dataModel.InitialAmount);
         }
@@ -16,7 +16,7 @@ namespace FinancialDucks.Services.ModelStorageServices
             return new BankAccount(0, string.Empty, 0);
         }
 
-        public override BankAccountDataModel ToDataModel(BankAccount model)
+        public override BankAccountDataModel ToDataModel(StorageService storageService, BankAccount model)
         {
             return new BankAccountDataModel
             {
