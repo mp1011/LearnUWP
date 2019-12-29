@@ -9,18 +9,14 @@ namespace FinancialDucks.Services
     public class StorageService
     {
         private readonly IModelStorageService[] _modelStorageServices;
-        private readonly IUserSessionManager _userSessionManager;
-
         internal DAO DAO { get; }
 
         public StorageService(
             DAO dao,
-            IModelStorageService[] modelStorageServices, 
-            IUserSessionManager userSessionManager)
+            IModelStorageService[] modelStorageServices)
         {
             DAO = dao;
             _modelStorageServices = modelStorageServices;
-            _userSessionManager = userSessionManager;
         }
 
         private IModelStorageService<T> GetStorageService<T>()
@@ -35,9 +31,15 @@ namespace FinancialDucks.Services
             return result;
         }
 
-        public void StoreModel<T>(T model)
+        public T CreateNew<T>()
         {
-            GetStorageService<T>()
+            return GetStorageService<T>()
+               .CreateNew();
+        }
+
+        public T StoreModel<T>(T model)
+        {
+            return GetStorageService<T>()
                 .Store(this, model);
         }
 
@@ -47,10 +49,10 @@ namespace FinancialDucks.Services
                 .Load(this, id);
         }
 
-        public T[] LoadModels<T>()
+        public T[] LoadModelsForUser<T>(int userID)
         {
             return GetStorageService<T>()
-                .LoadAllForUser(this, _userSessionManager.CurrentUserID);
+                .LoadAllForUser(this, userID);
         }
 
         

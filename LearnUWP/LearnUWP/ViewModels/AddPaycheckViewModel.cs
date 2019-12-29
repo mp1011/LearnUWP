@@ -2,6 +2,7 @@
 using FinancialDucks.Models;
 using FinancialDucks.Models.Transactions;
 using FinancialDucks.Services;
+using FinancialDucks.Services.ModelStorageServices;
 using FinancialDucks.Services.UserServices;
 using System;
 using System.Collections.ObjectModel;
@@ -10,10 +11,12 @@ using System.Linq;
 
 namespace LearnUWP.ViewModels
 {
-    public class AddPaycheckViewModel : CreateOrEditViewModel<Paycheck>
+    public class AddPaycheckViewModel : FinancialEntityCreateOrUpdateViewModel<Paycheck>
     {
+        private readonly PayCheckStorageService _payCheckStorageService;
+
         private PaycheckDataModel _dataModel;
-        private IncomeScheduleDataModel _schedule = new IncomeScheduleDataModel();
+        private IncomeScheduleDataModel _schedule;
 
         public string CompanyName
         {
@@ -83,30 +86,25 @@ namespace LearnUWP.ViewModels
             }
         }
 
-        public AddPaycheckViewModel(IUserSessionManager sessionManager, StorageService storageService, DateService dateService)
+        public AddPaycheckViewModel(PayCheckStorageService payCheckStorageService, IUserSessionManager sessionManager, StorageService storageService, DateService dateService)
             : base(sessionManager,storageService)
-        {            
-            FirstPayDate = DateTime.Now;
-        }
-
-        protected override void Initialize(IUserSessionManager sessionManager)
         {
-            DepositBank = sessionManager
-                .GetCurrentUserFinances()
-                .BankAccounts
-                .First(); 
+            _payCheckStorageService = payCheckStorageService;
         }
 
-        protected override void AfterModelSaved(StorageService storageService, Paycheck savedModel)
+        protected override void SetDataModels(StorageService storageService, Paycheck model)
         {
-            _schedule.PaycheckID = savedModel.ID;
-            _schedule.DepositBankID = DepositBank.ID;
-            storageService.StoreModel(_schedule);
-            base.AfterModelSaved(storageService, savedModel);
+            _dataModel = _payCheckStorageService.ToDataModel(model);
+
+            throw new NotImplementedException("load schedule");
+            //todo
+            //DepositBank = sessionManager
+            //    .CurrentUserFinances
+            //    .BankAccounts
+            //    .First();
         }
 
-        //todo
-        public void AddPaycheck()
+        protected override Paycheck CreateOrUpdate(StorageService storageService)
         {
             //var userFinances = _sessionManager.GetCurrentUserFinances();
 
@@ -121,6 +119,7 @@ namespace LearnUWP.ViewModels
             //    new TransactionSchedule(paycheck, DepositBank,
             //    _dateService.CreateRecurrence(startDate, startDate.AddYears(100), PayCycle))
             //);
+            throw new System.NotImplementedException();
         }
     }
 }

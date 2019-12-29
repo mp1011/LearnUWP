@@ -1,5 +1,6 @@
 ﻿using FinancialDucks.Models;
 using FinancialDucks.Models.UserData;
+using System.Security.Authentication;
 
 namespace FinancialDucks.Services.UserServices
 {
@@ -7,24 +8,28 @@ namespace FinancialDucks.Services.UserServices
     /// meant for testing, has no persistence, holds all values in memory, and only supports one user
     /// </summary>
     public class SingleUserInMemoryUserSessionManager : IUserSessionManager
-    {
-        private readonly UserFinances _userFinances;
+    {    
+        public int CurrentUserID { get; private set; }
 
-        public int CurrentUserID => -1;
+        private UserFinances _currentUserFinances;
 
-        public SingleUserInMemoryUserSessionManager()
+        public UserFinances CurrentUserFinances
         {
-            //fix me
-
-            //_userFinances = new UserFinances();
-            ////todo, should be in a different class
-            //foreach(var bankAccount in storageService.LoadModels<BankAccount>())
-            //    _userFinances.AddEntity(bankAccount);
+            get => _currentUserFinances ?? throw new AuthenticationException("No user is logged in");
+            set => _currentUserFinances=value;
         }
 
-        public UserFinances GetCurrentUserFinances()
+        private readonly StorageService _storageService;
+
+        public SingleUserInMemoryUserSessionManager(StorageService storageService)
         {
-            return _userFinances;
+            _storageService = storageService;
+        }
+
+        public void Login(int userID)
+        {
+            CurrentUserID = userID;
+            CurrentUserFinances = _storageService.LoadModel<UserFinances>(CurrentUserID);
         }
     }
 }

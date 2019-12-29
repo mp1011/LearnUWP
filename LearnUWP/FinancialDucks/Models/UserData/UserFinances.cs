@@ -23,6 +23,9 @@ namespace FinancialDucks.Models.UserData
 
         public void AddEntity(FinancialEntity entity)
         {
+            //todo - check if observables play nice
+            if (entity.ID > 0)
+                _userFinancialEntities.RemoveAll(p => p.ID == entity.ID && p.GetType() == entity.GetType());
             _userFinancialEntities.Add(entity);
         }
 

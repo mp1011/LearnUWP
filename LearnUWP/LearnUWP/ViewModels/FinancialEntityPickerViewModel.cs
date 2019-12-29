@@ -38,7 +38,7 @@ namespace LearnUWP.ViewModels
             if (Choices.Count == 0)
             {
                 foreach (var entity in _userSessionManager
-                    .GetCurrentUserFinances()
+                    .CurrentUserFinances
                     .GetEntities(financialEntityType))
                 {
                     Choices.Add(entity);

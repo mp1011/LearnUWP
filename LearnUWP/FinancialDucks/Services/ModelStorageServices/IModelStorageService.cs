@@ -8,7 +8,8 @@ namespace FinancialDucks.Services.ModelStorageServices
 
     public interface IModelStorageService<T> : IModelStorageService
     {
-        void Store(StorageService storageService, T model);
+        T CreateNew();
+        T Store(StorageService storageService, T model);
         T[] LoadAllForUser(StorageService storageService, int userID);
         T Load(StorageService storageService, int id);
     }

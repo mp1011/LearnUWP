@@ -10,7 +10,7 @@ using System.ComponentModel;
 
 namespace LearnUWP.ViewModels
 {
-    public class AddExpenseViewModel : CreateOrEditViewModel<GoodOrService>
+    public class AddExpenseViewModel : FinancialEntityCreateOrUpdateViewModel<GoodOrService>
     {
         private ExpensesDataModel _dataModel;
 
@@ -95,6 +95,15 @@ namespace LearnUWP.ViewModels
         {
             throw new System.NotImplementedException("date service?");
             PayDate = DateTime.Now;
+        }
+        protected override void SetDataModels(StorageService storageService, GoodOrService model)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override GoodOrService CreateOrUpdate(StorageService storageService)
+        {
+            throw new NotImplementedException();
         }
 
         public void Initialize()

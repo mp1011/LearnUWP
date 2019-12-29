@@ -4,9 +4,9 @@ namespace FinancialDucks.Services.UserServices
 {
     public interface IUserSessionManager
     {
-        UserFinances GetCurrentUserFinances();
-
+        UserFinances CurrentUserFinances { get; }
         int CurrentUserID { get; }
+        void Login(int userID);
     }
 
 }

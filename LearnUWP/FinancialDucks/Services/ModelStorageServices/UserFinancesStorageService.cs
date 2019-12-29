@@ -7,18 +7,22 @@ namespace FinancialDucks.Services.ModelStorageServices
 {
     public class UserFinancesStorageService : IModelStorageService<UserFinances>
     {
+        public UserFinances CreateNew()
+        {
+            return new UserFinances();
+        }
 
         public UserFinances Load(StorageService storageService, int id)
         {
             var userFinances = new UserFinances();
            
-            foreach (var bankAccount in storageService.LoadModels<BankAccount>())
+            foreach (var bankAccount in storageService.LoadModelsForUser<BankAccount>(id))
                 userFinances.AddEntity(bankAccount);
 
-            foreach (var paycheck in storageService.LoadModels<Paycheck>())
+            foreach (var paycheck in storageService.LoadModelsForUser<Paycheck>(id))
                 userFinances.AddEntity(paycheck);
 
-            foreach (var expense in storageService.LoadModels<GoodOrService>())
+            foreach (var expense in storageService.LoadModelsForUser<GoodOrService>(id))
                 userFinances.AddEntity(expense);
 
             return userFinances;
@@ -29,9 +33,10 @@ namespace FinancialDucks.Services.ModelStorageServices
             return new UserFinances[] { Load(storageService, userID) };
         }
 
-        public void Store(StorageService storageService, UserFinances model)
+        public UserFinances Store(StorageService storageService, UserFinances model)
         {
             //not needed
+            return model;            
         }
     }
 }

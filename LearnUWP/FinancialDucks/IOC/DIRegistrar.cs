@@ -38,7 +38,10 @@ namespace FinancialDucks.IOC
             foreach (var type in assembly.GetTypes())
             {
                 if (typeof(T).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
+                {
                     serviceCollection.AddSingleton(typeof(T), type);
+                    serviceCollection.AddSingleton(type);
+                }
             }
 
             return serviceCollection.AddSingleton<T[]>(sp => sp.GetServices<T>().ToArray());

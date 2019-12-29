@@ -19,7 +19,7 @@ namespace FinancialDucks.Tests.ServiceTests
         public void CanLoadUserFinancesForCurrentUser()
         {
             var storageService = IOCContainer.Resolve<StorageService>();
-            var userFinances = storageService.LoadModels<UserFinances>()
+            var userFinances = storageService.LoadModelsForUser<UserFinances>(-1)
                 .FirstOrDefault();
 
             userFinances.Should().NotBeNull();
@@ -41,7 +41,8 @@ namespace FinancialDucks.Tests.ServiceTests
             var modelInDatabase = dao.Read<BankAccountDataModel>("Name=@Name", new { newBankAccount.Name }).SingleOrDefault();
             modelInDatabase.Should().BeNull();
 
-            storageService.StoreModel(newBankAccount);
+            newBankAccount = storageService.StoreModel(newBankAccount);
+            newBankAccount.ID.Should().BeGreaterThan(0);
 
             modelInDatabase = dao.Read<BankAccountDataModel>("Name=@Name", new { newBankAccount.Name }).SingleOrDefault();
             modelInDatabase.Should().NotBeNull();
@@ -62,7 +63,7 @@ namespace FinancialDucks.Tests.ServiceTests
             var dao = IOCContainer.Resolve<DAO>();
 
             var banksInDB = dao.Read<BankAccountDataModel>();
-            var bankModels = storageService.LoadModels<BankAccount>();
+            var bankModels = storageService.LoadModelsForUser<BankAccount>(-1);
 
             bankModels.Length.Should().BeGreaterThan(0);
             bankModels.Length.Should().Be(banksInDB.Length);

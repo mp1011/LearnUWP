@@ -1,12 +1,15 @@
 ﻿using FinancialDucks.Data.Models;
 using FinancialDucks.Models;
 using FinancialDucks.Services;
+using FinancialDucks.Services.ModelStorageServices;
 using FinancialDucks.Services.UserServices;
 
 namespace LearnUWP.ViewModels
 {
-    public class AddBankAccountViewModel : CreateOrEditViewModel<BankAccount>
+    public class AddBankAccountViewModel : FinancialEntityCreateOrUpdateViewModel<BankAccount>
     {
+        private readonly BankAccountStorageService _bankAccountStorageService;
+
         private BankAccountDataModel _dataModel;
 
         public string BankAccountName
@@ -19,9 +22,24 @@ namespace LearnUWP.ViewModels
             }
         }
 
-        public AddBankAccountViewModel(IUserSessionManager sessionManager, StorageService storageService)
-            :base(sessionManager, storageService)
+        public AddBankAccountViewModel(BankAccountStorageService bankAccountStorageService,
+            IUserSessionManager userSessionManager, StorageService storageService)
+            :base(userSessionManager,storageService)
         {
+            _bankAccountStorageService = bankAccountStorageService;
+        }
+
+        protected override void SetDataModels(StorageService storageService, BankAccount bankAccount)
+        {
+            _dataModel = _bankAccountStorageService.ToDataModel(bankAccount);
+        }
+
+        protected override BankAccount CreateOrUpdate(StorageService storageService)
+        {
+            var newBankAccount = _bankAccountStorageService.FromDataModel(_dataModel);
+            var savedModel = _bankAccountStorageService.Store(storageService, newBankAccount);
+            return savedModel;
+
         }
     }
 }

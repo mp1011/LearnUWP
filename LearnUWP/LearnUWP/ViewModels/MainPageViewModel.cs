@@ -33,7 +33,7 @@ namespace LearnUWP.ViewModels
 
         public void Initialize()
         {
-            var userFinances = _sessionManager.GetCurrentUserFinances();
+            var userFinances = _sessionManager.CurrentUserFinances;
             BankAccounts = new ObservableCollection<BankAccount>(userFinances.BankAccounts);
             Paychecks = new ObservableCollection<Paycheck>(userFinances.Paychecks);
             Expenses = new ObservableCollection<GoodOrService>(userFinances.Expenses);

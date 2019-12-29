@@ -129,7 +129,7 @@
     <Compile Include="ViewModels\AddExpenseViewModel.cs" />
     <Compile Include="ViewModels\AddPaycheckViewModel.cs" />
     <Compile Include="ViewModels\AddBankAccountViewModel.cs" />
-    <Compile Include="ViewModels\CreateOrEditViewModel.cs" />
+    <Compile Include="ViewModels\FinancialEntityCreateOrUpdateViewModel.cs" />
     <Compile Include="ViewModels\EnumPickerViewModel.cs" />
     <Compile Include="ViewModels\FinancialEntityPickerViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
