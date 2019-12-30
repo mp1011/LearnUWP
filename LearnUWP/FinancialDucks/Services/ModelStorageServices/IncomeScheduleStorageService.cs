@@ -16,8 +16,15 @@ namespace FinancialDucks.Services.ModelStorageServices
 
         public override IncomeSchedule CreateNew()
         {
-            throw new NotImplementedException();
-        }
+            return new IncomeSchedule(
+                   id: 0,
+                   paycheck: new Paycheck(0, string.Empty, 0),
+                   bankAccount: new BankAccount(0, string.Empty, 0),
+                   payCycle: PayCycle.FirstOfTheMonth,
+                   firstDate: DateTime.Now,
+                   lastDate: DateTime.Now.AddYears(100),
+                   recurrenceFactory: _recurrenceFactory);
+        }                   
 
         public override IncomeSchedule FromDataModel(StorageService storageService, IncomeScheduleDataModel dataModel)
         {

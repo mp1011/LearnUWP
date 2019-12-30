@@ -16,6 +16,10 @@
             <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.Description}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
+            <TextBlock>Amount Type: </TextBlock>
+            <local:EnumPicker DataContext="{x:Bind Mode=TwoWay, Path=ViewModel.AmountType}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
             <TextBlock>Amount: $</TextBlock>
             <TextBox Text="{x:Bind Mode=TwoWay, Converter={StaticResource TextToDecimal}, Path=ViewModel.Amount}"/>
         </StackPanel>
@@ -25,19 +29,14 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock x:Name="PayDateLabel">First Pay Date: $</TextBlock>
-            <DatePicker Date="{x:Bind Mode=TwoWay, Path=ViewModel.PayDate}"/>
+            <DatePicker Date="{x:Bind Mode=TwoWay, Path=ViewModel.FirstPayDate}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock>Withdraw from: $</TextBlock>
-            <ComboBox SelectedValue="{x:Bind Mode=TwoWay, Path=ViewModel.WithdrawalBank}" ItemsSource="{x:Bind ViewModel.BankAccounts}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+            <local:FinancialEntityPicker  DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.WithdrawalBank}"/>
         </StackPanel>
-        <Button Content="Create" x:Name="CreateButton"/>
+        <Button Content="{x:Bind Path=ViewModel.SaveActionName}" x:Name="CreateButton"/>
+        <Button Content="Cancel" x:Name="CancelButton"/>
     </StackPanel>
     
 </Page>

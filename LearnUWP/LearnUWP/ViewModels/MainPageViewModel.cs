@@ -39,17 +39,17 @@ namespace LearnUWP.ViewModels
             Expenses = new ObservableCollection<GoodOrService>(userFinances.Expenses);
 
             //temporary
-            var bank = BankAccounts.FirstOrDefault();
-            if (bank != null)
-            {
-                var history = _transactionService.CreateHistory(userFinances.TransactionSchedules);
-                var timeline = _transactionService.CreateTimeline(bank, history,
-                    new DateRange(DateTime.Now, DateTime.Now.AddMonths(12)),
-                    TimeSpan.FromDays(7));
+            //var bank = BankAccounts.FirstOrDefault();
+            //if (bank != null)
+            //{
+            //    var history = _transactionService.CreateHistory(userFinances.TransactionSchedules);
+            //    var timeline = _transactionService.CreateTimeline(bank, history,
+            //        new DateRange(DateTime.Now, DateTime.Now.AddMonths(12)),
+            //        TimeSpan.FromDays(7));
 
-                Timeline = new ObservableCollection<FinancialSnapshot>(timeline);
-            }
-            else 
+            //    Timeline = new ObservableCollection<FinancialSnapshot>(timeline);
+            //}
+            //else 
                 Timeline = new ObservableCollection<FinancialSnapshot>();
         }
     }

@@ -37,13 +37,6 @@ namespace LearnUWP.ViewModels
 
         protected abstract void SetDataModels(T model);
 
-        protected abstract T SaveModel();
-
-        public void SaveModelAndUpdateUserFinances()
-        {
-            var savedModel = SaveModel();
-            SessionManager.CurrentUserFinances.AddEntity(savedModel);
-        }
-       
+        public abstract T SaveModel();
     }
 }

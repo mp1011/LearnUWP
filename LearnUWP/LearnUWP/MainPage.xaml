@@ -71,7 +71,9 @@
                 ItemsSource="{x:Bind ViewModel.Paychecks}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
+                        <HyperlinkButton Click="HyperlinkButton_Click" >
+                            <TextBlock Text="{Binding Name}"/>
+                        </HyperlinkButton>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
@@ -80,7 +82,9 @@
                 ItemsSource="{x:Bind ViewModel.Expenses}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
+                        <HyperlinkButton Click="HyperlinkButton_Click" >
+                            <TextBlock Text="{Binding Name}"/>
+                        </HyperlinkButton>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

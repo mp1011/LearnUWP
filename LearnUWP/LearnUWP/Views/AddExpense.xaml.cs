@@ -1,4 +1,5 @@
 ﻿using FinancialDucks.Models;
+using FinancialDucks.Models.FinancialEntities;
 using LearnUWP.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -30,8 +31,14 @@ namespace LearnUWP.Views
         {
             this.InitializeComponent();
             CreateButton.Click += CreateButton_Click;
+            CancelButton.Click += CancelButton_Click;
             this.DataContextChanged += AddExpense_DataContextChanged;
 
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainPage));
         }
 
         private void AddExpense_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
@@ -55,13 +62,13 @@ namespace LearnUWP.Views
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.SaveModelAndUpdateUserFinances();
+            ViewModel.SaveModel();
             Frame.Navigate(typeof(MainPage));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.Initialize();
+            ViewModel.Initialize(e.Parameter as GoodOrService);
         }
 
     }

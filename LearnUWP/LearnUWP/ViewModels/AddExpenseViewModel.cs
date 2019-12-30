@@ -3,16 +3,22 @@ using FinancialDucks.Models;
 using FinancialDucks.Models.FinancialEntities;
 using FinancialDucks.Models.Transactions;
 using FinancialDucks.Services;
+using FinancialDucks.Services.ModelStorageServices;
 using FinancialDucks.Services.UserServices;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 
 namespace LearnUWP.ViewModels
 {
     public class AddExpenseViewModel : FinancialEntityCreateOrUpdateViewModel<GoodOrService>
     {
+        private readonly ExpenseStorageService _expenseStorageService;
+        private readonly PaymentScheduleStorageService _paymentScheduleStorageService;
+
         private ExpensesDataModel _dataModel;
+        private PaymentScheduleDataModel _payScheduleDataModel;
 
         public string Description
         {
@@ -34,32 +40,27 @@ namespace LearnUWP.ViewModels
             get => _withdrawalBank;
             set
             {
-                if (_withdrawalBank != value)
+                if (value != null && _withdrawalBank != value)
                 {
                     _withdrawalBank = value;
-                    throw new System.NotImplementedException();
-                  //  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WithdrawalBank)));
+                    _payScheduleDataModel.BankAccountID = value.ID;
+                    InvokePropertyChange(nameof(WithdrawalBank));
                 }
             }
         }
 
-        private RecurrenceType _recurrenceType;
         public RecurrenceType RecurrenceType
         {
-            get => _recurrenceType;
+            get => (RecurrenceType)_payScheduleDataModel.RecurrenceTypeID;
             set
             {
-                if(_recurrenceType != value)
+                if(_payScheduleDataModel.RecurrenceTypeID != (int)value)
                 {
-                    _recurrenceType = value;
-
-                    throw new System.NotImplementedException();
-                    //  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RecurrenceType)));
+                    _payScheduleDataModel.RecurrenceTypeID = (int)value;
+                    InvokePropertyChange(nameof(RecurrenceType));
                 }
             }
         }
-
-        public ObservableCollection<BankAccount> BankAccounts { get; private set; }
 
         public decimal Amount
         {
@@ -74,61 +75,79 @@ namespace LearnUWP.ViewModels
             }
         }
 
-        private DateTimeOffset _firstPayDate;
-        public DateTimeOffset PayDate
+        public DateTimeOffset FirstPayDate
         {
-            get => _firstPayDate;
+            get => _payScheduleDataModel.FirstPaymentDate;
             set
             {
-                if (_firstPayDate != value)
+                if (_payScheduleDataModel.FirstPaymentDate != value.DateTime)
                 {
-                    _firstPayDate = value; throw new System.NotImplementedException();
-                    // PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PayDate)));
+                    _payScheduleDataModel.FirstPaymentDate = value.DateTime;
+                    InvokePropertyChange(nameof(FirstPayDate));
                 }
             }
         }
 
+        public DateTimeOffset LastPayDate
+        {
+            get => _payScheduleDataModel.FirstPaymentDate;
+            set
+            {
+                if (_payScheduleDataModel.LastPaymentDate != value.DateTime)
+                {
+                    _payScheduleDataModel.LastPaymentDate = value.DateTime;
+                    InvokePropertyChange(nameof(LastPayDate));
+                }
+            }
+        }
 
+        //todo, create a control for this
+        public AmountType AmountType
+        {
+            get => (AmountType)_payScheduleDataModel.AmountTypeID;
+            set
+            {
+                if(_payScheduleDataModel.AmountTypeID != (int)value)
+                {
+                    _payScheduleDataModel.AmountTypeID = (int)value;
+                    InvokePropertyChange(nameof(AmountType));
+                }
+            }
+        }
 
-        public AddExpenseViewModel(IUserSessionManager sessionManager, StorageService storageService, RecurrenceFactory dateService) 
+        public AddExpenseViewModel(IUserSessionManager sessionManager, StorageService storageService, RecurrenceFactory dateService,
+            ExpenseStorageService expenseStorageService, PaymentScheduleStorageService paymentScheduleStorageService) 
             :base(sessionManager,storageService)
         {
-            throw new System.NotImplementedException("date service?");
-            PayDate = DateTime.Now;
+            _expenseStorageService = expenseStorageService;
+            _paymentScheduleStorageService = paymentScheduleStorageService;
+            
         }
         protected override void SetDataModels(GoodOrService model)
         {
-            throw new NotImplementedException();
+            _dataModel = _expenseStorageService.ToDataModel(StorageService, model);
+
+            var paymentSchedule = model.GetPaymentSchedule(SessionManager.CurrentUserFinances)
+                ?? _paymentScheduleStorageService.CreateNew();
+
+            _payScheduleDataModel = _paymentScheduleStorageService.ToDataModel(StorageService, paymentSchedule);
+
+            WithdrawalBank = paymentSchedule.Source ?? SessionManager.CurrentUserFinances.BankAccounts.First();
         }
 
-        protected override GoodOrService SaveModel()
+        public override GoodOrService SaveModel()
         {
-            throw new NotImplementedException();
+            var expense = _expenseStorageService.FromDataModel(StorageService, _dataModel);
+            expense = _expenseStorageService.Store(StorageService, expense);
+
+            _payScheduleDataModel.ExpenseID = expense.ID;
+            var paySchedule = _paymentScheduleStorageService.FromDataModel(StorageService, _payScheduleDataModel);
+            paySchedule= _paymentScheduleStorageService.Store(StorageService, paySchedule);
+
+            SessionManager.CurrentUserFinances.Add(expense);
+            SessionManager.CurrentUserFinances.Add(paySchedule);
+
+            return expense;
         }
-
-        public void Initialize()
-        {
-            throw new System.NotImplementedException();
-            //var userFinances = _sessionManager.GetCurrentUserFinances();
-            //BankAccounts = new ObservableCollection<BankAccount>(userFinances.BankAccounts);
-        }
-
-        //todo - replace this
-        //public void AddExpense()
-        //{
-        //    var userFinances = _sessionManager.GetCurrentUserFinances();
-
-        //    var payDate = PayDate.DateTime;
-        //    var expense = new GoodOrService(
-        //        description: Description,
-        //        initialAmount: Amount);
-
-        //    userFinances.AddEntity(expense);
-        //    userFinances.AddTransactionSchedule
-        //    (
-        //        new TransactionSchedule(expense, WithdrawalBank,
-        //        _dateService.CreateRecurrence(payDate, payDate.AddYears(100), RecurrenceType))
-        //    );
-        //}
     }
 }

@@ -1,5 +1,6 @@
 ﻿using FinancialDucks.Models;
 using FinancialDucks.Models.UserData;
+using System.ComponentModel;
 using System.Security.Authentication;
 
 namespace FinancialDucks.Services.UserServices
@@ -8,7 +9,10 @@ namespace FinancialDucks.Services.UserServices
     /// meant for testing, has no persistence, holds all values in memory, and only supports one user
     /// </summary>
     public class SingleUserInMemoryUserSessionManager : IUserSessionManager
-    {    
+    {
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public int CurrentUserID { get; private set; }
 
         private UserFinances _currentUserFinances;
@@ -16,10 +20,16 @@ namespace FinancialDucks.Services.UserServices
         public UserFinances CurrentUserFinances
         {
             get => _currentUserFinances ?? throw new AuthenticationException("No user is logged in");
-            set => _currentUserFinances=value;
+            set
+            {
+                _currentUserFinances = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentUserFinances)));
+            }
+           
         }
 
         private readonly StorageService _storageService;
+
 
         public SingleUserInMemoryUserSessionManager(StorageService storageService)
         {

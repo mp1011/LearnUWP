@@ -58,7 +58,7 @@ namespace LearnUWP.ViewModels
             }
         }
 
-        //todo
+
         private BankAccount _depositBank = null;
 
         public BankAccount DepositBank
@@ -66,9 +66,10 @@ namespace LearnUWP.ViewModels
             get => _depositBank;
             set
             {
-                if (_depositBank != value)
+                if (_depositBank != value && value != null)
                 {
                     _depositBank = value;
+                    _incomeScheduleDataModel.DepositBankID = value.ID;
                     InvokePropertyChange(nameof(DepositBank));
                 }
             }
@@ -99,28 +100,26 @@ namespace LearnUWP.ViewModels
         {
             _dataModel = _payCheckStorageService.ToDataModel(StorageService, paycheck);
 
-            var incomeSchedule = paycheck.GetIncomeSchedule(SessionManager.CurrentUserFinances);
+            var incomeSchedule = paycheck.GetIncomeSchedule(SessionManager.CurrentUserFinances) ??
+                _incomeScheduleStorageService.CreateNew();
+
             _incomeScheduleDataModel = _incomeScheduleStorageService.ToDataModel(StorageService, incomeSchedule);
-            DepositBank = incomeSchedule.Destination;
+            DepositBank = incomeSchedule.Destination ?? SessionManager.CurrentUserFinances.BankAccounts.First();
         }
 
-        protected override Paycheck SaveModel()
+        public override Paycheck SaveModel()
         {
+            var paycheck = _payCheckStorageService.FromDataModel(StorageService, _dataModel);
+            paycheck = _payCheckStorageService.Store(StorageService, paycheck);
 
-            //var userFinances = _sessionManager.GetCurrentUserFinances();
+            _incomeScheduleDataModel.PaycheckID = paycheck.ID;
+            var paySchedule = _incomeScheduleStorageService.FromDataModel(StorageService, _incomeScheduleDataModel);
+            paySchedule = _incomeScheduleStorageService.Store(StorageService, paySchedule);
 
-            //var startDate = FirstPayDate.DateTime;
-            //var paycheck = new Paycheck(
-            //    companyName: CompanyName,
-            //    initialAmount: Amount);
+            SessionManager.CurrentUserFinances.Add(paycheck);
+            SessionManager.CurrentUserFinances.Add(paySchedule);
 
-            //userFinances.AddEntity(paycheck);
-            //userFinances.AddTransactionSchedule
-            //(
-            //    new TransactionSchedule(paycheck, DepositBank,
-            //    _dateService.CreateRecurrence(startDate, startDate.AddYears(100), PayCycle))
-            //);
-            throw new System.NotImplementedException();
+            return paycheck;
         }
     }
 }

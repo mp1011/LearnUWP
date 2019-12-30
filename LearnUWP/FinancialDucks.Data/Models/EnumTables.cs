@@ -14,4 +14,8 @@ namespace FinancialDucks.Data.Models
     [Table("RecurrenceTypes")]
     public class RecurrenceTypeDataModel : EnumTable { }
 
+
+    [Table("AmountTypes")]
+    public class AmountTypeDataModel : EnumTable { }
+
 }

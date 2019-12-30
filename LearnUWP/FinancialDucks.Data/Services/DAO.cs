@@ -40,5 +40,17 @@ namespace FinancialDucks.Data.Services
                     .ToArray();
             }
         }
+
+        public void Delete<T>(string whereClause=null, object param=null)
+        {
+            var sql = SqlStringBuilder
+               .Delete<T>()
+               .Where(whereClause);
+
+            using (var conn = _connectionProvider.CreateConnection())
+            {
+                conn.Execute(sql.ToString(), param);
+            }
+        }
     }
 }

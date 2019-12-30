@@ -41,7 +41,7 @@ namespace LearnUWP.Views
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.SaveModelAndUpdateUserFinances();
+            ViewModel.SaveModel();
             Frame.Navigate(typeof(MainPage));
         }
 

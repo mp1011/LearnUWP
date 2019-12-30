@@ -8,6 +8,7 @@ namespace FinancialDucks.Data.Helpers
 {
     public class SqlStringBuilder
     {
+        private string action;
         private string tableName;
         private List<string> whereClauses = new List<string>();
 
@@ -18,12 +19,27 @@ namespace FinancialDucks.Data.Helpers
             return Select(typeof(T));
         }
 
+        public static SqlStringBuilder Delete<T>()
+        {
+            return Delete(typeof(T));
+        }
+
         public static SqlStringBuilder Select(Type tableType)
         {
             var builder = new SqlStringBuilder();
+            builder.action = "SELECT *"; 
             builder.tableName = GetTableName(tableType);
             return builder;
         }
+
+        public static SqlStringBuilder Delete(Type tableType)
+        {
+            var builder = new SqlStringBuilder();
+            builder.action = "DELETE";
+            builder.tableName = GetTableName(tableType);
+            return builder;
+        }
+
 
         private static string GetTableName(Type tableType)
         {
@@ -48,8 +64,7 @@ namespace FinancialDucks.Data.Helpers
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("SELECT * FROM ")
-                .Append(tableName);
+            sb.Append($"{action} FROM {tableName}");
 
             if (whereClauses.Any())
             {

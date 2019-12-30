@@ -39,8 +39,26 @@ namespace FinancialDucks.Tests.DataTests
                 .BeGreaterThan(0);
         }
 
+        [TestCase(typeof(BankAccountDataModel), "NAME like 'TEST%'")]
+        [TestCase(typeof(PaymentScheduleDataModel), "Description = 'UNIT TEST'")]
+        public void CanDeleteModels(Type modelType, string where)
+        {
+            this.DynamicDispatch(nameof(CanDeleteModels), new Type[] { modelType }, new object[] { where });
+        }
+
+        public void CanDeleteModels<T>(string where)
+        {
+            var dao = IOCContainer.Resolve<DAO>();
+            var models = dao.Read<T>(where);
+            dao.Delete<T>(where);
+            var modelsNow = dao.Read<T>(where);
+            modelsNow.Length.Should().Be(0);
+        }
+
         [TestCase(typeof(PayCycle), typeof(PayCycleDataModel))]
         [TestCase(typeof(RecurrenceType), typeof(RecurrenceTypeDataModel))]
+        [TestCase(typeof(AmountType), typeof(AmountTypeDataModel))]
+
         public void EnumTablesHaveCorrectValues(Type enumType, Type modelType)
         {
             this.DynamicDispatch(nameof(EnumTablesHaveCorrectValues), new Type[] { enumType, modelType });

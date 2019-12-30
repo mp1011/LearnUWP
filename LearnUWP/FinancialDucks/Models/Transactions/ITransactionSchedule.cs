@@ -5,6 +5,7 @@ namespace FinancialDucks.Models.Transactions
 {
     public interface ITransactionSchedule
     {
+        int ID { get; }
         Recurrence Recurrence { get;}
 
         FinancialEntity Source { get; }

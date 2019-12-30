@@ -33,10 +33,17 @@ namespace LearnUWP.ViewModels
             _userSessionManager = userSessionManager;
         }
 
+
         public void SetChoicesIfNeeded(Type financialEntityType)
         {
             if (Choices.Count == 0)
             {
+                _userSessionManager.PropertyChanged -= ResetChoices;
+                _userSessionManager.CurrentUserFinances.PropertyChanged -= ResetChoices;
+
+                _userSessionManager.PropertyChanged += ResetChoices;
+                _userSessionManager.CurrentUserFinances.PropertyChanged += ResetChoices;
+
                 foreach (var entity in _userSessionManager
                     .CurrentUserFinances
                     .GetEntities(financialEntityType))
@@ -44,6 +51,11 @@ namespace LearnUWP.ViewModels
                     Choices.Add(entity);
                 }
             }
+        }
+
+        private void ResetChoices(object sender, PropertyChangedEventArgs e)
+        {
+            Choices.Clear();
         }
     }
 }

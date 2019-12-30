@@ -16,19 +16,15 @@ namespace FinancialDucks.Services.ModelStorageServices
         public UserFinances Load(StorageService storageService, int id)
         {
             var userFinances = new UserFinances();
-           
-            foreach (var bankAccount in storageService.LoadModelsForUser<BankAccount>(id))
-                userFinances.AddEntity(bankAccount);
 
-            foreach (var paycheck in storageService.LoadModelsForUser<Paycheck>(id))
-                userFinances.AddEntity(paycheck);
+            userFinances.Add(storageService.LoadModelsForUser<BankAccount>(id));
 
-            foreach (var expense in storageService.LoadModelsForUser<GoodOrService>(id))
-                userFinances.AddEntity(expense);
+            userFinances.Add(storageService.LoadModelsForUser<Paycheck>(id));
 
-            foreach (var schedule in storageService.LoadModelsForUser<IncomeSchedule>(id))
-                userFinances.AddTransactionSchedule(schedule);
+            userFinances.Add(storageService.LoadModelsForUser<GoodOrService>(id));
 
+            userFinances.Add(storageService.LoadModelsForUser<IncomeSchedule>(id));
+        
             return userFinances;
         }
 

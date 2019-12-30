@@ -1,7 +1,8 @@
-﻿using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Views;
+﻿using FinancialDucks.Models;
+using FinancialDucks.Models.FinancialEntities;
 using LearnUWP.ViewModels;
 using LearnUWP.Views;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -49,7 +50,22 @@ namespace LearnUWP
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
             var dataContext = (e.OriginalSource as FrameworkElement).DataContext;
-            Frame.Navigate(typeof(AddBankAccount), dataContext);
+            Frame.Navigate(GetEditViewModelType(dataContext.GetType()), dataContext);
+        }
+
+        private Type GetEditViewModelType(Type modelType)
+        {
+            //todo, can we make automatic?
+            if (modelType == typeof(BankAccount))
+                return typeof(AddBankAccount);
+            
+            if (modelType == typeof(Paycheck))
+                return typeof(AddPaycheck);
+
+            if (modelType == typeof(GoodOrService))
+                return typeof(AddExpense);
+
+            throw new Exception($"There is no edit form defined for type {modelType}");
         }
     }
 }

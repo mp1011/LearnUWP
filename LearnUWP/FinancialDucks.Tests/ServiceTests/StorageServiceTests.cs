@@ -2,8 +2,10 @@
 using FinancialDucks.Data.Services;
 using FinancialDucks.IOC;
 using FinancialDucks.Models;
+using FinancialDucks.Models.Transactions;
 using FinancialDucks.Models.UserData;
 using FinancialDucks.Services;
+using FinancialDucks.Services.UserServices;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
@@ -68,6 +70,34 @@ namespace FinancialDucks.Tests.ServiceTests
             bankModels.Length.Should().BeGreaterThan(0);
             bankModels.Length.Should().Be(banksInDB.Length);
             bankModels.Max(p => p.ID).Should().Be(banksInDB.Max(p => p.ID));
+        }
+
+        [Test]
+        public void CanSavePaymentSchedule()
+        {
+            var storageService = IOCContainer.Resolve<StorageService>();
+
+            var sessionManager = IOCContainer.Resolve<IUserSessionManager>();
+            sessionManager.Login(-1);
+
+            var paymentSchedule = new PaymentSchedule(
+                id: 0,
+                bankAccount: sessionManager.CurrentUserFinances.BankAccounts.First(),
+                expense: sessionManager.CurrentUserFinances.Expenses.First(),
+                recurrenceType: RecurrenceType.Monthly,
+                amountType: AmountType.Percent,
+                amount: 1.0M,
+                description: "UNIT TEST",
+                firstDate: new DateTime(2019, 1, 1),
+                lastDate: new DateTime(2019, 12, 1),
+                recurrenceFactory: IOCContainer.Resolve<RecurrenceFactory>());
+
+            paymentSchedule = storageService.StoreModel(paymentSchedule);
+
+            paymentSchedule.ID.Should().BeGreaterThan(0);
+
+            var loaded = storageService.LoadModel<PaymentSchedule>(paymentSchedule.ID);
+            loaded.Should().NotBeNull();
         }
     }
 }

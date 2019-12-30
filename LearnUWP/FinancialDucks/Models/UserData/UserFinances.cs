@@ -2,15 +2,21 @@
 using FinancialDucks.Models.Transactions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace FinancialDucks.Models.UserData
 {
-    public class UserFinances
+    public class UserFinances : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private List<FinancialEntity> _userFinancialEntities = new List<FinancialEntity>();
 
         private List<ITransactionSchedule> _transactionSchedules = new List<ITransactionSchedule>();
+
+        public FinancialEntity[] FinancialEntities => _userFinancialEntities.ToArray();
+
 
         public BankAccount[] BankAccounts => _userFinancialEntities.OfType<BankAccount>().ToArray();
 
@@ -21,17 +27,32 @@ namespace FinancialDucks.Models.UserData
         public ITransactionSchedule[] TransactionSchedules => _transactionSchedules.ToArray();
 
 
-        public void AddEntity(FinancialEntity entity)
+        public void Add(params FinancialEntity[] entities)
         {
-            //todo - check if observables play nice
-            if (entity.ID > 0)
-                _userFinancialEntities.RemoveAll(p => p.ID == entity.ID && p.GetType() == entity.GetType());
-            _userFinancialEntities.Add(entity);
+            foreach (var entity in entities)
+            {
+                if (entity.ID > 0)
+                {
+                    _userFinancialEntities.RemoveAll(p => p.ID == entity.ID && p.GetType() == entity.GetType());
+                    _userFinancialEntities.Add(entity);
+                }
+            }
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FinancialEntities)));
         }
 
-        public void AddTransactionSchedule(ITransactionSchedule schedule)
+        public void Add(params ITransactionSchedule[] schedules)
         {
-            _transactionSchedules.Add(schedule);
+            foreach (var schedule in schedules)
+            {
+                if (schedule.ID > 0)
+                {
+                    _userFinancialEntities.RemoveAll(p => p.ID == schedule.ID && p.GetType() == schedule.GetType());
+                    _transactionSchedules.Add(schedule);
+                }
+            }
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransactionSchedules)));
         }
 
         public T TryGetEntity<T>(int ID)
@@ -52,7 +73,7 @@ namespace FinancialDucks.Models.UserData
         public IEnumerable<ITransactionSchedule> GetTransactionSchedulesFor(FinancialEntity entity)
         {
             return _transactionSchedules
-                .Where(p => p.Source == entity);
+                .Where(p => p.Source == entity || p.Destination == entity);
         }
     }
 }
