@@ -44,6 +44,7 @@ namespace LearnUWP.ViewModels
                 () =>
                 {
                     StorageService.DeleteModelAndDependencies<T>(_originalModel);
+                    SessionManager.CurrentUserFinances.ReloadRequired = true;
                     NavigationService.NavigateToMainPage();
                 }, 
                 keepTargetAlive: true);

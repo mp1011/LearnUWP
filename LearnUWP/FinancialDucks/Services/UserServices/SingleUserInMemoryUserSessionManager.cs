@@ -39,7 +39,23 @@ namespace FinancialDucks.Services.UserServices
         public void Login(int userID)
         {
             CurrentUserID = userID;
+            ReloadFinances();
+        }
+
+        private void ReloadFinances()
+        {
+            //is it safe to replace the object like this?
             CurrentUserFinances = _storageService.LoadModel<UserFinances>(CurrentUserID);
+            CurrentUserFinances.PropertyChanged += CurrentUserFinances_PropertyChanged;
+        }
+
+        private void CurrentUserFinances_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(UserFinances.ReloadRequired))
+            {
+                if(CurrentUserFinances.ReloadRequired)
+                    ReloadFinances();
+            }
         }
     }
 }

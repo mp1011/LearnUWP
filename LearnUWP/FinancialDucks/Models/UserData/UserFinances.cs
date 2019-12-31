@@ -26,6 +26,16 @@ namespace FinancialDucks.Models.UserData
 
         public ITransactionSchedule[] TransactionSchedules => _transactionSchedules.ToArray();
 
+        private bool _reloadRequired = false;
+        public bool ReloadRequired
+        {
+            get => _reloadRequired;
+            set
+            {
+                _reloadRequired = value;
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(ReloadRequired)));
+            }
+        }
 
         public void Add(params FinancialEntity[] entities)
         {

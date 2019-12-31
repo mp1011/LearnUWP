@@ -12,6 +12,10 @@ namespace FinancialDucks.Tests
         {
             OneConfig.Services.FileHelper.ApplicationDirectory = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
             DIRegistrar.RegisterTypes();
+
+            FixtureSetup();
         }
+
+        public virtual void FixtureSetup() { }
     }
 }

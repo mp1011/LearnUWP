@@ -15,16 +15,18 @@ namespace FinancialDucks.Data.Services
             _connectionProvider = connectionProvider;
         }
 
-        public void Upsert<T>(T model)
+        public T Upsert<T>(T model)
             where T:class,IWithID
         {
             using (var conn = _connectionProvider.CreateConnection())
             {
-                if(model.ID==0)
+                if (model.ID == 0)
                     model.ID = (int)conn.Insert(model);
                 else
                     conn.Update(model);
             }
+
+            return model;
         }
 
         public T[] Read<T>(string whereClause=null, object param=null)

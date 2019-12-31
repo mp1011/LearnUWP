@@ -12,6 +12,26 @@ namespace FinancialDucks.Tests.DataTests
 {
     public class DAOTests : TestBase
     {
+        public override void FixtureSetup()
+        {
+            var dao = IOCContainer.Resolve<DAO>();
+            dao.Upsert(new BankAccountDataModel
+            {
+                Name = "UNIT TEST" + Guid.NewGuid().ToString()
+            });
+
+            dao.Upsert(new PaycheckDataModel
+            {
+                CompanyName = "UNIT TEST",                
+            });
+
+            dao.Upsert(new ExpensesDataModel
+            {
+                Description = "UNIT TEST",
+            });
+
+        }
+
         [Test]
         public void ConnectionStringIsFullyResolved()
         {
@@ -39,9 +59,9 @@ namespace FinancialDucks.Tests.DataTests
                 .BeGreaterThan(0);
         }
 
-        [TestCase(typeof(BankAccountDataModel), "NAME like 'TEST%'")]
+        [TestCase(typeof(BankAccountDataModel), "NAME like 'UNIT TEST%'")]
         [TestCase(typeof(PaymentScheduleDataModel), "Description = 'UNIT TEST'")]
-        [TestCase(typeof(PaycheckDataModel), "CompanyName = 'TEST paycheck'")]
+        [TestCase(typeof(PaycheckDataModel), "CompanyName = 'UNIT TEST'")]
         public void CanDeleteModels(Type modelType, string where)
         {
             this.DynamicDispatch(nameof(CanDeleteModels), new Type[] { modelType }, new object[] { where });

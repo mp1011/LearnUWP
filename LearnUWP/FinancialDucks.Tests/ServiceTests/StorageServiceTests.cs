@@ -37,7 +37,7 @@ namespace FinancialDucks.Tests.ServiceTests
 
             var newBankAccount = new BankAccount(
                 id:0,
-                name: "TEST" + Guid.NewGuid().ToString(),
+                name: "UNIT TEST" + Guid.NewGuid().ToString(),
                 initialAmount: 1234.56M);
 
             var modelInDatabase = dao.Read<BankAccountDataModel>("Name=@Name", new { newBankAccount.Name }).SingleOrDefault();
