@@ -64,8 +64,5 @@ namespace FinancialDucks.Tests.ServiceTests
 
             monthlyTimeline[4].HighMark.Should().Be(22000);
         }
-
-
-
     }
 }

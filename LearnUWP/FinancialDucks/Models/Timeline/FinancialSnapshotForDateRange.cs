@@ -5,6 +5,8 @@ namespace FinancialDucks.Models.Timeline
 {
     public class FinancialSnapshotForDateRange
     {
+        public int Index { get; set; } //is there a better way?
+
         private FinancialSnapshotForDay[] _days;
 
         public DateRange DateRange { get; }
@@ -15,8 +17,9 @@ namespace FinancialDucks.Models.Timeline
 
         public decimal Average => _days.Average(p => p.Amount);
 
-        public FinancialSnapshotForDateRange(IEnumerable<FinancialSnapshotForDay> days, DateRange dateRange)
+        public FinancialSnapshotForDateRange(IEnumerable<FinancialSnapshotForDay> days, DateRange dateRange, int index)
         {
+            Index = index;
             _days = days.ToArray();
             DateRange = dateRange;
         }

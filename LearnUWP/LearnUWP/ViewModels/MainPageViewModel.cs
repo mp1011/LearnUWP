@@ -11,19 +11,16 @@ using System.Windows.Input;
 
 namespace LearnUWP.ViewModels
 {
-    public class MainPageViewModel : INotifyPropertyChanged
+    public class MainPageViewModel 
     {
         private readonly IUserSessionManager _sessionManager;
         private readonly TransactionService _transactionService;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<BankAccount> BankAccounts { get; private set; }
         public ObservableCollection<Paycheck> Paychecks { get; private set; }
         public ObservableCollection<GoodOrService> Expenses { get; private set; }
 
-        public ObservableCollection<FinancialSnapshotForDay> Timeline { get; private set; }
-
+    
         public MainPageViewModel(IUserSessionManager sessionManager, TransactionService transactionService)
         {
             _sessionManager = sessionManager;
@@ -37,20 +34,6 @@ namespace LearnUWP.ViewModels
             BankAccounts = new ObservableCollection<BankAccount>(userFinances.BankAccounts);
             Paychecks = new ObservableCollection<Paycheck>(userFinances.Paychecks);
             Expenses = new ObservableCollection<GoodOrService>(userFinances.Expenses);
-
-            //temporary
-            //var bank = BankAccounts.FirstOrDefault();
-            //if (bank != null)
-            //{
-            //    var history = _transactionService.CreateHistory(userFinances.TransactionSchedules);
-            //    var timeline = _transactionService.CreateTimeline(bank, history,
-            //        new DateRange(DateTime.Now, DateTime.Now.AddMonths(12)),
-            //        TimeSpan.FromDays(7));
-
-            //    Timeline = new ObservableCollection<FinancialSnapshot>(timeline);
-            //}
-            //else 
-                Timeline = new ObservableCollection<FinancialSnapshotForDay>();
         }
     }
 }

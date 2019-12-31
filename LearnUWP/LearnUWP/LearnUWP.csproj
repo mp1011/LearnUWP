@@ -135,6 +135,7 @@
     <Compile Include="ViewModels\EnumPickerViewModel.cs" />
     <Compile Include="ViewModels\FinancialEntityPickerViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="ViewModels\TimelineViewModel.cs" />
     <Compile Include="Views\AddBankAccount.xaml.cs">
       <DependentUpon>AddBankAccount.xaml</DependentUpon>
     </Compile>
@@ -149,6 +150,9 @@
     </Compile>
     <Compile Include="Views\FinancialEntityPicker.xaml.cs">
       <DependentUpon>FinancialEntityPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Timeline.xaml.cs">
+      <DependentUpon>Timeline.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +196,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FinancialEntityPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Timeline.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

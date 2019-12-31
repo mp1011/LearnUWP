@@ -32,6 +32,7 @@ namespace LearnUWP
                 c.AddSingleton<AddExpenseViewModel>();
                 c.AddSingleton<FinancialEntityPickerViewModel>();
                 c.AddSingleton<MainPageViewModel>();
+                c.AddSingleton<TimelineViewModel>();
             });
             this.Suspending += OnSuspending;
         }

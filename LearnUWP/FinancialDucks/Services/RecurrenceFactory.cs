@@ -1,6 +1,7 @@
 ﻿using FinancialDucks.Models;
 using FinancialDucks.Models.Recurences;
 using FinancialDucks.Models.Recurrences;
+using FinancialDucks.Models.Timeline;
 using System;
 
 namespace FinancialDucks.Services
@@ -49,6 +50,21 @@ namespace FinancialDucks.Services
                     return new DaysOfMonth(-1);
                 default:
                     throw new NotSupportedException($"Unsupported pay cycle: {payCycle}");
+            }
+        }
+
+        public IPeriod CreatePeriod(DateTime startDate, TimelineInterval interval)
+        {
+            switch (interval)
+            {
+                case TimelineInterval.Day:
+                    return new DailyRecurring();
+                case TimelineInterval.Month:
+                    return new DaysOfMonth(1);
+                case TimelineInterval.Week:
+                    return new WeekRecurring(1, startDate);
+                default:
+                    throw new NotSupportedException($"Unsupported interval: {interval}");
             }
         }
 

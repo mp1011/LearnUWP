@@ -24,7 +24,10 @@ namespace FinancialDucks.IOC
             serviceCollection.AddSingleton(typeof(DAO));
 
             serviceCollection.AddImplementationsOf<IModelStorageService>();
+            
             serviceCollection.AddSingleton(typeof(StorageService));
+            serviceCollection.AddSingleton(typeof(TransactionService));
+            serviceCollection.AddSingleton(typeof(TimelineService));
 
             registerTypes?.Invoke(serviceCollection);
 

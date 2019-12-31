@@ -22,6 +22,7 @@ namespace FinancialDucks.Services
 
         public IEnumerable<FinancialSnapshotForDateRange> CreateGroupedTimeline(IEnumerable<FinancialSnapshotForDay> dailySnapshots, IPeriod period)
         {
+            int index = 1;
             List<FinancialSnapshotForDay> daysForGroup = new List<FinancialSnapshotForDay>();
 
             DateTime rangeStart = DateTime.MinValue;
@@ -35,8 +36,11 @@ namespace FinancialDucks.Services
                 }
                 else
                 {
-                    if(rangeStart > DateTime.MinValue)
-                        yield return new FinancialSnapshotForDateRange(daysForGroup, new DateRange(rangeStart, rangeEnd));
+                    if (rangeStart > DateTime.MinValue)
+                    {
+                        yield return new FinancialSnapshotForDateRange(daysForGroup, new DateRange(rangeStart, rangeEnd),index);
+                        index++;
+                    }
 
                     daysForGroup.Clear();
                     rangeStart = snapshotForDay.Date;
@@ -46,7 +50,7 @@ namespace FinancialDucks.Services
             }
 
             if(daysForGroup.Any())
-                yield return new FinancialSnapshotForDateRange(daysForGroup, new DateRange(rangeStart, rangeEnd));
+                yield return new FinancialSnapshotForDateRange(daysForGroup, new DateRange(rangeStart, rangeEnd),index);
         }
     }
 }

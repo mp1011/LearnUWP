@@ -5,7 +5,7 @@
     xmlns:local="using:LearnUWP"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:LearnUWP.Models"
+    xmlns:views="using:LearnUWP.Views"
     DataContext="{Binding Source={StaticResource Locator}, Path=[MainPageViewModel]}"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -36,24 +36,15 @@
             </HyperlinkButton>
 
         </StackPanel>
-        <Frame 
+
+        <views:Timeline 
             Grid.Row="1"
             Grid.Column="1"
-            Background="LightBlue">
+            Background="LightBlue" />
 
-            <ListView ItemsSource="{x:Bind ViewModel.Timeline}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Amount}" Padding="0,0,20,0" />
-                            <TextBlock Text="{Binding Date}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-
-        </Frame>
-        <StackPanel Grid.Row="1" Grid.Column="0">
+        <StackPanel 
+            Grid.Row="1" 
+            Grid.Column="0">
             <ListView 
                 Header="Bank Accounts"
                 x:Name="BankAccountsList"
@@ -88,7 +79,6 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            
         </StackPanel>
         
     </Grid>

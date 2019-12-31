@@ -12,5 +12,13 @@ namespace FinancialDucks.Models
             StartDate = startDate;
             EndDate = endDate;
         }
+
+        public override string ToString()
+        {
+            if ((EndDate - StartDate).TotalHours <= 24)
+                return StartDate.ToShortDateString();
+            else
+                return $"{StartDate.ToShortDateString()} - {EndDate.ToShortDateString()}";
+        }
     }
 }

@@ -4,8 +4,6 @@ namespace FinancialDucks.Models.Recurrences
 {
     public class YearRecurring : IPeriod
     {
-        private int _weeks;
-
         private DateTime _firstDate;
 
         public YearRecurring(DateTime firstDate)
