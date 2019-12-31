@@ -1,8 +1,5 @@
-﻿using FinancialDucks.IOC;
-using FinancialDucks.Models;
-using FinancialDucks.Services.UserServices;
+﻿using FinancialDucks.Models;
 using LearnUWP.ViewModels;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -20,23 +17,11 @@ namespace LearnUWP.Views
         public AddBankAccount()
         {
             this.InitializeComponent();
-            CreateButton.Click += CreateButton_Click;
-            CancelButton.Click += CancelButton_Click;
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MainPage));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Initialize(e.Parameter as BankAccount);
-        }
-        private void CreateButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.SaveModel();
-            Frame.Navigate(typeof(MainPage));
         }
     }
 }

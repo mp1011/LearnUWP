@@ -56,6 +56,10 @@ namespace FinancialDucks.Services
                 .LoadAllForUser(this, userID);
         }
 
-        
+        public void DeleteModelAndDependencies<T>(T model)
+        {
+            GetStorageService<T>()
+                .DeleteModelAndDependencies(this, model);
+        }
     }
 }

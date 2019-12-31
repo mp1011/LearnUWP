@@ -45,5 +45,7 @@ namespace FinancialDucks.Services.ModelStorageServices
         }
 
         public abstract T CreateNew();
+
+        public abstract void DeleteModelAndDependencies(StorageService storageService, T model);
     }
 }

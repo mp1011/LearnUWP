@@ -12,6 +12,7 @@ namespace FinancialDucks.Services.ModelStorageServices
         T Store(StorageService storageService, T model);
         T[] LoadAllForUser(StorageService storageService, int userID);
         T Load(StorageService storageService, int id);
+        void DeleteModelAndDependencies(StorageService storageService, T model);
     }
 
 }

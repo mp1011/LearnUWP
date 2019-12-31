@@ -59,5 +59,10 @@ namespace FinancialDucks.Services.ModelStorageServices
                 RecurrenceTypeID = (int)model.RecurrenceType
             };
         }
+
+        public override void DeleteModelAndDependencies(StorageService storageService, PaymentSchedule model)
+        {
+            storageService.DAO.Delete<PaymentScheduleDataModel>("ID=@ID", new { model.ID });
+        }
     }
 }

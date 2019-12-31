@@ -30,10 +30,7 @@ namespace LearnUWP.Views
         public AddExpense()
         {
             this.InitializeComponent();
-            CreateButton.Click += CreateButton_Click;
-            CancelButton.Click += CancelButton_Click;
             this.DataContextChanged += AddExpense_DataContextChanged;
-
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -58,12 +55,6 @@ namespace LearnUWP.Views
                 else
                     PayDateLabel.Text = "First Payment Date:";
             }
-        }
-
-        private void CreateButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.SaveModel();
-            Frame.Navigate(typeof(MainPage));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

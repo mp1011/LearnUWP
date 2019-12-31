@@ -35,8 +35,18 @@
             <TextBlock>Withdraw from: $</TextBlock>
             <local:FinancialEntityPicker  DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.WithdrawalBank}"/>
         </StackPanel>
-        <Button Content="{x:Bind Path=ViewModel.SaveActionName}" x:Name="CreateButton"/>
-        <Button Content="Cancel" x:Name="CancelButton"/>
+        <Button 
+            Content="{x:Bind Path=ViewModel.SaveActionName}" 
+            Command="{x:Bind ViewModel.SaveCommand}"/>
+
+        <Button 
+            Visibility="{x:Bind Path=ViewModel.IsSavedModel, Converter={StaticResource BooleanToVisibility} }" 
+            Content="Delete" 
+            Command="{x:Bind ViewModel.DeleteCommand}"/>
+
+        <Button 
+            Content="Cancel" 
+            Command="{x:Bind ViewModel.CancelCommand}"/>
     </StackPanel>
     
 </Page>

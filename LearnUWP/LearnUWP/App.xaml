@@ -11,6 +11,7 @@
             <ioc:ViewModelLocator x:Key="Locator"/>
             <con:EnumToStringFormatter x:Key="EnumToStringFormatter"/>
             <con:TextToDecimal x:Key="TextToDecimal"/>
+            <con:BooleanToVisibility x:Key="BooleanToVisibility"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -25,5 +25,12 @@ namespace FinancialDucks.Services.ModelStorageServices
                 InitialAmount = model.InitialAmount
             };
         }
+
+        public override void DeleteModelAndDependencies(StorageService storageService, BankAccount model)
+        {
+            storageService.DAO.Delete<IncomeScheduleDataModel>("DepositBankID=@ID", new { model.ID });
+            storageService.DAO.Delete<PaymentScheduleDataModel>("BankAccountID=@ID", new { model.ID });
+            storageService.DAO.Delete<BankAccountDataModel>("ID=@ID", new { model.ID });
+        }
     }
 }

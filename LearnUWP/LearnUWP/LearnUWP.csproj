@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BooleanToVisibility.cs" />
     <Compile Include="Converters\TextToDecimal.cs" />
     <Compile Include="Converters\EnumToStringFormatter.cs" />
     <Compile Include="IOC\ViewModelLocator.cs" />
@@ -126,6 +127,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\NavigationService.cs" />
     <Compile Include="ViewModels\AddExpenseViewModel.cs" />
     <Compile Include="ViewModels\AddPaycheckViewModel.cs" />
     <Compile Include="ViewModels\AddBankAccountViewModel.cs" />

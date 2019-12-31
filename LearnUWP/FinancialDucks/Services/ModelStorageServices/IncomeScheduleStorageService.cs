@@ -50,5 +50,10 @@ namespace FinancialDucks.Services.ModelStorageServices
                 LastPaymentDate = model.LastDate
             };
         }
+
+        public override void DeleteModelAndDependencies(StorageService storageService, IncomeSchedule model)
+        {
+            storageService.DAO.Delete<IncomeScheduleDataModel>("ID=@ID", new { model.ID });
+        }
     }
 }

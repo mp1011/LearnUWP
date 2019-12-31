@@ -4,6 +4,7 @@ using FinancialDucks.Models.Transactions;
 using FinancialDucks.Services;
 using FinancialDucks.Services.ModelStorageServices;
 using FinancialDucks.Services.UserServices;
+using LearnUWP.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -89,8 +90,8 @@ namespace LearnUWP.ViewModels
         }
 
         public AddPaycheckViewModel(PayCheckStorageService payCheckStorageService, IncomeScheduleStorageService incomeScheduleStorageService,
-            IUserSessionManager sessionManager, StorageService storageService, RecurrenceFactory dateService)
-            : base(sessionManager,storageService)
+            IUserSessionManager sessionManager, StorageService storageService, NavigationService navigationService, RecurrenceFactory dateService)
+            : base(sessionManager,storageService, navigationService)
         {
             _payCheckStorageService = payCheckStorageService;
             _incomeScheduleStorageService = incomeScheduleStorageService;

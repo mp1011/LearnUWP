@@ -38,5 +38,10 @@ namespace FinancialDucks.Services.ModelStorageServices
             //not needed
             return model;            
         }
+
+        public void DeleteModelAndDependencies(StorageService storageService, UserFinances model)
+        {
+            //not needed
+        }
     }
 }

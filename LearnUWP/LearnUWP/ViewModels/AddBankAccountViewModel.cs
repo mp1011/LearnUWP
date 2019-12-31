@@ -3,6 +3,7 @@ using FinancialDucks.Models;
 using FinancialDucks.Services;
 using FinancialDucks.Services.ModelStorageServices;
 using FinancialDucks.Services.UserServices;
+using LearnUWP.Services;
 
 namespace LearnUWP.ViewModels
 {
@@ -23,8 +24,8 @@ namespace LearnUWP.ViewModels
         }
 
         public AddBankAccountViewModel(BankAccountStorageService bankAccountStorageService,
-            IUserSessionManager userSessionManager, StorageService storageService)
-            :base(userSessionManager,storageService)
+            IUserSessionManager userSessionManager, StorageService storageService, NavigationService navigationService)
+            :base(userSessionManager,storageService, navigationService)
         {
             _bankAccountStorageService = bankAccountStorageService;
         }

@@ -99,5 +99,45 @@ namespace FinancialDucks.Tests.ServiceTests
             var loaded = storageService.LoadModel<PaymentSchedule>(paymentSchedule.ID);
             loaded.Should().NotBeNull();
         }
+
+        [Test]
+        public void CanDeletePaycheckAndSchedule()
+        {
+            var storageService = IOCContainer.Resolve<StorageService>();
+            var sessionManager = IOCContainer.Resolve<IUserSessionManager>();
+            var dao = IOCContainer.Resolve<DAO>();
+
+            sessionManager.Login(-1);
+
+            var paycheck = storageService.StoreModel(new Paycheck(0, "TEST", 0));
+            var bank = sessionManager.CurrentUserFinances.BankAccounts.First();
+
+            var paySchedule = storageService.StoreModel(
+                new IncomeSchedule(0, paycheck, bank, PayCycle.FirstOfTheMonth, new DateTime(2019, 1, 1), new DateTime(2019, 12, 1),
+                IOCContainer.Resolve<RecurrenceFactory>()));
+
+            dao.Read<PaycheckDataModel>("ID=@ID", new { paycheck.ID })
+                .Length
+                .Should()
+                .BeGreaterThan(0);
+
+            dao.Read<IncomeScheduleDataModel>("PaycheckID=@ID", new { paycheck.ID })
+                .Length
+                .Should()
+                .BeGreaterThan(0);
+
+            storageService.DeleteModelAndDependencies(paycheck);
+
+            dao.Read<PaycheckDataModel>("ID=@ID", new { paycheck.ID })
+                .Length
+                .Should()
+                .Be(0);
+
+            dao.Read<IncomeScheduleDataModel>("PaycheckID=@ID", new { paycheck.ID })
+                 .Length
+                 .Should()
+                 .Be(0);
+        }
     }
+
 }

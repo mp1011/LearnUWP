@@ -30,19 +30,6 @@ namespace LearnUWP.Views
         public AddPaycheck()
         {
             this.InitializeComponent();
-            CreateButton.Click += CreateButton_Click;
-            CancelButton.Click += CancelButton_Click;
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MainPage));
-        }
-
-        private void CreateButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.SaveModel();
-            Frame.Navigate(typeof(MainPage));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

@@ -41,6 +41,7 @@ namespace FinancialDucks.Tests.DataTests
 
         [TestCase(typeof(BankAccountDataModel), "NAME like 'TEST%'")]
         [TestCase(typeof(PaymentScheduleDataModel), "Description = 'UNIT TEST'")]
+        [TestCase(typeof(PaycheckDataModel), "CompanyName = 'TEST paycheck'")]
         public void CanDeleteModels(Type modelType, string where)
         {
             this.DynamicDispatch(nameof(CanDeleteModels), new Type[] { modelType }, new object[] { where });

@@ -1,5 +1,6 @@
 ﻿using FinancialDucks.IOC;
 using FinancialDucks.Services.UserServices;
+using LearnUWP.Services;
 using LearnUWP.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -25,6 +26,7 @@ namespace LearnUWP
             this.InitializeComponent();
             DIRegistrar.RegisterTypes(c =>
             {
+                c.AddSingleton<NavigationService>();
                 c.AddSingleton<AddBankAccountViewModel>();
                 c.AddSingleton<AddPaycheckViewModel>();
                 c.AddSingleton<AddExpenseViewModel>();

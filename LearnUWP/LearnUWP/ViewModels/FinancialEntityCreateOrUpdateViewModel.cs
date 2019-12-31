@@ -1,7 +1,10 @@
 ﻿using FinancialDucks.Models;
 using FinancialDucks.Services;
 using FinancialDucks.Services.UserServices;
+using GalaSoft.MvvmLight.Command;
+using LearnUWP.Services;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace LearnUWP.ViewModels
 {
@@ -13,19 +16,52 @@ namespace LearnUWP.ViewModels
         protected IUserSessionManager SessionManager { get; }
         protected StorageService StorageService { get; }
 
+        protected NavigationService NavigationService { get; }
+
         private T _originalModel;
 
         public string SaveActionName => _originalModel.ID > 0 ? "Save" : "Create";
-     
+
+        public bool IsSavedModel => _originalModel.ID > 0;
+
         protected void InvokePropertyChange(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public FinancialEntityCreateOrUpdateViewModel(IUserSessionManager sessionManager, StorageService storageService)
+        public ICommand DeleteCommand { get; }
+        public ICommand CancelCommand { get; }
+        public ICommand SaveCommand { get; }
+
+        public FinancialEntityCreateOrUpdateViewModel(IUserSessionManager sessionManager, 
+            StorageService storageService, NavigationService navigationService)
         {
             SessionManager = sessionManager;
             StorageService = storageService;
+            NavigationService = navigationService;
+
+            DeleteCommand = new RelayCommand(
+                () =>
+                {
+                    StorageService.DeleteModelAndDependencies<T>(_originalModel);
+                    NavigationService.NavigateToMainPage();
+                }, 
+                keepTargetAlive: true);
+
+            CancelCommand = new RelayCommand(
+                () =>
+                {
+                    NavigationService.NavigateToMainPage();
+                },
+                keepTargetAlive: true);
+
+            SaveCommand = new RelayCommand(
+               () =>
+               {
+                   SaveModel();
+                   NavigationService.NavigateToMainPage();
+               },
+               keepTargetAlive: true);
         }
 
         public void Initialize(T model)
@@ -38,5 +74,7 @@ namespace LearnUWP.ViewModels
         protected abstract void SetDataModels(T model);
 
         public abstract T SaveModel();
+
+
     }
 }
