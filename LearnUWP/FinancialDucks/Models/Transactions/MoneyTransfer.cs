@@ -12,11 +12,11 @@ namespace FinancialDucks.Models.Transactions
             Amount = amount;
         }
 
-        public override FinancialSnapshot[] Apply(decimal sourceAmount, decimal destinationAmount)
+        public override FinancialSnapshotForDay[] Apply(decimal sourceAmount, decimal destinationAmount)
         {
-            return new FinancialSnapshot[]
+            return new FinancialSnapshotForDay[]
             {
-                new FinancialSnapshot(Destination, destinationAmount + Amount, Date)
+                new FinancialSnapshotForDay(Destination, destinationAmount + Amount, Date)
             };
         }
     }

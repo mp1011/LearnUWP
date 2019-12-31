@@ -7,11 +7,11 @@ namespace FinancialDucks.Models.Timeline
 {
     public class FinancialHistory
     {
-        private List<FinancialSnapshot> _snapshots = new List<FinancialSnapshot>();
+        private List<FinancialSnapshotForDay> _snapshots = new List<FinancialSnapshotForDay>();
 
-        public FinancialSnapshot[] Snapshots => _snapshots.ToArray();
+        public FinancialSnapshotForDay[] Snapshots => _snapshots.ToArray();
 
-        public FinancialSnapshot GetSnapshotOnDate(FinancialEntity entity, DateTime date)
+        public FinancialSnapshotForDay GetSnapshotOnDate(FinancialEntity entity, DateTime date)
         {
             var mostRecent = _snapshots
                .Where(p => p.Entity == entity && p.Date <= date)
@@ -19,9 +19,9 @@ namespace FinancialDucks.Models.Timeline
                .LastOrDefault();
 
             if (mostRecent == null)
-                return new FinancialSnapshot(entity, entity.InitialAmount, date);
+                return new FinancialSnapshotForDay(entity, entity.InitialAmount, date);
             else
-                return mostRecent;
+                return new FinancialSnapshotForDay(entity, mostRecent.Amount, date);
         }
 
         public decimal GetLatestAmountFor(FinancialEntity entity, DateTime date)
@@ -37,7 +37,7 @@ namespace FinancialDucks.Models.Timeline
                 return mostRecent.Amount;
         }
 
-        public void AddSnapshots(IEnumerable<FinancialSnapshot> snapshots)
+        public void AddSnapshots(IEnumerable<FinancialSnapshotForDay> snapshots)
         {
             _snapshots.AddRange(snapshots);
         }

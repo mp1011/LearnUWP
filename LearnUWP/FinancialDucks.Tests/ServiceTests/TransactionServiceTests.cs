@@ -18,7 +18,7 @@ namespace FinancialDucks.Tests.ServiceTests
         public void CanAddMoneyToBankAccountOverTime()
         {
             var recurrenceFactory = new RecurrenceFactory();
-            var bankAccount = new BankAccount(0,"My Bank",0);
+            var bankAccount = new BankAccount(0, "My Bank", 0);
             var paycheck = new Paycheck(0, "My Job", 1000);
 
             var depositPaycheck = new IncomeSchedule(0, paycheck, bankAccount, PayCycle.FirstOfTheMonth, new DateTime(2019, 1, 1), new DateTime(2019, 12, 1), recurrenceFactory);
@@ -46,7 +46,7 @@ namespace FinancialDucks.Tests.ServiceTests
         public void CanAddMoneyToBankAccountOverTimeWithPayIncrease()
         {
             var recurrenceFactory = new RecurrenceFactory();
-      
+
             var bankAccount = new BankAccount(0, "My Bank", 0);
             var paycheck = new Paycheck(0, "My Job", 1000);
 
@@ -82,9 +82,9 @@ namespace FinancialDucks.Tests.ServiceTests
         {
             var bankAccount = new BankAccount(0, "My Bank", 5000);
             var dateService = new RecurrenceFactory();
-            
+
             var purchase = new GoodOrService(0, "New TV", -400);
-      
+
             var transactionService = new TransactionService();
             var history = new FinancialHistory();
             transactionService.ProcessTransactions(history, new FinancialTransaction[]
@@ -101,33 +101,5 @@ namespace FinancialDucks.Tests.ServiceTests
                 .Be(4600);
         }
 
-
-
-        [Test]
-        public void CanCreateDailyTimeline()
-        {
-            var recurrenceFactory = new RecurrenceFactory();
-         
-            var bankAccount = new BankAccount(0, "My Bank", 0);
-            var paycheck = new Paycheck(0, "My Job", 1000);
-
-            var depositPaycheck = new IncomeSchedule(0, paycheck, bankAccount, PayCycle.Weekly, new DateTime(2019,1,1), new DateTime(2019, 12, 1), recurrenceFactory);
-
-            var transactionService = new TransactionService();
-            var history = new FinancialHistory();
-
-            transactionService.ProcessTransactions(history, depositPaycheck);
-
-            var timeline = transactionService
-                .CreateTimeline(bankAccount, history, new DateRange(new DateTime(2019, 1, 1), new DateTime(2019, 2, 1)), TimeSpan.FromDays(1))
-                .ToArray();
-
-            timeline.Length.Should().Be(32);
-            timeline[0].Amount.Should().Be(1000);
-            timeline[6].Amount.Should().Be(1000);
-            timeline[7].Amount.Should().Be(2000);
-            timeline[13].Amount.Should().Be(2000);
-            timeline[14].Amount.Should().Be(3000);
-        }
     }
 }

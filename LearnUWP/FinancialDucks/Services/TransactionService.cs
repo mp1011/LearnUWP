@@ -58,16 +58,5 @@ namespace FinancialDucks.Services
                 history.AddSnapshots(newSnapshots);
             }
         }
-
-        public IEnumerable<FinancialSnapshot> CreateTimeline(FinancialEntity entity, FinancialHistory history, DateRange range, TimeSpan timeBetweenSnapshots )
-        {
-            var date = range.StartDate;
-
-            while (date <= range.EndDate)
-            {
-                yield return history.GetSnapshotOnDate(entity, date);
-                date = date + timeBetweenSnapshots;
-            }
-        }
     }
 }

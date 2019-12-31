@@ -22,7 +22,7 @@ namespace LearnUWP.ViewModels
         public ObservableCollection<Paycheck> Paychecks { get; private set; }
         public ObservableCollection<GoodOrService> Expenses { get; private set; }
 
-        public ObservableCollection<FinancialSnapshot> Timeline { get; private set; }
+        public ObservableCollection<FinancialSnapshotForDay> Timeline { get; private set; }
 
         public MainPageViewModel(IUserSessionManager sessionManager, TransactionService transactionService)
         {
@@ -50,7 +50,7 @@ namespace LearnUWP.ViewModels
             //    Timeline = new ObservableCollection<FinancialSnapshot>(timeline);
             //}
             //else 
-                Timeline = new ObservableCollection<FinancialSnapshot>();
+                Timeline = new ObservableCollection<FinancialSnapshotForDay>();
         }
     }
 }

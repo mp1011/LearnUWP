@@ -12,12 +12,12 @@ namespace FinancialDucks.Models.Transactions
             Percent = percent;
         }
 
-        public override FinancialSnapshot[] Apply(decimal sourceAmount, decimal destinationAmount)
+        public override FinancialSnapshotForDay[] Apply(decimal sourceAmount, decimal destinationAmount)
         {
             var transferAmount = sourceAmount * Percent;
-            return new FinancialSnapshot[]
+            return new FinancialSnapshotForDay[]
             {
-                new FinancialSnapshot(Destination, destinationAmount + transferAmount, Date)
+                new FinancialSnapshotForDay(Destination, destinationAmount + transferAmount, Date)
             };
         }
     }

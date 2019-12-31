@@ -17,6 +17,6 @@ namespace FinancialDucks.Models.Transactions
             Date = date;
         }
 
-        public abstract FinancialSnapshot[] Apply(decimal sourceAmount, decimal destinationAmount);
+        public abstract FinancialSnapshotForDay[] Apply(decimal sourceAmount, decimal destinationAmount);
     }
 }
