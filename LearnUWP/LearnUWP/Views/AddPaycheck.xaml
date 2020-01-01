@@ -25,11 +25,11 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock>Pay Schedule: </TextBlock>
-            <local:EnumPicker DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.PayCycle}"/>
+            <local:EnumPicker Name="PaySchedulePicker" DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.PayCycle}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock>Deposit to: $</TextBlock>
-            <local:FinancialEntityPicker  DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.DepositBank}"/>
+            <TextBlock>Deposit to: </TextBlock>
+            <local:FinancialEntityPicker x:Name="DepositBankPicker" DataContext="{x:Bind ViewModel.DepositBank,Mode=TwoWay}"/>
         </StackPanel>
         <Button 
             Content="{x:Bind Path=ViewModel.SaveActionName}" 

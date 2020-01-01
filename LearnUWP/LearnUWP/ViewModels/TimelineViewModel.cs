@@ -34,8 +34,11 @@ namespace LearnUWP.ViewModels
             get => _start;
             set
             {
-                _start = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RangeStart)));
+                if (_start != value)
+                {
+                    _start = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RangeStart)));
+                }
             }
         }
 
@@ -45,8 +48,11 @@ namespace LearnUWP.ViewModels
             get => _end;
             set
             {
-                _end = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RangeEnd)));
+                if (_end != value)
+                {
+                    _end = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RangeEnd)));
+                }
             }
         }
 
@@ -57,8 +63,11 @@ namespace LearnUWP.ViewModels
             get => _interval;
             set
             {
-                _interval = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimelineInterval)));
+                if (_interval != value)
+                {
+                    _interval = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimelineInterval)));
+                }
             }
         }
 

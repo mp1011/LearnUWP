@@ -10,21 +10,17 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <StackPanel>
-        <TextBlock>Add Paycheck</TextBlock>
+        <TextBlock>Add Expense</TextBlock>
         <StackPanel Orientation="Horizontal">
             <TextBlock>Description:</TextBlock>
             <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.Description}"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock>Amount Type: </TextBlock>
-            <local:EnumPicker DataContext="{x:Bind Mode=TwoWay, Path=ViewModel.AmountType}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock>Amount: $</TextBlock>
             <TextBox Text="{x:Bind Mode=TwoWay, Converter={StaticResource TextToDecimal}, Path=ViewModel.Amount}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock>Recurrence: $</TextBlock>
+            <TextBlock>Recurrence: </TextBlock>
             <local:EnumPicker DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.RecurrenceType}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">

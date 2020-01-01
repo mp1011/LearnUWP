@@ -18,5 +18,18 @@
             Name = name;
             InitialAmount = initialAmount;
         }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is FinancialEntity other)
+                return ID == other.ID && GetType() == other.GetType();
+            else 
+                return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return ID;
+        }
     }
 }

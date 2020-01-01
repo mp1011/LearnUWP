@@ -21,7 +21,7 @@ namespace FinancialDucks.Services.ModelStorageServices
             return new PaycheckDataModel
             {
                 ID = model.ID,
-                CompanyName = model.Name,
+                CompanyName = model.CompanyName,
                 InitialAmount = model.InitialAmount
             };
         }

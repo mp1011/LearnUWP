@@ -133,7 +133,12 @@ namespace LearnUWP.ViewModels
 
             _payScheduleDataModel = _paymentScheduleStorageService.ToDataModel(StorageService, paymentSchedule);
 
-            WithdrawalBank = paymentSchedule.Source ?? SessionManager.CurrentUserFinances.BankAccounts.First();
+            RecurrenceType = paymentSchedule.RecurrenceType;
+
+            if (paymentSchedule.Source.ID > 0)
+                WithdrawalBank = paymentSchedule.Source;
+            else
+                WithdrawalBank = SessionManager.CurrentUserFinances.BankAccounts.First();
         }
 
         public override GoodOrService SaveModel()

@@ -105,6 +105,7 @@ namespace LearnUWP.ViewModels
                 _incomeScheduleStorageService.CreateNew();
 
             _incomeScheduleDataModel = _incomeScheduleStorageService.ToDataModel(StorageService, incomeSchedule);
+
             DepositBank = incomeSchedule.Destination ?? SessionManager.CurrentUserFinances.BankAccounts.First();
         }
 

@@ -3,6 +3,7 @@ using FinancialDucks.Services.UserServices;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 
 namespace LearnUWP.ViewModels
 {
@@ -50,6 +51,9 @@ namespace LearnUWP.ViewModels
                 {
                     Choices.Add(entity);
                 }
+
+                if (SelectedValue != null)
+                    SelectedValue = Choices.FirstOrDefault(p => p.Equals(SelectedValue));
             }
         }
 

@@ -9,15 +9,18 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <ComboBox 
+    <StackPanel>
+        <ComboBox 
             x:Name="Picker"
             ItemsSource="{x:Bind ViewModel.Choices}"
-            SelectedValue="{x:Bind ViewModel.SelectedValue}"
+            SelectedItem="{x:Bind ViewModel.SelectedValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     >
-        <ComboBox.ItemTemplate>
-            <DataTemplate>
-                <TextBlock Text="{Binding Converter={StaticResource EnumToStringFormatter} }" />
-            </DataTemplate>
-        </ComboBox.ItemTemplate>
-    </ComboBox>
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource EnumToStringFormatter} }" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </StackPanel>
+    
 </UserControl>

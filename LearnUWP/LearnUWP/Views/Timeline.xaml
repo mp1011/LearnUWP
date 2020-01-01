@@ -12,49 +12,62 @@
 
     <StackPanel>
         <StackPanel Orientation="Horizontal">
-            <DatePicker Date="{x:Bind ViewModel.RangeStart}"/>
-            <DatePicker Date="{x:Bind ViewModel.RangeEnd}"></DatePicker>
-            <local:EnumPicker DataContext="{x:Bind ViewModel.TimelineInterval}"/>
+            <DatePicker Date="{x:Bind ViewModel.RangeStart, Mode=TwoWay}"/>
+            <DatePicker Date="{x:Bind ViewModel.RangeEnd, Mode=TwoWay}"></DatePicker>
+            <local:EnumPicker DataContext="{x:Bind ViewModel.TimelineInterval, Mode=TwoWay}"/>
             <local:FinancialEntityPicker  DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.BankAccount}"/>
-            <Button Content="Recalculate" Command="{x:Bind ViewModel.RecalculateCommand}"/>
+            <Button Content="Calculate" Command="{x:Bind ViewModel.RecalculateCommand}"/>
         </StackPanel>
+        
+        
+        <ListView ItemsSource="{x:Bind ViewModel.Timeline}">
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                    <Grid Background="Aquamarine">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
 
-        <Grid>
-            <GridView ItemsSource="{x:Bind ViewModel.Timeline}">
-                <GridView.HeaderTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0">Date</TextBlock>
-                            <TextBlock Grid.Row="0" Grid.Column="1">High</TextBlock>
-                            <TextBlock Grid.Row="0" Grid.Column="2">Low</TextBlock>
-                            <TextBlock Grid.Row="0" Grid.Column="3">Average</TextBlock>
-                        </Grid>
-                    </DataTemplate>
-                </GridView.HeaderTemplate>
-                <GridView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Background="Red">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding DateRange}"/>
-                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding HighMark}"/>
-                            <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding LowMark}"/>
-                            <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Average}"/>
-                        </Grid>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
-        </Grid>
+                        <TextBlock Grid.Row="0" Grid.Column="0">Date</TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="1">High</TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="2">Low</TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="3">Average</TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding DateRange}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding HighMark, Converter={StaticResource MoneyFormatter} }"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding LowMark, Converter={StaticResource MoneyFormatter} }"/>
+                        <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Average, Converter={StaticResource MoneyFormatter} }"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
     </StackPanel>
 
 </UserControl>

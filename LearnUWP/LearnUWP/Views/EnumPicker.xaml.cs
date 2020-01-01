@@ -1,4 +1,5 @@
-﻿using LearnUWP.ViewModels;
+﻿using FinancialDucks.Models;
+using LearnUWP.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,30 +21,25 @@ namespace LearnUWP.Views
 {
     public sealed partial class EnumPicker : UserControl
     {
-        public EnumPickerViewModel ViewModel { get; } = new EnumPickerViewModel();
+        public EnumPickerViewModel ViewModel { get; }
 
         public EnumPicker()
         {
+            ViewModel = new EnumPickerViewModel();
             this.InitializeComponent();
             this.DataContextChanged += EnumPicker_DataContextChanged;
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-            Picker.SelectionChanged += Picker_SelectionChanged;
-        }
-
-        private void Picker_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ViewModel.SelectedValue = Picker.SelectedValue;
         }
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(ViewModel.SelectedValue))
+            if (ViewModel.SelectedValue != null && e.PropertyName == nameof(ViewModel.SelectedValue))
                 DataContext = ViewModel.SelectedValue;
         }
 
         private void EnumPicker_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            if(DataContext.GetType().IsEnum)
+            if (DataContext != null && DataContext.GetType().IsEnum)
             {
                 ViewModel.SelectedValue = DataContext;
                 ViewModel.SetChoices(DataContext);

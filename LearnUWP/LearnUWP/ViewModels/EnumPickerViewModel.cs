@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FinancialDucks.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,9 +14,9 @@ namespace LearnUWP.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<object> Choices { get; } = new ObservableCollection<object>();
+        public ObservableCollection<PayCycle> Choices { get; } = new ObservableCollection<PayCycle>();
 
-        private object _selectedValue;
+        private object _selectedValue = string.Empty;
         public object SelectedValue
         {
             get => _selectedValue;
@@ -35,7 +36,7 @@ namespace LearnUWP.ViewModels
             {
                 foreach (var enumValue in Enum.GetValues(choice.GetType()))
                 {
-                    Choices.Add(enumValue);
+                    Choices.Add((PayCycle)enumValue);
                 }
             }
         }

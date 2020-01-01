@@ -30,7 +30,7 @@ namespace LearnUWP
                 c.AddSingleton<AddBankAccountViewModel>();
                 c.AddSingleton<AddPaycheckViewModel>();
                 c.AddSingleton<AddExpenseViewModel>();
-                c.AddSingleton<FinancialEntityPickerViewModel>();
+                c.AddTransient<FinancialEntityPickerViewModel>();
                 c.AddSingleton<MainPageViewModel>();
                 c.AddSingleton<TimelineViewModel>();
             });

@@ -12,6 +12,7 @@
             <con:EnumToStringFormatter x:Key="EnumToStringFormatter"/>
             <con:TextToDecimal x:Key="TextToDecimal"/>
             <con:BooleanToVisibility x:Key="BooleanToVisibility"/>
+            <con:MoneyFormatter x:Key="MoneyFormatter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

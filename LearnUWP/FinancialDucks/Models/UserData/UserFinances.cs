@@ -57,7 +57,7 @@ namespace FinancialDucks.Models.UserData
             {
                 if (schedule.ID > 0)
                 {
-                    _userFinancialEntities.RemoveAll(p => p.ID == schedule.ID && p.GetType() == schedule.GetType());
+                    _transactionSchedules.RemoveAll(p => p.ID == schedule.ID && p.GetType() == schedule.GetType());
                     _transactionSchedules.Add(schedule);
                 }
             }
@@ -83,7 +83,7 @@ namespace FinancialDucks.Models.UserData
         public IEnumerable<ITransactionSchedule> GetTransactionSchedulesFor(FinancialEntity entity)
         {
             return _transactionSchedules
-                .Where(p => p.Source == entity || p.Destination == entity);
+                .Where(p => p.Source.Equals(entity) || p.Destination.Equals(entity));
         }
     }
 }

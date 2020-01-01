@@ -12,7 +12,7 @@
     <ComboBox 
             x:Name="Picker"
             ItemsSource="{x:Bind ViewModel.Choices}"
-            SelectedValue="{x:Bind ViewModel.SelectedValue}"
+            SelectedValue="{x:Bind ViewModel.SelectedValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     >
         <ComboBox.ItemTemplate>
             <DataTemplate>
