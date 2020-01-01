@@ -151,6 +151,9 @@
     <Compile Include="Views\EnumPicker.xaml.cs">
       <DependentUpon>EnumPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Field.xaml.cs">
+      <DependentUpon>Field.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FinancialEntityPicker.xaml.cs">
       <DependentUpon>FinancialEntityPicker.xaml</DependentUpon>
     </Compile>
@@ -195,6 +198,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EnumPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Field.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

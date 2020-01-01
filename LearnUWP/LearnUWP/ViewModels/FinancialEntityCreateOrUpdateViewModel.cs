@@ -11,6 +11,7 @@ namespace LearnUWP.ViewModels
     public abstract class FinancialEntityCreateOrUpdateViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public UIValidationService UIValidations { get; protected set; }
 
         public abstract ValidationResult[] Validate();
 
@@ -29,6 +30,7 @@ namespace LearnUWP.ViewModels
         protected ValidationService ValidationService { get; }
         protected NavigationService NavigationService { get; }
 
+      
         private T _originalModel;
 
         public string SaveActionName => _originalModel.ID > 0 ? "Save" : "Create";
@@ -46,6 +48,7 @@ namespace LearnUWP.ViewModels
             StorageService = storageService;
             ValidationService = validationService;
             NavigationService = navigationService;
+            UIValidations = new UIValidationService(this);
 
             DeleteCommand = new RelayCommand(
                 () =>

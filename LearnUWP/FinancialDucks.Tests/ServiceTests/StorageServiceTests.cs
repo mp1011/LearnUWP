@@ -109,7 +109,7 @@ namespace FinancialDucks.Tests.ServiceTests
 
             sessionManager.Login(-1);
 
-            var paycheck = storageService.StoreModel(new Paycheck(0, "TEST", 0));
+            var paycheck = storageService.StoreModel(new Paycheck(0, "TEST", 100));
             var bank = sessionManager.CurrentUserFinances.BankAccounts.First();
 
             var paySchedule = storageService.StoreModel(

@@ -1,10 +1,6 @@
 ﻿using LearnUWP.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 namespace LearnUWP.Services
@@ -22,12 +18,12 @@ namespace LearnUWP.Services
 
         public bool HasNoErrors { get; private set; }
 
-        public UIValidationService(FinancialEntityCreateOrUpdateViewModel viewModel, ResourceDictionary resources)
+        public UIValidationService(FinancialEntityCreateOrUpdateViewModel viewModel)
         {
             StyleFor = new Dictionary<string, Style>();
             ErrorTextFor = new Dictionary<string, string>();
 
-            _errorStyle = resources["ErrorStyle"] as Style;
+            _errorStyle = Application.Current.Resources["ErrorStyle"] as Style;
             _viewModel = viewModel;
             _viewModel.PropertyChanged += _viewModel_PropertyChanged;
 

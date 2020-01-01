@@ -158,7 +158,7 @@ namespace LearnUWP.ViewModels
 
         public override ValidationResult[] Validate()
         {
-            throw new NotImplementedException();
+            return ValidationService.ValidateModel(_dataModel ?? new ExpensesDataModel());
         }
     }
 }

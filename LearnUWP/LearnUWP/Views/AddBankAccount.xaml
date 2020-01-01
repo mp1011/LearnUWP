@@ -9,29 +9,18 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Page.Resources>
-        <Style x:Key="ErrorStyle" TargetType="StackPanel">
-            <Style.Setters>
-                <Setter Property="Background" Value="Yellow"/>
-            </Style.Setters>
-        </Style>
-        <Style x:Key="ValidationMessage" TargetType="TextBlock">
-            <Style.Setters>
-                <Setter Property="Foreground" Value="Red"/>
-            </Style.Setters>
-        </Style>
-    </Page.Resources>
     
     <StackPanel>
         <TextBlock>Add Bank Account</TextBlock>
-        <StackPanel Orientation="Horizontal" Style="{x:Bind UIValidation.StyleFor['Name'], Mode=OneWay}">
-            <TextBlock>Name of Bank:</TextBlock>
-            <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.BankAccountName}"/>
-            <TextBlock Style="{StaticResource ValidationMessage}" Text="{x:Bind UIValidation.ErrorTextFor['Name'], Mode=OneWay}"  />
-        </StackPanel>
+
+        <local:Field Label="Name of Bank" DataFieldName="Name">
+            <local:Field.FieldContent>
+                <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.BankAccountName}"/>
+            </local:Field.FieldContent>
+        </local:Field>
         
         <Button 
-            IsEnabled="{x:Bind UIValidation.HasNoErrors, Mode=OneWay}"
+            IsEnabled="{x:Bind ViewModel.UIValidations.HasNoErrors, Mode=OneWay}"
             Content="{x:Bind Path=ViewModel.SaveActionName}" 
             Command="{x:Bind ViewModel.SaveCommand}"/>
         

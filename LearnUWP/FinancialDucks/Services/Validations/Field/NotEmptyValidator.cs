@@ -1,6 +1,6 @@
 ﻿using FinancialDucks.Models;
 
-namespace FinancialDucks.Services.Validations
+namespace FinancialDucks.Services.Validations.Field
 {
     public class NotEmptyValidator<TModel> : FieldValidator<TModel,string>
     {

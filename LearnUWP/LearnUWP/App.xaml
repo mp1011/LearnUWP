@@ -13,6 +13,18 @@
             <con:TextToDecimal x:Key="TextToDecimal"/>
             <con:BooleanToVisibility x:Key="BooleanToVisibility"/>
             <con:MoneyFormatter x:Key="MoneyFormatter"/>
+
+            <Style x:Key="ErrorStyle" TargetType="StackPanel">
+                <Style.Setters>
+                    <Setter Property="Background" Value="Yellow"/>
+                </Style.Setters>
+            </Style>
+            <Style x:Key="ValidationMessage" TargetType="TextBlock">
+                <Style.Setters>
+                    <Setter Property="Foreground" Value="Red"/>
+                </Style.Setters>
+            </Style>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

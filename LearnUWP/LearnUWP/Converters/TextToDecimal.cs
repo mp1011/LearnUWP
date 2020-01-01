@@ -21,7 +21,7 @@ namespace LearnUWP.Converters
                 if (decimal.TryParse(text, out decimalValue))
                     return decimalValue;
                 else
-                    return 0d;
+                    return 0M;
             }
             else
                 return value.ToString();

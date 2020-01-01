@@ -11,27 +11,39 @@
 
     <StackPanel>
         <TextBlock>Add Expense</TextBlock>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock>Description:</TextBlock>
-            <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.Description}"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock>Amount: $</TextBlock>
-            <TextBox Text="{x:Bind Mode=TwoWay, Converter={StaticResource TextToDecimal}, Path=ViewModel.Amount}"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock>Recurrence: </TextBlock>
-            <local:EnumPicker x:Name="RecurrencePicker" DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.RecurrenceType}"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock x:Name="PayDateLabel">First Pay Date: $</TextBlock>
-            <DatePicker Date="{x:Bind Mode=TwoWay, Path=ViewModel.FirstPayDate}"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock>Withdraw from: $</TextBlock>
-            <local:FinancialEntityPicker  DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.WithdrawalBank}"/>
-        </StackPanel>
+
+        <local:Field Label="Description" DataFieldName="Description">
+            <local:Field.FieldContent>
+                <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.Description}"/>
+            </local:Field.FieldContent>
+        </local:Field>
+
+        <local:Field Label="Amount" DataFieldName="InitialAmount">
+            <local:Field.FieldContent>
+                <TextBox Text="{x:Bind Mode=TwoWay, Converter={StaticResource TextToDecimal}, Path=ViewModel.Amount}"/>
+            </local:Field.FieldContent>
+        </local:Field>
+
+        <local:Field Label="Recurrence">
+            <local:Field.FieldContent>
+                <local:EnumPicker x:Name="RecurrencePicker" DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.RecurrenceType}"/>
+            </local:Field.FieldContent>
+        </local:Field>
+
+        <local:Field Label="First Pay Date">
+            <local:Field.FieldContent>
+                <DatePicker Date="{x:Bind Mode=TwoWay, Path=ViewModel.FirstPayDate}"/>
+            </local:Field.FieldContent>
+        </local:Field>
+
+        <local:Field Label="Withdraw from">
+            <local:Field.FieldContent>
+                <local:FinancialEntityPicker  DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.WithdrawalBank}"/>
+            </local:Field.FieldContent>
+        </local:Field>
+
         <Button 
+            IsEnabled="{x:Bind ViewModel.UIValidations.HasNoErrors, Mode=OneWay}"
             Content="{x:Bind Path=ViewModel.SaveActionName}" 
             Command="{x:Bind ViewModel.SaveCommand}"/>
 

@@ -11,27 +11,61 @@ namespace FinancialDucks.Tests.ServiceTests
 {
     public class ValidationServiceTests : TestBase
     {
-        [Test]
-        public void BankAccountNameCantBeEmpty()
+        [TestCase(null,"Name can not be blank")]
+        [TestCase("", "Name can not be blank")]
+        [TestCase("something", null)]
+
+        public void CanValidateBankAccountName(string name, string expectedMessage)
         {
             var validationService = IOCContainer.Resolve<ValidationService>();
 
-            var bank = new BankAccountDataModel();
+            var bank = new BankAccountDataModel { Name = name };
 
             var result = validationService.ValidateModel(bank)
-                .Where(v => !v.IsValid)
+                .Where(v => v.PropertyName == nameof(BankAccountDataModel.Name))
                 .SingleOrDefault();
 
             result.Should().NotBeNull();
-            result.Message.Should().Be("Name can not be blank");
-
-            bank.Name = "anything";
-            result = validationService.ValidateModel(bank)
-               .Where(v => !v.IsValid)
-               .SingleOrDefault();
-
-            result.Should().BeNull();
+            result.Message.Should().Be(expectedMessage);
         }
+
+        [TestCase(null, "CompanyName can not be blank")]
+        [TestCase("", "CompanyName can not be blank")]
+        [TestCase("something", null)]
+
+        public void CanValidatePaycheckCompanyName(string name, string expectedMessage)
+        {
+            var validationService = IOCContainer.Resolve<ValidationService>();
+
+            var bank = new PaycheckDataModel { CompanyName = name };
+
+            var result = validationService.ValidateModel(bank)
+                .Where(v => v.PropertyName == nameof(PaycheckDataModel.CompanyName))
+                .SingleOrDefault();
+
+            result.Should().NotBeNull();
+            result.Message.Should().Be(expectedMessage);
+        }
+
+
+        [TestCase(0, "InitialAmount must be greater than $0")]
+        [TestCase(-10, "InitialAmount must be greater than $0")]
+        [TestCase(0.01, null)]
+
+        public void CanValidatePaycheckAmount(decimal amount, string expectedMessage)
+        {
+            var validationService = IOCContainer.Resolve<ValidationService>();
+
+            var bank = new PaycheckDataModel { CompanyName = "anything", InitialAmount = amount };
+
+            var result = validationService.ValidateModel(bank)
+                .Where(v => v.PropertyName == nameof(PaycheckDataModel.InitialAmount))
+                .SingleOrDefault();
+
+            result.Should().NotBeNull();
+            result.Message.Should().Be(expectedMessage);
+        }
+
 
         [Test]
         public void CannotSaveBankAccountWithEmptyName()

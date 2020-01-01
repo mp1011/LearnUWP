@@ -1,5 +1,6 @@
 ﻿using FinancialDucks.Models;
 using FinancialDucks.Models.FinancialEntities;
+using LearnUWP.Services;
 using LearnUWP.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -26,35 +27,14 @@ namespace LearnUWP.Views
     public sealed partial class AddExpense : Page
     {
         public AddExpenseViewModel ViewModel => DataContext as AddExpenseViewModel;
-
         public AddExpense()
         {
-            this.InitializeComponent();
-            this.DataContextChanged += AddExpense_DataContextChanged;
+            InitializeComponent();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage));
-        }
-
-        private void AddExpense_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-        {
-            if (ViewModel != null)
-            {
-                ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-            }
-        }
-
-        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(ViewModel.RecurrenceType))
-            {
-                if (ViewModel.RecurrenceType == RecurrenceType.OneTime)
-                    PayDateLabel.Text = "Payment Date:";
-                else
-                    PayDateLabel.Text = "First Payment Date:";
-            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
