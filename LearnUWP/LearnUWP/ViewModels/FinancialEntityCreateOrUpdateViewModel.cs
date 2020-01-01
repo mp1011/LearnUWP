@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace LearnUWP.ViewModels
 {
-    public abstract class FinancialEntityCreateOrUpdateViewModel<T> : INotifyPropertyChanged
+    public abstract class FinancialEntityCreateOrUpdateViewModel<T> : INotifyPropertyChanged, IDataErrorInfo
         where T : FinancialEntity
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -76,6 +76,20 @@ namespace LearnUWP.ViewModels
 
         public abstract T SaveModel();
 
+        #region Validation 
+
+        public string Error => null;
+
+        public string this[string columnName]
+        {
+            get
+            {
+                return "You done goofed";
+            }
+        }
+
+
+        #endregion
 
     }
 }

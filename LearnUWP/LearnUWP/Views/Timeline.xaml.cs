@@ -12,18 +12,12 @@ namespace LearnUWP.Views
         public Timeline()
         {
             this.InitializeComponent();
-            this.Loaded += Timeline_Loaded;
             Loading += Timeline_Loading;
         }
 
         private void Timeline_Loading(FrameworkElement sender, object args)
         {
             ViewModel.Initialize();
-        }
-
-        private void Timeline_Loaded(object sender, RoutedEventArgs e)
-        {
-           
         }
     }
 }

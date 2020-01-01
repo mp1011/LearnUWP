@@ -9,13 +9,18 @@ namespace FinancialDucks.Services
     public class StorageService
     {
         private readonly IModelStorageService[] _modelStorageServices;
+        
+        internal ValidationService ValidationService { get; }
+
         internal DAO DAO { get; }
 
         public StorageService(
             DAO dao,
+            ValidationService validationService,
             IModelStorageService[] modelStorageServices)
         {
             DAO = dao;
+            ValidationService = validationService;
             _modelStorageServices = modelStorageServices;
         }
 

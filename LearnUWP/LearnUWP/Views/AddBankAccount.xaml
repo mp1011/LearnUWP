@@ -9,6 +9,14 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <Style x:Key="ErrorStyle" TargetType="StackPanel">
+            <Style.Setters>
+                <Setter Property="Background" Value="Yellow"/>
+            </Style.Setters>
+        </Style>    
+    </Page.Resources>
+    
     <StackPanel>
         <TextBlock>Add Bank Account</TextBlock>
         <StackPanel Orientation="Horizontal">

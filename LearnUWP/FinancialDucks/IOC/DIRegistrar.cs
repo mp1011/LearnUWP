@@ -2,6 +2,8 @@
 using FinancialDucks.Services;
 using FinancialDucks.Services.ModelStorageServices;
 using FinancialDucks.Services.UserServices;
+using FinancialDucks.Services.Validations;
+using FinancialDucks.Services.Validations.Model;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -23,6 +25,9 @@ namespace FinancialDucks.IOC
             serviceCollection.AddSingleton(typeof(IConnectionProvider), typeof(ConnectionFromAppSettingsProvider));
             serviceCollection.AddSingleton(typeof(DAO));
 
+            serviceCollection.AddImplementationsOf<IModelValidator>();
+            serviceCollection.AddSingleton(typeof(ValidationService));
+          
             serviceCollection.AddImplementationsOf<IModelStorageService>();
             
             serviceCollection.AddSingleton(typeof(StorageService));

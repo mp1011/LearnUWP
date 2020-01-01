@@ -1,5 +1,6 @@
 ﻿using FinancialDucks.Data.Interfaces;
 using FinancialDucks.Data.Services;
+using FinancialDucks.Models;
 using System;
 using System.Linq;
 
@@ -29,6 +30,12 @@ namespace FinancialDucks.Services.ModelStorageServices
         public T Store(StorageService storageService, T model)
         {
             var dataModel = ToDataModel(storageService, model);
+
+            storageService
+                .ValidationService
+                .ValidateModel(dataModel)
+                .ThrowErrorIfInvalid();
+
             storageService.DAO.Upsert(dataModel);
 
             return storageService.LoadModel<T>(dataModel.ID);

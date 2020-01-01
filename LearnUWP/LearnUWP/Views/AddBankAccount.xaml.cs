@@ -1,5 +1,9 @@
 ﻿using FinancialDucks.Models;
 using LearnUWP.ViewModels;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -16,7 +20,7 @@ namespace LearnUWP.Views
 
         public AddBankAccount()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
