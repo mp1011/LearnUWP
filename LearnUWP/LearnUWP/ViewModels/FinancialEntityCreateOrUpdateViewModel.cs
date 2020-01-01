@@ -8,14 +8,25 @@ using System.Windows.Input;
 
 namespace LearnUWP.ViewModels
 {
-    public abstract class FinancialEntityCreateOrUpdateViewModel<T> : INotifyPropertyChanged, IDataErrorInfo
-        where T : FinancialEntity
+    public abstract class FinancialEntityCreateOrUpdateViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public abstract ValidationResult[] Validate();
+
+        protected void InvokePropertyChange(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    public abstract class FinancialEntityCreateOrUpdateViewModel<T> : FinancialEntityCreateOrUpdateViewModel
+        where T : FinancialEntity
+    {
+       
         protected IUserSessionManager SessionManager { get; }
         protected StorageService StorageService { get; }
-
+        protected ValidationService ValidationService { get; }
         protected NavigationService NavigationService { get; }
 
         private T _originalModel;
@@ -24,20 +35,16 @@ namespace LearnUWP.ViewModels
 
         public bool IsSavedModel => _originalModel.ID > 0;
 
-        protected void InvokePropertyChange(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public ICommand DeleteCommand { get; }
         public ICommand CancelCommand { get; }
         public ICommand SaveCommand { get; }
 
         public FinancialEntityCreateOrUpdateViewModel(IUserSessionManager sessionManager, 
-            StorageService storageService, NavigationService navigationService)
+            StorageService storageService, ValidationService validationService, NavigationService navigationService)
         {
             SessionManager = sessionManager;
             StorageService = storageService;
+            ValidationService = validationService;
             NavigationService = navigationService;
 
             DeleteCommand = new RelayCommand(
@@ -76,20 +83,6 @@ namespace LearnUWP.ViewModels
 
         public abstract T SaveModel();
 
-        #region Validation 
-
-        public string Error => null;
-
-        public string this[string columnName]
-        {
-            get
-            {
-                return "You done goofed";
-            }
-        }
-
-
-        #endregion
 
     }
 }

@@ -24,8 +24,8 @@ namespace LearnUWP.ViewModels
         }
 
         public AddBankAccountViewModel(BankAccountStorageService bankAccountStorageService,
-            IUserSessionManager userSessionManager, StorageService storageService, NavigationService navigationService)
-            :base(userSessionManager,storageService, navigationService)
+            IUserSessionManager userSessionManager, StorageService storageService, ValidationService validationService, NavigationService navigationService)
+            :base(userSessionManager,storageService, validationService, navigationService)
         {
             _bankAccountStorageService = bankAccountStorageService;
         }
@@ -41,6 +41,11 @@ namespace LearnUWP.ViewModels
             var savedModel = _bankAccountStorageService.Store(StorageService, newBankAccount);
             SessionManager.CurrentUserFinances.Add(savedModel);
             return savedModel;
+        }
+
+        public override ValidationResult[] Validate()
+        {
+            return ValidationService.ValidateModel(_dataModel ?? new BankAccountDataModel());
         }
     }
 }

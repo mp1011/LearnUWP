@@ -117,8 +117,8 @@ namespace LearnUWP.ViewModels
         }
 
         public AddExpenseViewModel(IUserSessionManager sessionManager, StorageService storageService, NavigationService navigationService, RecurrenceFactory dateService,
-            ExpenseStorageService expenseStorageService, PaymentScheduleStorageService paymentScheduleStorageService) 
-            :base(sessionManager,storageService,navigationService)
+            ExpenseStorageService expenseStorageService, PaymentScheduleStorageService paymentScheduleStorageService, ValidationService validationService) 
+            :base(sessionManager,storageService, validationService, navigationService)
         {
             _expenseStorageService = expenseStorageService;
             _paymentScheduleStorageService = paymentScheduleStorageService;
@@ -154,6 +154,11 @@ namespace LearnUWP.ViewModels
             SessionManager.CurrentUserFinances.Add(paySchedule);
 
             return expense;
+        }
+
+        public override ValidationResult[] Validate()
+        {
+            throw new NotImplementedException();
         }
     }
 }

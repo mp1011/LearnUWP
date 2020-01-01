@@ -1,4 +1,5 @@
 ﻿using FinancialDucks.Models;
+using LearnUWP.Services;
 using LearnUWP.ViewModels;
 using System;
 using System.Collections;
@@ -18,9 +19,12 @@ namespace LearnUWP.Views
     {
         public AddBankAccountViewModel ViewModel => DataContext as AddBankAccountViewModel;
 
+        public UIValidationService UIValidation { get; }
+
         public AddBankAccount()
         {
             InitializeComponent();
+            UIValidation = new UIValidationService(ViewModel, Resources);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

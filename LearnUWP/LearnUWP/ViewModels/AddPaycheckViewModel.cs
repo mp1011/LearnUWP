@@ -90,8 +90,8 @@ namespace LearnUWP.ViewModels
         }
 
         public AddPaycheckViewModel(PayCheckStorageService payCheckStorageService, IncomeScheduleStorageService incomeScheduleStorageService,
-            IUserSessionManager sessionManager, StorageService storageService, NavigationService navigationService, RecurrenceFactory dateService)
-            : base(sessionManager,storageService, navigationService)
+            IUserSessionManager sessionManager, StorageService storageService, NavigationService navigationService, ValidationService validationService, RecurrenceFactory dateService)
+            : base(sessionManager,storageService, validationService, navigationService)
         {
             _payCheckStorageService = payCheckStorageService;
             _incomeScheduleStorageService = incomeScheduleStorageService;
@@ -125,6 +125,10 @@ namespace LearnUWP.ViewModels
             SessionManager.CurrentUserFinances.Add(paySchedule);
 
             return paycheck;
+        }
+        public override ValidationResult[] Validate()
+        {
+            throw new NotImplementedException();
         }
     }
 }
