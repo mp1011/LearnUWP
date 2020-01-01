@@ -1,4 +1,5 @@
 ﻿using FinancialDucks.Models;
+using LearnUWP.Services;
 using LearnUWP.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,15 @@ namespace LearnUWP.Views
         public EnumPicker()
         {
             ViewModel = new EnumPickerViewModel();
-            this.InitializeComponent();
-            this.DataContextChanged += EnumPicker_DataContextChanged;
+            InitializeComponent();
+            DataContextChanged += EnumPicker_DataContextChanged;
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+            Picker.SelectionChanged += Picker_SelectionChanged;
+        }
+
+        private void Picker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.DebugWrite($"set picker value to {Picker.SelectedValue}");
         }
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -43,6 +50,7 @@ namespace LearnUWP.Views
             {
                 ViewModel.SelectedValue = DataContext;
                 ViewModel.SetChoices(DataContext);
+                this.DebugWrite($"set choices based on {DataContext.DescribeWithType()} : {ViewModel.Choices.Describe()} ");
             }
         }
     }

@@ -24,7 +24,9 @@ namespace FinancialDucks.Services.ModelStorageServices
             userFinances.Add(storageService.LoadModelsForUser<GoodOrService>(id));
 
             userFinances.Add(storageService.LoadModelsForUser<IncomeSchedule>(id));
-        
+
+            userFinances.Add(storageService.LoadModelsForUser<PaymentSchedule>(id));
+
             return userFinances;
         }
 

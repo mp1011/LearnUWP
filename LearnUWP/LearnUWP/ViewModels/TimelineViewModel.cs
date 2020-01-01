@@ -57,7 +57,7 @@ namespace LearnUWP.ViewModels
         }
 
 
-        private TimelineInterval _interval = TimelineInterval.Day;
+        private TimelineInterval _interval = TimelineInterval.Month;
         public TimelineInterval TimelineInterval
         {
             get => _interval;
@@ -98,7 +98,7 @@ namespace LearnUWP.ViewModels
             RecalculateCommand = new RelayCommand(RecalculateTimeline, keepTargetAlive: true);
 
             RangeStart = DateTimeOffset.Now;
-            RangeEnd = DateTimeOffset.Now.AddDays(7);
+            RangeEnd = DateTimeOffset.Now.AddYears(1);
         }
 
         public ICommand RecalculateCommand { get; }
@@ -127,8 +127,7 @@ namespace LearnUWP.ViewModels
         
         public void Initialize()
         {
-            BankAccount = BankAccount ?? _userSessionManager.CurrentUserFinances.BankAccounts.First();
-            RecalculateTimeline();
+            BankAccount = BankAccount ?? _userSessionManager.CurrentUserFinances.BankAccounts.Last();
         }
     }
 }

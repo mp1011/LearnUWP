@@ -21,7 +21,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock>Recurrence: </TextBlock>
-            <local:EnumPicker DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.RecurrenceType}"/>
+            <local:EnumPicker x:Name="RecurrencePicker" DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.RecurrenceType}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock x:Name="PayDateLabel">First Pay Date: $</TextBlock>

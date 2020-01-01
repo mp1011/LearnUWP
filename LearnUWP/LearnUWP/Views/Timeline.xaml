@@ -15,7 +15,7 @@
             <DatePicker Date="{x:Bind ViewModel.RangeStart, Mode=TwoWay}"/>
             <DatePicker Date="{x:Bind ViewModel.RangeEnd, Mode=TwoWay}"></DatePicker>
             <local:EnumPicker DataContext="{x:Bind ViewModel.TimelineInterval, Mode=TwoWay}"/>
-            <local:FinancialEntityPicker  DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.BankAccount}"/>
+            <local:FinancialEntityPicker x:Name="BankAccountPicker"  DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.BankAccount}"/>
             <Button Content="Calculate" Command="{x:Bind ViewModel.RecalculateCommand}"/>
         </StackPanel>
         

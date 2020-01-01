@@ -106,7 +106,10 @@ namespace LearnUWP.ViewModels
 
             _incomeScheduleDataModel = _incomeScheduleStorageService.ToDataModel(StorageService, incomeSchedule);
 
-            DepositBank = incomeSchedule.Destination ?? SessionManager.CurrentUserFinances.BankAccounts.First();
+            if (incomeSchedule.Destination?.ID > 0)
+                DepositBank = incomeSchedule.Destination;
+            else 
+                DepositBank = SessionManager.CurrentUserFinances.BankAccounts.First();
         }
 
         public override Paycheck SaveModel()

@@ -1,6 +1,8 @@
 ﻿using FinancialDucks.IOC;
 using FinancialDucks.Models;
+using LearnUWP.Services;
 using LearnUWP.ViewModels;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -15,9 +17,15 @@ namespace LearnUWP.Views
         public FinancialEntityPicker()
         {
             ViewModel = IOCContainer.Resolve<FinancialEntityPickerViewModel>(); //constructor injection would be nice...
-            this.InitializeComponent();
-            this.DataContextChanged += FinancialEntityPicker_DataContextChanged;
-            ViewModel.PropertyChanged += ViewModel_PropertyChanged; 
+            InitializeComponent();
+            DataContextChanged += FinancialEntityPicker_DataContextChanged;
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+            Picker.SelectionChanged += Picker_SelectionChanged;
+        }
+
+        private void Picker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.DebugWrite($"set picker value to {Picker.SelectedValue}");
         }
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -32,6 +40,7 @@ namespace LearnUWP.Views
             {
                 ViewModel.SelectedValue = entity;
                 ViewModel.SetChoicesIfNeeded(entity.GetType());
+                this.DebugWrite($"set choices based on {DataContext.DescribeWithType()} : {ViewModel.Choices.Describe()} ");
             }
         }
     }
