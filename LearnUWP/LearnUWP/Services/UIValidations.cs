@@ -5,7 +5,7 @@ using Windows.UI.Xaml;
 
 namespace LearnUWP.Services
 {
-    public class UIValidationService : INotifyPropertyChanged
+    public class UIValidations : INotifyPropertyChanged
     {
         private readonly Style _errorStyle;
          
@@ -18,7 +18,7 @@ namespace LearnUWP.Services
 
         public bool HasNoErrors { get; private set; }
 
-        public UIValidationService(FinancialEntityCreateOrUpdateViewModel viewModel)
+        public UIValidations(FinancialEntityCreateOrUpdateViewModel viewModel)
         {
             StyleFor = new Dictionary<string, Style>();
             ErrorTextFor = new Dictionary<string, string>();

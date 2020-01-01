@@ -10,10 +10,10 @@
     d:DesignWidth="400">
 
     <Grid>
-        <StackPanel Orientation="Horizontal" Style="{x:Bind FieldStyle, Mode=OneWay}">
+        <StackPanel Orientation="Horizontal" Style="{x:Bind ViewModel.FieldStyle, Mode=OneWay}">
             <TextBlock Text="{x:Bind Label}"/>
             <ContentControl Content="{x:Bind FieldContent, Mode=OneTime}" />
-            <TextBlock Style="{StaticResource ValidationMessage}" Text="{x:Bind ErrorText, Mode=OneWay}"  />
+            <TextBlock Style="{StaticResource ValidationMessage}" Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"  />
         </StackPanel>
     </Grid>
 </UserControl>

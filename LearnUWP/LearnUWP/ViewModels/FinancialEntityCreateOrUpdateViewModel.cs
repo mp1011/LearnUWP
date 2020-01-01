@@ -11,7 +11,7 @@ namespace LearnUWP.ViewModels
     public abstract class FinancialEntityCreateOrUpdateViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public UIValidationService UIValidations { get; protected set; }
+        public UIValidations UIValidations { get; protected set; }
 
         public abstract ValidationResult[] Validate();
 
@@ -48,7 +48,7 @@ namespace LearnUWP.ViewModels
             StorageService = storageService;
             ValidationService = validationService;
             NavigationService = navigationService;
-            UIValidations = new UIValidationService(this);
+            UIValidations = new UIValidations(this);
 
             DeleteCommand = new RelayCommand(
                 () =>

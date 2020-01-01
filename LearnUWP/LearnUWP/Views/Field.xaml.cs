@@ -8,15 +8,11 @@ using Windows.UI.Xaml.Controls;
 
 namespace LearnUWP.Views
 {
-    public sealed partial class Field : UserControl, INotifyPropertyChanged
+    public sealed partial class Field : UserControl
     {
-        public UIValidationService UIValidation { get; private set; }
-
-        public Style FieldStyle => DataFieldName == null ? null : UIValidation.StyleFor[DataFieldName];
-
-        public string ErrorText => DataFieldName == null ? null : UIValidation.ErrorTextFor[DataFieldName];
-
         public Control FieldContent { get; set; }
+
+        public FieldViewModel ViewModel { get; private set; }
 
         public string DataFieldName
         {
@@ -34,7 +30,7 @@ namespace LearnUWP.Views
               nameof(DataFieldName),
               typeof(string),
               typeof(Field),
-              new PropertyMetadata(null)
+              new PropertyMetadata(null)            
             );
 
         public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(
@@ -44,8 +40,6 @@ namespace LearnUWP.Views
               new PropertyMetadata(null)
             );
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public Field()
         {
             InitializeComponent();
@@ -54,19 +48,11 @@ namespace LearnUWP.Views
 
         private void Field_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            if (UIValidation == null && DataContext is FinancialEntityCreateOrUpdateViewModel viewModel)
+            if (ViewModel == null && DataContext is FinancialEntityCreateOrUpdateViewModel viewModel)
             {
-                UIValidation = viewModel.UIValidations;
-                UIValidation.PropertyChanged += UIValidation_PropertyChanged;
+                ViewModel = new FieldViewModel(viewModel);
+                ViewModel.DataFieldName = DataFieldName;
             }
-        }
-
-        private void UIValidation_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            //inefficient
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FieldStyle)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ErrorText)));
-
         }
     }
 }
