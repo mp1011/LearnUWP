@@ -26,15 +26,15 @@ namespace LearnUWP.ViewModels
             }
         }
 
-        private string _errorTest;
+        private string _errorText;
         public string ErrorText
         {
-            get => _errorTest;
+            get => _errorText;
             set
             {
-                if (_errorTest != value)
+                if (_errorText != value)
                 {
-                    _errorTest = value;
+                    _errorText = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ErrorText)));
                 }
             }
@@ -48,6 +48,14 @@ namespace LearnUWP.ViewModels
 
         private void UIValidations_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            FieldStyle = DataFieldName == null ? null : UIValidations.StyleFor[DataFieldName];
+            ErrorText = DataFieldName == null ? null : UIValidations.ErrorTextFor[DataFieldName];
+        }
+
+        public void Initialize()
+        {
+            _errorText = null;
+            _fieldStyle = null;
             FieldStyle = DataFieldName == null ? null : UIValidations.StyleFor[DataFieldName];
             ErrorText = DataFieldName == null ? null : UIValidations.ErrorTextFor[DataFieldName];
         }

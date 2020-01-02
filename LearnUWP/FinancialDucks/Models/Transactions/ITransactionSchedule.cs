@@ -11,6 +11,8 @@ namespace FinancialDucks.Models.Transactions
         FinancialEntity Source { get; }
 
         FinancialEntity Destination { get; }
+
+        FinancialTransaction CreateTransfer(DateTime date);
     }
 
     public abstract class TransactionSchedule<TSource,TDestination> : ITransactionSchedule
@@ -29,6 +31,8 @@ namespace FinancialDucks.Models.Transactions
 
         FinancialEntity ITransactionSchedule.Destination => Destination;
 
+        public abstract FinancialTransaction CreateTransfer(DateTime date);
+
         public TransactionSchedule(int id, TSource source, TDestination destination, Recurrence recurrence)
         {
             ID = id;
@@ -36,6 +40,8 @@ namespace FinancialDucks.Models.Transactions
             Destination = destination;
             Recurrence = recurrence;
         }
+
+        
     
     }
 }

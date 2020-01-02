@@ -37,5 +37,20 @@ namespace FinancialDucks.Models.Transactions
                 lastDate,
                 recurrenceFactory.CreatePeriod(firstDate, recurrenceType));
         }
+
+        public override FinancialTransaction CreateTransfer(DateTime date)
+        {
+            //todo, make more polymorphic
+            if (AmountType == AmountType.Exact)
+            {
+                return new MoneyTransfer(Source, Destination, date, Amount);
+            }
+            else if (AmountType == AmountType.Percent)
+            {
+                return new PercentTransfer(Source, Destination, date, Amount, false, true, false);
+            }
+            else
+                throw new ArgumentException($"Unexpected amount type {AmountType}");
+        }
     }
 }

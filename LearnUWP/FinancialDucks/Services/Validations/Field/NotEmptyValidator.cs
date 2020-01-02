@@ -13,7 +13,7 @@ namespace FinancialDucks.Services.Validations.Field
 
         protected override ValidationResult Validate(string fieldValue)
         {
-            if (string.IsNullOrEmpty(fieldValue))
+            if (string.IsNullOrEmpty(fieldValue) || string.IsNullOrWhiteSpace(fieldValue))
                 return ValidationResult.Invalid(PropertyName, $"{PropertyName} can not be blank");
             else
                 return ValidationResult.OK(PropertyName);

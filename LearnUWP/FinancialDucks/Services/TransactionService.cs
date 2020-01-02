@@ -16,13 +16,7 @@ namespace FinancialDucks.Services
             var transactions = transactionSchedules
                 .SelectMany(ts =>
                     ts.Recurrence.GetDates()
-                    .Select(date => new PercentTransfer
-                    (
-                          source: ts.Source,
-                          destination: ts.Destination,
-                          date: date,
-                          percent: 1.0M
-                    )
+                    .Select(date => ts.CreateTransfer(date)
                 ))
                 .ToArray();
 
@@ -35,13 +29,7 @@ namespace FinancialDucks.Services
             var transactions = transactionSchedule
                 .Recurrence
                 .GetDates()
-                .Select(date => new PercentTransfer
-                (
-                    source: transactionSchedule.Source,
-                    destination: transactionSchedule.Destination,
-                    date: date,
-                    percent: 1.0M
-                ));
+                .Select(date => transactionSchedule.CreateTransfer(date));
 
             ProcessTransactions(history, transactions);
         }

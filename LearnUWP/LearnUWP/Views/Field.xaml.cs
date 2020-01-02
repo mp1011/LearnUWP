@@ -44,6 +44,12 @@ namespace LearnUWP.Views
         {
             InitializeComponent();
             DataContextChanged += Field_DataContextChanged;
+            this.Loading += Field_Loading;
+        }
+
+        private void Field_Loading(FrameworkElement sender, object args)
+        {
+            ViewModel?.Initialize();
         }
 
         private void Field_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)

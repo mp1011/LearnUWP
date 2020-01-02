@@ -7,17 +7,14 @@ namespace FinancialDucks.Models.Transactions
         public decimal Amount { get; }
 
         public MoneyTransfer(FinancialEntity source, FinancialEntity destination, DateTime date, decimal amount)
-            : base(source, destination, date)
+            : base(source, destination, date, true,true)
         {
             Amount = amount;
         }
 
-        public override FinancialSnapshotForDay[] Apply(decimal sourceAmount, decimal destinationAmount)
+        protected override decimal GetAmountToTransfer(decimal sourceAmount, decimal destinationAmount)
         {
-            return new FinancialSnapshotForDay[]
-            {
-                new FinancialSnapshotForDay(Destination, destinationAmount + Amount, Date)
-            };
+            return Amount;
         }
     }
 }

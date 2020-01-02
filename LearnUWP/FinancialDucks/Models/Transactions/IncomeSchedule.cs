@@ -27,5 +27,19 @@ namespace FinancialDucks.Models.Transactions
                 lastDate,
                 recurrenceFactory.CreatePeriod(firstDate, payCycle));
         }
+
+        public override FinancialTransaction CreateTransfer(DateTime date)
+        {
+            return new PercentTransfer
+            (
+                source: Source,
+                destination: Destination,
+                date: date,
+                percent: 1.0M,
+                isPercentOfSource: true,
+                addToDestination: true,
+                subtractFromSource: false
+            );
+        }
     }
 }

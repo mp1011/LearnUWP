@@ -56,6 +56,8 @@ namespace LearnUWP.Services
 
             HasNoErrors = !hasErrors;
 
+            this.DebugWrite($"SetStyle, HasNoErrors={HasNoErrors}");
+
             //todo, should raise only when something is different
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StyleFor)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ErrorTextFor)));

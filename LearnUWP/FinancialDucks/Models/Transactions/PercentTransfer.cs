@@ -6,19 +6,22 @@ namespace FinancialDucks.Models.Transactions
     {
         public decimal Percent { get; }
 
-        public PercentTransfer(FinancialEntity source, FinancialEntity destination, DateTime date, decimal percent) 
-            :base(source,destination,date)
+        public bool IsPercentOfSource { get; }
+
+        public PercentTransfer(FinancialEntity source, FinancialEntity destination, DateTime date, 
+            decimal percent, bool isPercentOfSource, bool subtractFromSource, bool addToDestination) 
+            :base(source,destination,date, subtractFromSource, addToDestination)
         {
             Percent = percent;
+            IsPercentOfSource = isPercentOfSource;
         }
 
-        public override FinancialSnapshotForDay[] Apply(decimal sourceAmount, decimal destinationAmount)
+        protected override decimal GetAmountToTransfer(decimal sourceAmount, decimal destinationAmount)
         {
-            var transferAmount = sourceAmount * Percent;
-            return new FinancialSnapshotForDay[]
-            {
-                new FinancialSnapshotForDay(Destination, destinationAmount + transferAmount, Date)
-            };
+            if (IsPercentOfSource)
+                return sourceAmount * Percent;
+            else 
+                return destinationAmount * Percent;
         }
     }
 }

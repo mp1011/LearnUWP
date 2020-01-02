@@ -27,7 +27,7 @@ namespace FinancialDucks.Models.Timeline
         public decimal GetLatestAmountFor(FinancialEntity entity, DateTime date)
         {
             var mostRecent = _snapshots
-                .Where(p => p.Entity == entity && p.Date <= date)
+                .Where(p => p.Entity.Equals(entity) && p.Date <= date)
                 .OrderBy(p => p.Date)
                 .LastOrDefault();
 

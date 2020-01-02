@@ -7,6 +7,18 @@ namespace LearnUWP.Services
 {
     public static class DiagnosticsService
     {
+
+        private static string Describe(this object o)
+        {
+            if (o is Control c)
+                return c.Describe();
+            else if (o == null)
+                return "(null)";
+            else 
+                return o.GetType().Name;
+
+        }
+
         private static string Describe(this Control c)
         {
             if (string.IsNullOrEmpty(c.Name))
@@ -34,10 +46,10 @@ namespace LearnUWP.Services
                 return $"{o.GetType().Name}:{o}";
         }
 
-        public static void DebugWrite(this Control c, string message)
+        public static void DebugWrite(this object o, string message)
         {
 #if DEBUG
-            Debug.WriteLine($"{c.Describe()} {message}");
+            Debug.WriteLine($"{o.Describe()} {message}");
 #endif
         }
     }

@@ -1,4 +1,5 @@
-﻿using FinancialDucks.Models;
+﻿using FinancialDucks.IOC;
+using FinancialDucks.Models;
 using FinancialDucks.Models.FinancialEntities;
 using FinancialDucks.Models.Recurences;
 using FinancialDucks.Models.Recurrences;
@@ -83,13 +84,13 @@ namespace FinancialDucks.Tests.ServiceTests
             var bankAccount = new BankAccount(0, "My Bank", 5000);
             var dateService = new RecurrenceFactory();
 
-            var purchase = new GoodOrService(0, "New TV", -400);
+            var purchase = new GoodOrService(0, "New TV", 400);
 
             var transactionService = new TransactionService();
             var history = new FinancialHistory();
             transactionService.ProcessTransactions(history, new FinancialTransaction[]
             {
-                new PercentTransfer(purchase, bankAccount, new DateTime(2019,5,1), 1.0M)
+                new PercentTransfer(bankAccount, purchase, new DateTime(2019,5,1), 1.0M, false,true,false)
             });
 
             history.GetLatestAmountFor(bankAccount, new DateTime(2019, 4, 1))
@@ -99,6 +100,55 @@ namespace FinancialDucks.Tests.ServiceTests
             history.GetLatestAmountFor(bankAccount, new DateTime(2019, 6, 1))
                 .Should()
                 .Be(4600);
+        }
+
+        [Test]
+        public void TestTimelineWithPaycheckAndBill()
+        {
+
+            var recurrenceFactory = IOCContainer.Resolve<RecurrenceFactory>();
+            var transactionService = IOCContainer.Resolve<TransactionService>();
+
+            var bank = new BankAccount(0, "MyTestBank", 0);
+            var bill = new GoodOrService(0, "Bill", 500);
+            var paycheck = new Paycheck(0, "Paycheck", 500);
+
+            var paySchedule = new IncomeSchedule(0,
+                                    paycheck,
+                                    bank,
+                                    PayCycle.FirstAndFifteenthOfTheMonth,
+                                    new DateTime(2020, 1, 1),
+                                    new DateTime(2021, 1, 1),
+                                    recurrenceFactory);
+
+            var billSchedule = new PaymentSchedule(0,
+                                    bank,
+                                    bill,
+                                    RecurrenceType.Monthly,
+                                    AmountType.Percent,
+                                    1.0M,
+                                    "bill payment",
+                                    new DateTime(2020, 1, 1),
+                                    new DateTime(2021, 1, 1),
+                                    recurrenceFactory);
+
+            var history = transactionService.CreateHistory(new ITransactionSchedule[] { paySchedule, billSchedule });
+
+            history
+                .GetSnapshotOnDate(bank, new DateTime(2020, 1, 5))
+                .Amount
+                .Should().Be(0);
+           
+            history
+                 .GetSnapshotOnDate(bank, new DateTime(2020, 1, 16))
+                 .Amount
+                 .Should().Be(500);
+
+            history
+               .GetSnapshotOnDate(bank, new DateTime(2020, 6, 16))
+               .Amount
+               .Should().Be(6* 500);
+
         }
 
     }

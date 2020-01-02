@@ -1,6 +1,7 @@
 using FinancialDucks.IOC;
 using FinancialDucks.Models;
 using FinancialDucks.Models.FinancialEntities;
+using FinancialDucks.Models.Transactions;
 using FinancialDucks.Services;
 using NUnit.Framework;
 using System.IO;
@@ -50,6 +51,15 @@ namespace FinancialDucks.Tests
 
             foreach (var testPaycheck in testPaychecks)
                 storageService.DeleteModelAndDependencies(testPaycheck);
+
+            var testSchedules = storageService
+                .LoadModelsForUser<PaymentSchedule>(-1)
+                .Where(p => p.Description == "UNIT TEST")
+                .ToArray();
+
+            foreach(var testSchedule in testSchedules)
+                storageService.DeleteModelAndDependencies(testSchedule);
+
         }
     }
 }
