@@ -9,51 +9,39 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <StackPanel>
-        <TextBlock>Add Paycheck</TextBlock>
-        
-        <local:Field Label="Name of Company" DataFieldName="CompanyName">
-            <local:Field.FieldContent>
-                <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.CompanyName}"/>
-            </local:Field.FieldContent>
-        </local:Field>
+    <local:CreateOrEdit Title="Paycheck">
+        <local:CreateOrEdit.FormContent>
+            <StackPanel>
+                <local:Field Label="Name of Company" DataFieldName="CompanyName">
+                    <local:Field.FieldContent>
+                        <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.CompanyName}"/>
+                    </local:Field.FieldContent>
+                </local:Field>
 
-        <local:Field Label="Amount" DataFieldName="InitialAmount">
-            <local:Field.FieldContent>
-                <TextBox Text="{x:Bind Mode=TwoWay, Converter={StaticResource TextToDecimal}, Path=ViewModel.Amount}"/>
-            </local:Field.FieldContent>
-        </local:Field>
+                <local:Field Label="Amount" DataFieldName="InitialAmount">
+                    <local:Field.FieldContent>
+                        <TextBox Text="{x:Bind Mode=TwoWay, Converter={StaticResource TextToDecimal}, Path=ViewModel.Amount}"/>
+                    </local:Field.FieldContent>
+                </local:Field>
 
-        <local:Field Label="First Pay Date">
-            <local:Field.FieldContent>
-                <DatePicker Date="{x:Bind Mode=TwoWay, Path=ViewModel.FirstPayDate}"/>
-            </local:Field.FieldContent>
-        </local:Field>
+                <local:Field Label="First Pay Date">
+                    <local:Field.FieldContent>
+                        <DatePicker Date="{x:Bind Mode=TwoWay, Path=ViewModel.FirstPayDate}"/>
+                    </local:Field.FieldContent>
+                </local:Field>
 
-        <local:Field Label="Pay Schedule">
-            <local:Field.FieldContent>
-                <local:EnumPicker Name="PaySchedulePicker" DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.PayCycle}"/>
-            </local:Field.FieldContent>
-        </local:Field>
+                <local:Field Label="Pay Schedule">
+                    <local:Field.FieldContent>
+                        <local:EnumPicker Name="PaySchedulePicker" DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.PayCycle}"/>
+                    </local:Field.FieldContent>
+                </local:Field>
 
-        <local:Field Label="Deposit to">
-            <local:Field.FieldContent>
-                <local:FinancialEntityPicker x:Name="DepositBankPicker" DataContext="{x:Bind ViewModel.DepositBank,Mode=TwoWay}"/>
-            </local:Field.FieldContent>
-        </local:Field>
-
-        <Button 
-            IsEnabled="{x:Bind ViewModel.UIValidations.HasNoErrors, Mode=OneWay}"
-            Content="{x:Bind Path=ViewModel.SaveActionName}" 
-            Command="{x:Bind ViewModel.SaveCommand}"/>
-
-        <Button 
-            Visibility="{x:Bind Path=ViewModel.IsSavedModel, Converter={StaticResource BooleanToVisibility} }" 
-            Content="Delete" 
-            Command="{x:Bind ViewModel.DeleteCommand}"/>
-
-        <Button 
-            Content="Cancel" 
-            Command="{x:Bind ViewModel.CancelCommand}"/>
-    </StackPanel>
+                <local:Field Label="Deposit to">
+                    <local:Field.FieldContent>
+                        <local:FinancialEntityPicker x:Name="DepositBankPicker" DataContext="{x:Bind ViewModel.DepositBank,Mode=TwoWay}"/>
+                    </local:Field.FieldContent>
+                </local:Field>
+            </StackPanel>
+        </local:CreateOrEdit.FormContent>
+    </local:CreateOrEdit>
 </Page>

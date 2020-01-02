@@ -9,11 +9,34 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
-        <StackPanel Orientation="Horizontal" Style="{x:Bind ViewModel.FieldStyle, Mode=OneWay}">
-            <TextBlock Text="{x:Bind Label}"/>
-            <ContentControl Content="{x:Bind FieldContent, Mode=OneTime}" />
-            <TextBlock Style="{StaticResource ValidationMessage}" Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"  />
-        </StackPanel>
+    <Grid Style="{x:Bind ViewModel.FieldStyle, Mode=OneWay}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock 
+            Grid.Row="0"
+            Text="{x:Bind Label}"/>
+
+        <Frame Grid.Row="1">
+            
+            <ContentControl Content="{x:Bind FieldContent, Mode=OneTime}"/>
+            
+        </Frame>
+
+            
+
+        <TextBlock 
+            Grid.Row="2"
+            Style="{StaticResource ValidationMessage}" 
+            Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"  />
+        
     </Grid>
+    
 </UserControl>

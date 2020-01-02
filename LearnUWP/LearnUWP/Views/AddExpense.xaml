@@ -9,52 +9,40 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <StackPanel>
-        <TextBlock>Add Expense</TextBlock>
+    <local:CreateOrEdit Title="Expense">
+        <local:CreateOrEdit.FormContent>
+            <StackPanel>
+                <local:Field Label="Description" DataFieldName="Description">
+                    <local:Field.FieldContent>
+                        <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.Description}"/>
+                    </local:Field.FieldContent>
+                </local:Field>
 
-        <local:Field Label="Description" DataFieldName="Description">
-            <local:Field.FieldContent>
-                <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.Description}"/>
-            </local:Field.FieldContent>
-        </local:Field>
+                <local:Field Label="Amount" DataFieldName="InitialAmount">
+                    <local:Field.FieldContent>
+                        <TextBox Text="{x:Bind Mode=TwoWay, Converter={StaticResource TextToDecimal}, Path=ViewModel.Amount}"/>
+                    </local:Field.FieldContent>
+                </local:Field>
 
-        <local:Field Label="Amount" DataFieldName="InitialAmount">
-            <local:Field.FieldContent>
-                <TextBox Text="{x:Bind Mode=TwoWay, Converter={StaticResource TextToDecimal}, Path=ViewModel.Amount}"/>
-            </local:Field.FieldContent>
-        </local:Field>
+                <local:Field Label="Recurrence">
+                    <local:Field.FieldContent>
+                        <local:EnumPicker x:Name="RecurrencePicker" DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.RecurrenceType}"/>
+                    </local:Field.FieldContent>
+                </local:Field>
 
-        <local:Field Label="Recurrence">
-            <local:Field.FieldContent>
-                <local:EnumPicker x:Name="RecurrencePicker" DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.RecurrenceType}"/>
-            </local:Field.FieldContent>
-        </local:Field>
+                <local:Field Label="First Pay Date">
+                    <local:Field.FieldContent>
+                        <DatePicker Date="{x:Bind Mode=TwoWay, Path=ViewModel.FirstPayDate}"/>
+                    </local:Field.FieldContent>
+                </local:Field>
 
-        <local:Field Label="First Pay Date">
-            <local:Field.FieldContent>
-                <DatePicker Date="{x:Bind Mode=TwoWay, Path=ViewModel.FirstPayDate}"/>
-            </local:Field.FieldContent>
-        </local:Field>
+                <local:Field Label="Withdraw from">
+                    <local:Field.FieldContent>
+                        <local:FinancialEntityPicker  DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.WithdrawalBank}"/>
+                    </local:Field.FieldContent>
+                </local:Field>
+            </StackPanel>
+        </local:CreateOrEdit.FormContent>
+    </local:CreateOrEdit>
 
-        <local:Field Label="Withdraw from">
-            <local:Field.FieldContent>
-                <local:FinancialEntityPicker  DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.WithdrawalBank}"/>
-            </local:Field.FieldContent>
-        </local:Field>
-
-        <Button 
-            IsEnabled="{x:Bind ViewModel.UIValidations.HasNoErrors, Mode=OneWay}"
-            Content="{x:Bind Path=ViewModel.SaveActionName}" 
-            Command="{x:Bind ViewModel.SaveCommand}"/>
-
-        <Button 
-            Visibility="{x:Bind Path=ViewModel.IsSavedModel, Converter={StaticResource BooleanToVisibility} }" 
-            Content="Delete" 
-            Command="{x:Bind ViewModel.DeleteCommand}"/>
-
-        <Button 
-            Content="Cancel" 
-            Command="{x:Bind ViewModel.CancelCommand}"/>
-    </StackPanel>
-    
 </Page>

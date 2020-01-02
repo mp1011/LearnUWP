@@ -9,30 +9,14 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    
-    <StackPanel>
-        <TextBlock>Add Bank Account</TextBlock>
-
-        <local:Field Label="Name of Bank" DataFieldName="Name">
-            <local:Field.FieldContent>
-                <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.BankAccountName}"/>
-            </local:Field.FieldContent>
-        </local:Field>
-        
-        <Button 
-            IsEnabled="{x:Bind ViewModel.UIValidations.HasNoErrors, Mode=OneWay}"
-            Content="{x:Bind Path=ViewModel.SaveActionName}" 
-            Command="{x:Bind ViewModel.SaveCommand}"/>
-        
-        <Button 
-            Visibility="{x:Bind Path=ViewModel.IsSavedModel, Converter={StaticResource BooleanToVisibility} }" 
-            Content="Delete" 
-            Command="{x:Bind ViewModel.DeleteCommand}"/>
-
-        <Button 
-            Content="Cancel" 
-            Command="{x:Bind ViewModel.CancelCommand}"/>
-
-    </StackPanel>
-
+    <local:CreateOrEdit Title="Bank Account">
+        <local:CreateOrEdit.FormContent>
+            <local:Field Label="Name of Bank" DataFieldName="Name">
+                <local:Field.FieldContent>
+                    <TextBox Text="{x:Bind Mode=TwoWay, Path=ViewModel.BankAccountName}"/>
+                </local:Field.FieldContent>
+            </local:Field>
+        </local:CreateOrEdit.FormContent>
+    </local:CreateOrEdit>
+  
 </Page>

@@ -14,14 +14,21 @@
             <con:BooleanToVisibility x:Key="BooleanToVisibility"/>
             <con:MoneyFormatter x:Key="MoneyFormatter"/>
 
-            <Style x:Key="ErrorStyle" TargetType="StackPanel">
+            <Style x:Key="ErrorStyle" TargetType="Grid">
                 <Style.Setters>
                     <Setter Property="Background" Value="Yellow"/>
                 </Style.Setters>
             </Style>
+            
             <Style x:Key="ValidationMessage" TargetType="TextBlock">
                 <Style.Setters>
                     <Setter Property="Foreground" Value="Red"/>
+                </Style.Setters>
+            </Style>
+
+            <Style x:Key="Header" TargetType="TextBlock">
+                <Style.Setters>
+                    <Setter Property="FontSize" Value="18"></Setter>
                 </Style.Setters>
             </Style>
             

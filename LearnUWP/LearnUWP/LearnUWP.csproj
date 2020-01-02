@@ -149,6 +149,9 @@
     <Compile Include="Views\AddPaycheck.xaml.cs">
       <DependentUpon>AddPaycheck.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CreateOrEdit.xaml.cs">
+      <DependentUpon>CreateOrEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EnumPicker.xaml.cs">
       <DependentUpon>EnumPicker.xaml</DependentUpon>
     </Compile>
@@ -195,6 +198,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AddPaycheck.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CreateOrEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,47 @@
+﻿<UserControl
+    x:Class="LearnUWP.Views.CreateOrEdit"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LearnUWP.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <StackPanel>
+
+        <RelativePanel x:Name="Header">
+            <TextBlock
+                Style="{StaticResource Header}"
+                RelativePanel.AlignBottomWithPanel="True"
+                Text="{x:Bind FullTitle}"  />
+
+            <Button 
+                Visibility="{x:Bind Path=ViewModel.IsSavedModel, Converter={StaticResource BooleanToVisibility} }" 
+                RelativePanel.AlignRightWithPanel="True"
+                Content="Delete" 
+                Command="{x:Bind ViewModel.DeleteCommand}"/>
+
+        </RelativePanel>
+
+        <ContentControl Content="{x:Bind FormContent, Mode=OneTime}"/>
+
+        <RelativePanel>
+
+            <Button 
+                RelativePanel.AlignLeftWithPanel="True"
+                Content="Cancel" 
+                Command="{x:Bind ViewModel.CancelCommand}"/>
+
+            <Button 
+                RelativePanel.AlignRightWithPanel="True"
+                IsEnabled="{x:Bind ViewModel.UIValidations.HasNoErrors, Mode=OneWay}"
+                Content="{x:Bind Path=ViewModel.SaveActionName}" 
+                Command="{x:Bind ViewModel.SaveCommand}"/>
+
+        </RelativePanel>
+
+
+    </StackPanel>
+</UserControl>

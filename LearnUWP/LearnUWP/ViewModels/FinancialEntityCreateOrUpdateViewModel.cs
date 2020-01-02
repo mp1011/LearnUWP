@@ -13,6 +13,14 @@ namespace LearnUWP.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         public UIValidations UIValidations { get; protected set; }
 
+        public abstract string SaveActionName { get; }
+
+        public abstract bool IsSavedModel { get; }
+
+        public ICommand DeleteCommand { get; protected set; }
+        public ICommand CancelCommand { get; protected set; }
+        public ICommand SaveCommand { get; protected set; }
+
         public abstract ValidationResult[] Validate();
 
         protected void InvokePropertyChange(string propertyName)
@@ -33,13 +41,9 @@ namespace LearnUWP.ViewModels
       
         private T _originalModel;
 
-        public string SaveActionName => _originalModel.ID > 0 ? "Save" : "Create";
+        public override string SaveActionName => _originalModel.ID > 0 ? "Save" : "Create";
 
-        public bool IsSavedModel => _originalModel.ID > 0;
-
-        public ICommand DeleteCommand { get; }
-        public ICommand CancelCommand { get; }
-        public ICommand SaveCommand { get; }
+        public override bool IsSavedModel => _originalModel.ID > 0;
 
         public FinancialEntityCreateOrUpdateViewModel(IUserSessionManager sessionManager, 
             StorageService storageService, ValidationService validationService, NavigationService navigationService)
