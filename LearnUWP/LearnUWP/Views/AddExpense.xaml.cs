@@ -32,11 +32,6 @@ namespace LearnUWP.Views
             InitializeComponent();
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MainPage));
-        }
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Initialize(e.Parameter as GoodOrService);

@@ -137,6 +137,8 @@
     <Compile Include="ViewModels\FieldViewModel.cs" />
     <Compile Include="ViewModels\FinancialEntityCreateOrUpdateViewModel.cs" />
     <Compile Include="ViewModels\EnumPickerViewModel.cs" />
+    <Compile Include="ViewModels\FinancialEntityDropdownItem.cs" />
+    <Compile Include="ViewModels\FinancialEntityDropdownMenuViewModel.cs" />
     <Compile Include="ViewModels\FinancialEntityPickerViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\TimelineViewModel.cs" />
@@ -157,6 +159,9 @@
     </Compile>
     <Compile Include="Views\Field.xaml.cs">
       <DependentUpon>Field.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FinancialEntityDropdownMenu.xaml.cs">
+      <DependentUpon>FinancialEntityDropdownMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FinancialEntityPicker.xaml.cs">
       <DependentUpon>FinancialEntityPicker.xaml</DependentUpon>
@@ -210,6 +215,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Field.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FinancialEntityDropdownMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

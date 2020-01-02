@@ -5,6 +5,7 @@ using LearnUWP.Views;
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -20,52 +21,13 @@ namespace LearnUWP
 
         public MainPage()
         {
-            this.InitializeComponent();
-            GotoAddBankAccount.Click += GotoAddBankAccount_Click;
-            GotoAddPaycheck.Click += GotoAddPaycheck_Click;
-            GotoAddExpense.Click += GotoAddExpense_Click;
+            InitializeComponent();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             ViewModel.Initialize();
-        }
-
-        private void GotoAddBankAccount_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(AddBankAccount));
-        }
-
-        private void GotoAddPaycheck_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(AddPaycheck));
-        }
-
-        private void GotoAddExpense_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(AddExpense));
-        }
-
-        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
-        {
-            var dataContext = (e.OriginalSource as FrameworkElement).DataContext;
-            Frame.Navigate(GetEditViewModelType(dataContext.GetType()), dataContext);
-        }
-
-        private Type GetEditViewModelType(Type modelType)
-        {
-            //todo, can we make automatic?
-            if (modelType == typeof(BankAccount))
-                return typeof(AddBankAccount);
-            
-            if (modelType == typeof(Paycheck))
-                return typeof(AddPaycheck);
-
-            if (modelType == typeof(GoodOrService))
-                return typeof(AddExpense);
-
-            throw new Exception($"There is no edit form defined for type {modelType}");
         }
     }
 }

@@ -10,76 +10,44 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="4*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="4*" />
-        </Grid.RowDefinitions>
-        <StackPanel 
+    <StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+            <views:FinancialEntityDropdownMenu Title="Bank Accounts" DataContext="{x:Bind ViewModel.BankAccounts}" />
+            <views:FinancialEntityDropdownMenu Title="Paychecks" DataContext="{x:Bind ViewModel.Paychecks}" />
+            <views:FinancialEntityDropdownMenu Title="Expenses" DataContext="{x:Bind ViewModel.Expenses}" />
+        </StackPanel>
+
+
+       
+        
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="4*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="4*" />
+            </Grid.RowDefinitions>
+            <StackPanel 
             Grid.Row="0"
             Grid.Column="0">
 
-            <HyperlinkButton x:Name="GotoAddBankAccount">
-                Add Bank Account
-            </HyperlinkButton>
-            
-            <HyperlinkButton x:Name="GotoAddPaycheck">
-                Add Paycheck
-            </HyperlinkButton>
 
-            <HyperlinkButton x:Name="GotoAddExpense">
-                Add Expense
-            </HyperlinkButton>
 
-        </StackPanel>
 
-        <views:Timeline 
+            </StackPanel>
+
+            <views:Timeline 
             Grid.Row="1"
             Grid.Column="1"
             Background="LightBlue" />
 
-        <StackPanel 
-            Grid.Row="1" 
-            Grid.Column="0">
-            <ListView 
-                Header="Bank Accounts"
-                x:Name="BankAccountsList"
-                ItemsSource="{x:Bind ViewModel.BankAccounts}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <HyperlinkButton Click="HyperlinkButton_Click" >
-                            <TextBlock Text="{Binding Name}"/>
-                        </HyperlinkButton>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <ListView 
-                Header="Paychecks"
-                ItemsSource="{x:Bind ViewModel.Paychecks}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <HyperlinkButton Click="HyperlinkButton_Click" >
-                            <TextBlock Text="{Binding CompanyName}"/>
-                        </HyperlinkButton>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <ListView 
-                Header="Expenses"
-                ItemsSource="{x:Bind ViewModel.Expenses}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <HyperlinkButton Click="HyperlinkButton_Click" >
-                            <TextBlock Text="{Binding Name}"/>
-                        </HyperlinkButton>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackPanel>
+         
+        </Grid>
+    </StackPanel>
         
-    </Grid>
+ 
 </Page>
