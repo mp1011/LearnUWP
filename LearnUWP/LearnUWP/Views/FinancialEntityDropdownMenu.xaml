@@ -15,9 +15,9 @@
                 <ListView ItemsSource="{x:Bind ViewModel.Items}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <HyperlinkButton Command="{Binding CreateOrEdit}">
+                            <Button Command="{Binding CreateOrEdit}" Background="LightGray">
                                 <TextBlock Text="{Binding Text}"/>
-                            </HyperlinkButton>
+                            </Button>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

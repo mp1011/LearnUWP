@@ -10,44 +10,26 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal">
+        <StackPanel 
+            Orientation="Horizontal"
+            Grid.Row="0">
             <views:FinancialEntityDropdownMenu Title="Bank Accounts" DataContext="{x:Bind ViewModel.BankAccounts}" />
             <views:FinancialEntityDropdownMenu Title="Paychecks" DataContext="{x:Bind ViewModel.Paychecks}" />
             <views:FinancialEntityDropdownMenu Title="Expenses" DataContext="{x:Bind ViewModel.Expenses}" />
         </StackPanel>
 
-
-       
-        
-        
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="4*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="4*" />
-            </Grid.RowDefinitions>
-            <StackPanel 
-            Grid.Row="0"
-            Grid.Column="0">
-
-
-
-
-            </StackPanel>
-
-            <views:Timeline 
+        <views:Timeline 
             Grid.Row="1"
-            Grid.Column="1"
             Background="LightBlue" />
+    </Grid>
 
-         
-        </Grid>
-    </StackPanel>
-        
- 
 </Page>

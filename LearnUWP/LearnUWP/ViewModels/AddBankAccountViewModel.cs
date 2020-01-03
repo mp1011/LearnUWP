@@ -18,8 +18,11 @@ namespace LearnUWP.ViewModels
             get => _dataModel.Name;
             set
             {
-                _dataModel.Name = value;
-                InvokePropertyChange(nameof(BankAccountName));
+                if (_dataModel.Name != value)
+                {
+                    _dataModel.Name = value;
+                    InvokePropertyChange(nameof(BankAccountName));
+                }
             }
         }
 
@@ -33,6 +36,7 @@ namespace LearnUWP.ViewModels
         protected override void SetDataModels(BankAccount bankAccount)
         {
             _dataModel = _bankAccountStorageService.ToDataModel(StorageService, bankAccount);
+            InvokePropertyChange(nameof(_dataModel));
         }
 
         public override BankAccount SaveModel()

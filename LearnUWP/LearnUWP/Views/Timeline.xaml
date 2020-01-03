@@ -11,13 +11,35 @@
     d:DesignWidth="400">
 
     <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <DatePicker Date="{x:Bind ViewModel.RangeStart, Mode=TwoWay}"/>
-            <DatePicker Date="{x:Bind ViewModel.RangeEnd, Mode=TwoWay}"></DatePicker>
-            <local:EnumPicker DataContext="{x:Bind ViewModel.TimelineInterval, Mode=TwoWay}"/>
-            <local:FinancialEntityPicker x:Name="BankAccountPicker"  DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.BankAccount}"/>
-            <Button Content="Calculate" Command="{x:Bind ViewModel.RecalculateCommand}"/>
-        </StackPanel>
+        <RelativePanel>
+            <local:Field Label="From" x:Name="From">
+                <local:Field.FieldContent>
+                    <DatePicker Date="{x:Bind ViewModel.RangeStart, Mode=TwoWay}"/>
+                </local:Field.FieldContent>
+            </local:Field>
+            <local:Field Label="To" x:Name="To" RelativePanel.AlignLeftWith="From">
+                <local:Field.FieldContent>
+                    <DatePicker Date="{x:Bind ViewModel.RangeEnd, Mode=TwoWay}"/>
+                </local:Field.FieldContent>
+            </local:Field>
+            <local:Field Label="Interval" x:Name="Interval" RelativePanel.AlignLeftWith="To">
+                <local:Field.FieldContent>
+                    <local:EnumPicker DataContext="{x:Bind ViewModel.TimelineInterval, Mode=TwoWay}"/>
+                </local:Field.FieldContent>
+            </local:Field>
+            <local:Field Label="Bank Account" x:Name="BankAccount" RelativePanel.AlignLeftWith="Interval">
+                <local:Field.FieldContent>
+                    <local:FinancialEntityPicker x:Name="BankAccountPicker"  DataContext="{x:Bind Mode=TwoWay,Path=ViewModel.BankAccount}"/>
+                </local:Field.FieldContent>
+            </local:Field>
+
+            <Button x:Name="Calculate" 
+                    Content="Calculate" 
+                    Command="{x:Bind ViewModel.RecalculateCommand}" 
+                    RelativePanel.AlignRightWithPanel="True"
+                    />
+            
+        </RelativePanel>
         
         
         <ListView ItemsSource="{x:Bind ViewModel.Timeline}">

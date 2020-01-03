@@ -17,7 +17,7 @@ namespace LearnUWP.Views
                 if (ViewModel.IsSavedModel)
                     return $"Edit {Title}";
                 else
-                    return $"Create {Title}";
+                    return $"Add {Title}";
             } 
         }
         public string Title

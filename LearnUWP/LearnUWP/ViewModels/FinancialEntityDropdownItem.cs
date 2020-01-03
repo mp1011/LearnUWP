@@ -10,7 +10,7 @@ namespace LearnUWP.ViewModels
     {
         public FinancialEntity Entity { get; }
 
-        public string Text => Entity?.Name ?? "Create New";
+        public string Text => Entity?.Name ?? "Add New";
 
         public ICommand CreateOrEdit { get; }
 
