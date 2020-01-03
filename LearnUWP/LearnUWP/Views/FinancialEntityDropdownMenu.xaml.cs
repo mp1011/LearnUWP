@@ -24,11 +24,24 @@ namespace LearnUWP.Views
               new PropertyMetadata(null)
             );
 
+        public string ImagePath => $@"/Assets/{Title}.png";
+
         public FinancialEntityDropdownMenu()
         {
             InitializeComponent();
             DataContextChanged += FinancialEntityDropdownMenu_DataContextChanged;
             MenuButton.Click += MenuButton_Click;
+            Image.Tapped += Image_Tapped;
+        }
+
+        private void Image_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout(MenuButton);
+        }
+
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout(MenuButton);
         }
 
         private void FinancialEntityDropdownMenu_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
@@ -37,9 +50,6 @@ namespace LearnUWP.Views
                 ViewModel = FinancialEntityDropdownMenuViewModel.TryCreate(DataContext);
         }
 
-        private void MenuButton_Click(object sender, RoutedEventArgs e)
-        {
-            FlyoutBase.ShowAttachedFlyout(MenuButton);
-        }
+        
     }
 }

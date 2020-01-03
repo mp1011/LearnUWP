@@ -31,7 +31,21 @@
                     <Setter Property="FontSize" Value="18"></Setter>
                 </Style.Setters>
             </Style>
-            
+
+            <Style TargetType="Button" x:Key="MenuButtonTemplate">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border BorderBrush="Blue" BorderThickness="8" Margin="10">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Text}"></TextBlock>
+                                    <ContentPresenter VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

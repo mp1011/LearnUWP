@@ -9,19 +9,46 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Button Content="{x:Bind Title}" x:Name="MenuButton">
-        <FlyoutBase.AttachedFlyout>
-            <Flyout>
-                <ListView ItemsSource="{x:Bind ViewModel.Items}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Button Command="{Binding CreateOrEdit}" Background="LightGray">
-                                <TextBlock Text="{Binding Text}"/>
-                            </Button>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Flyout>
-        </FlyoutBase.AttachedFlyout>
-    </Button>
+
+
+    <RelativePanel BorderBrush="Black" BorderThickness="2" Margin="10" Padding="8">
+        <Image                  
+            x:Name="Image"
+            Source="{x:Bind ImagePath}"
+            Width="80" 
+            Height="70"
+            RelativePanel.AlignTopWithPanel="True"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+        />
+
+        <Button 
+            x:Name="MenuButton"
+            Background="White"
+            BorderBrush="LightGray"
+            BorderThickness="2"
+            RelativePanel.AlignBottomWithPanel="True"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            Content="{x:Bind Title}">
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout>
+                        <ListView ItemsSource="{x:Bind ViewModel.Items}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Command="{Binding CreateOrEdit}" Background="LightGray">
+                                        <TextBlock 
+                                            FontWeight="Bold" 
+                                            FontStyle="Italic"
+                                            Text="{Binding Text}"/>
+                                    </Button>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Flyout>
+                </FlyoutBase.AttachedFlyout>
+                
+            </Button>
+
+    </RelativePanel>
+
+  
 </UserControl>
