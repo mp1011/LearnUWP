@@ -22,14 +22,18 @@
         <StackPanel 
             Orientation="Horizontal"
             Grid.Row="0">
+            
             <views:FinancialEntityDropdownMenu Title="Bank Accounts" DataContext="{x:Bind ViewModel.BankAccounts}" />
             <views:FinancialEntityDropdownMenu Title="Paychecks" DataContext="{x:Bind ViewModel.Paychecks}" />
             <views:FinancialEntityDropdownMenu Title="Expenses" DataContext="{x:Bind ViewModel.Expenses}" />
+            
         </StackPanel>
 
         <views:Timeline 
             Grid.Row="1"
             Background="LightBlue" />
+
+      
     </Grid>
 
 </Page>

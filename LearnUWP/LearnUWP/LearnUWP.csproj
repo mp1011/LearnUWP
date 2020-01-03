@@ -178,7 +178,9 @@
   <ItemGroup>
     <Content Include="Assets\Bank Accounts.png" />
     <Content Include="Assets\Expenses.png" />
+    <Content Include="Assets\Left.png" />
     <Content Include="Assets\Paychecks.png" />
+    <Content Include="Assets\Right.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

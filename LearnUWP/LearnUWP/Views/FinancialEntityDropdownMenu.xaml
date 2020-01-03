@@ -9,7 +9,23 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
+    <UserControl.Resources>
+        <Style x:Key="FlyoutStyle" TargetType="FlyoutPresenter">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+        <Style x:Key="FlyoutListStyle" TargetType="ListViewItem">
 
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="MinWidth" Value="0"/>
+            <Setter Property="MinHeight" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+
+        </Style>
+    </UserControl.Resources>
 
     <RelativePanel BorderBrush="Black" BorderThickness="2" Margin="10" Padding="8">
         <Image                  
@@ -24,23 +40,23 @@
         <Button 
             x:Name="MenuButton"
             Background="White"
-            BorderBrush="LightGray"
+            BorderBrush="DarkGray"
             BorderThickness="2"
+            FontWeight="Bold"
             RelativePanel.AlignBottomWithPanel="True"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
             Content="{x:Bind Title}">
                 <FlyoutBase.AttachedFlyout>
-                    <Flyout>
-                        <ListView ItemsSource="{x:Bind ViewModel.Items}">
+                    <Flyout Placement="BottomEdgeAlignedLeft"  FlyoutPresenterStyle="{StaticResource FlyoutStyle}">
+                        <ListView ItemContainerStyle="{StaticResource FlyoutListStyle}" ItemsSource="{x:Bind ViewModel.Items}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Command="{Binding CreateOrEdit}" Background="LightGray">
-                                        <TextBlock 
-                                            FontWeight="Bold" 
-                                            FontStyle="Italic"
-                                            Text="{Binding Text}"/>
-                                    </Button>
-                                </DataTemplate>
+                                    <Button 
+                                        Content="{Binding Text}"
+                                        Command="{Binding CreateOrEdit}" 
+                                        Background="White"/>
+
+                            </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
                     </Flyout>

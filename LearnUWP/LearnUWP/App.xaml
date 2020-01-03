@@ -28,7 +28,18 @@
 
             <Style x:Key="Header" TargetType="TextBlock">
                 <Style.Setters>
+                    <Setter Property="FontWeight" Value="ExtraBlack"/>
                     <Setter Property="FontSize" Value="18"></Setter>
+                </Style.Setters>
+            </Style>
+
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Style.Setters>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="FontWeight" Value="Black"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="Background" Value="White"/>
                 </Style.Setters>
             </Style>
 

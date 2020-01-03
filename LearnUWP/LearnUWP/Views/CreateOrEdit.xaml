@@ -9,9 +9,12 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <StackPanel>
+    <StackPanel Margin="20">
 
-        <RelativePanel x:Name="Header">
+        <RelativePanel 
+            x:Name="Header"   
+            BorderBrush="Black"
+            BorderThickness="0,0,0,1">
             <TextBlock
                 Style="{StaticResource Header}"
                 RelativePanel.AlignBottomWithPanel="True"
@@ -25,20 +28,48 @@
 
         </RelativePanel>
 
-        <ContentControl Content="{x:Bind FormContent, Mode=OneTime}"/>
+        <ContentControl Margin="10" Content="{x:Bind FormContent, Mode=OneTime}"/>
 
         <RelativePanel>
 
             <Button 
                 RelativePanel.AlignLeftWithPanel="True"
-                Content="Cancel" 
-                Command="{x:Bind ViewModel.CancelCommand}"/>
+                Style="{StaticResource ButtonStyle}"
+                Command="{x:Bind ViewModel.CancelCommand}">
+
+                <RelativePanel Margin="0" Padding="2">
+                    <Image 
+                        x:Name="LeftArrow"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        Source="/Assets/Left.png"
+                        Width="Auto"
+                        Height="20"
+                        />
+                    <TextBlock RelativePanel.RightOf="LeftArrow" Padding="10,0,0,0">
+                        Cancel</TextBlock>
+                </RelativePanel>
+                
+            </Button>
 
             <Button 
                 RelativePanel.AlignRightWithPanel="True"
+                Style="{StaticResource ButtonStyle}"
                 IsEnabled="{x:Bind ViewModel.UIValidations.HasNoErrors, Mode=OneWay}"
-                Content="{x:Bind Path=ViewModel.SaveActionName}" 
-                Command="{x:Bind ViewModel.SaveCommand}"/>
+                Command="{x:Bind ViewModel.SaveCommand}">
+                <RelativePanel Margin="0" Padding="2">
+                    <TextBlock 
+                        RelativePanel.LeftOf="RightArrow" 
+                        Text="{x:Bind Path=ViewModel.SaveActionName}"/>
+                    <Image 
+                        x:Name="RightArrow"
+                        RelativePanel.AlignRightWithPanel="True"
+                        Source="/Assets/Right.png"
+                        Width="Auto"
+                        Height="20"
+                        />
+                </RelativePanel>
+                
+            </Button>
 
         </RelativePanel>
 
