@@ -1,4 +1,5 @@
-﻿using FinancialDucks.IOC;
+﻿using FinancialDucks.Data;
+using FinancialDucks.IOC;
 using FinancialDucks.Services.UserServices;
 using LearnUWP.Services;
 using LearnUWP.ViewModels;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -44,6 +46,8 @@ namespace LearnUWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            DataConfig.DataPath = ApplicationData.Current.LocalFolder.Path;
+         
             //temporarily here until login is implemented
             IOCContainer.Resolve<IUserSessionManager>().Login(-1);
 

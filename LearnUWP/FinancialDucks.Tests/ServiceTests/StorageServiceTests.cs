@@ -2,6 +2,7 @@
 using FinancialDucks.Data.Services;
 using FinancialDucks.IOC;
 using FinancialDucks.Models;
+using FinancialDucks.Models.FinancialEntities;
 using FinancialDucks.Models.Transactions;
 using FinancialDucks.Models.UserData;
 using FinancialDucks.Services;
@@ -21,6 +22,10 @@ namespace FinancialDucks.Tests.ServiceTests
         public void CanLoadUserFinancesForCurrentUser()
         {
             var storageService = IOCContainer.Resolve<StorageService>();
+
+            storageService.StoreModel(new BankAccount(0, "TEST " + Guid.NewGuid(), 0));
+            storageService.StoreModel(new Paycheck(0, "TEST " + Guid.NewGuid(), 100));
+
             var userFinances = storageService.LoadModelsForUser<UserFinances>(-1)
                 .FirstOrDefault();
 
@@ -62,6 +67,11 @@ namespace FinancialDucks.Tests.ServiceTests
         public void CanLoadBankAccounts()
         {
             var storageService = IOCContainer.Resolve<StorageService>();
+
+            storageService.StoreModel(new BankAccount(0, "TEST " + Guid.NewGuid(), 0));
+            storageService.StoreModel(new BankAccount(0, "TEST " + Guid.NewGuid(), 0));
+            storageService.StoreModel(new BankAccount(0, "TEST " + Guid.NewGuid(), 0));
+
             var dao = IOCContainer.Resolve<DAO>();
 
             var banksInDB = dao.Read<BankAccountDataModel>();
@@ -80,10 +90,13 @@ namespace FinancialDucks.Tests.ServiceTests
             var sessionManager = IOCContainer.Resolve<IUserSessionManager>();
             sessionManager.Login(-1);
 
+            var bank = storageService.StoreModel(new BankAccount(0, "TEST", 0));
+            var expense = storageService.StoreModel(new GoodOrService(0, "TEST", 100));
+
             var paymentSchedule = new PaymentSchedule(
                 id: 0,
-                bankAccount: sessionManager.CurrentUserFinances.BankAccounts.First(),
-                expense: sessionManager.CurrentUserFinances.Expenses.First(),
+                bankAccount: bank,
+                expense: expense,
                 recurrenceType: RecurrenceType.Monthly,
                 amountType: AmountType.Percent,
                 amount: 1.0M,
@@ -110,7 +123,7 @@ namespace FinancialDucks.Tests.ServiceTests
             sessionManager.Login(-1);
 
             var paycheck = storageService.StoreModel(new Paycheck(0, "TEST", 100));
-            var bank = sessionManager.CurrentUserFinances.BankAccounts.First();
+            var bank = storageService.StoreModel(new BankAccount(0,"TEST",0));
 
             var paySchedule = storageService.StoreModel(
                 new IncomeSchedule(0, paycheck, bank, PayCycle.FirstOfTheMonth, new DateTime(2019, 1, 1), new DateTime(2019, 12, 1),

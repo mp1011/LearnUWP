@@ -21,9 +21,19 @@ namespace FinancialDucks.Data.Services
             using (var conn = _connectionProvider.CreateConnection())
             {
                 if (model.ID == 0)
-                    model.ID = (int)conn.Insert(model);
+                {
+                    var insertResult = conn.Insert(model);
+                    if (insertResult is long number)
+                    {
+                        model.ID = (int)number;
+                        model.LocalID = (int)number;
+                    }
+                    if (_connectionProvider.IsLocal)
+                        conn.Execute($"UPDATE {SqlStringBuilder.GetTableName<T>()} Set ID = {model.LocalID} WHERE LocalID={model.LocalID}");
+                }
                 else
                     conn.Update(model);
+
             }
 
             return model;

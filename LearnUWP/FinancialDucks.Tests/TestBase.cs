@@ -1,9 +1,12 @@
+using FinancialDucks.Data;
+using FinancialDucks.Data.Services;
 using FinancialDucks.IOC;
 using FinancialDucks.Models;
 using FinancialDucks.Models.FinancialEntities;
 using FinancialDucks.Models.Transactions;
 using FinancialDucks.Services;
 using NUnit.Framework;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -15,8 +18,14 @@ namespace FinancialDucks.Tests
         [SetUp]
         public void Setup()
         {
+            DataConfig.DataPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\LearnUWP\Test"; 
+                
             OneConfig.Services.FileHelper.ApplicationDirectory = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
             DIRegistrar.RegisterTypes();
+
+            var sqliteFile = IOCContainer.Resolve<SQLiteConnectionProvider>().SQLiteDBFile;
+            if (sqliteFile.Exists)
+                sqliteFile.Delete();
 
             FixtureSetup();
         }

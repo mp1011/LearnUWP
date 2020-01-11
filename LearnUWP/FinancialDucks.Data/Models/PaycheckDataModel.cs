@@ -8,6 +8,8 @@ namespace FinancialDucks.Data.Models
     {
         [Key]
         public int ID { get; set; }
+        [Write(false)]
+        public int? LocalID { get; set; }
 
         public string CompanyName { get; set; }
         public decimal InitialAmount { get; set; }

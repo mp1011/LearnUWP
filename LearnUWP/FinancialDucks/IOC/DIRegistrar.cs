@@ -22,7 +22,11 @@ namespace FinancialDucks.IOC
             serviceCollection.AddSingleton(typeof(IUserSessionManager),typeof(SingleUserInMemoryUserSessionManager));
             serviceCollection.AddSingleton(typeof(RecurrenceFactory));
             serviceCollection.AddSingleton(typeof(TransactionService));
-            serviceCollection.AddSingleton(typeof(IConnectionProvider), typeof(ConnectionFromAppSettingsProvider));
+            serviceCollection.AddSingleton(typeof(IConnectionProvider), typeof(SQLiteConnectionProvider));
+
+            serviceCollection.AddSingleton(typeof(SQLiteConnectionProvider));
+            serviceCollection.AddSingleton(typeof(SQLiteDatabaseCreator));
+
             serviceCollection.AddSingleton(typeof(DAO));
 
             serviceCollection.AddImplementationsOf<IModelValidator>();

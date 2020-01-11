@@ -127,7 +127,7 @@ namespace LearnUWP.ViewModels
         
         public void Initialize()
         {
-            BankAccount = BankAccount ?? _userSessionManager.CurrentUserFinances.BankAccounts.Last();
+            BankAccount = BankAccount ?? _userSessionManager.CurrentUserFinances.BankAccounts.LastOrDefault();
         }
     }
 }

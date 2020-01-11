@@ -10,6 +10,8 @@ namespace FinancialDucks.Data.Models
     public class IncomeScheduleDataModel : IWithID
     {
         public int ID { get; set; }
+        [Write(false)]
+        public int? LocalID { get; set; }
 
         public int PaycheckID { get; set; }
 

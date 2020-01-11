@@ -3,5 +3,6 @@
     public interface IWithID
     {
         int ID { get; set; }
+        int? LocalID { get; set; }
     }
 }

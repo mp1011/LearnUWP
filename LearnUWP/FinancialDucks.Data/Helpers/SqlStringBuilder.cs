@@ -40,8 +40,12 @@ namespace FinancialDucks.Data.Helpers
             return builder;
         }
 
+        public static string GetTableName<T>()
+        {
+            return GetTableName(typeof(T));
+        }
 
-        private static string GetTableName(Type tableType)
+        public static string GetTableName(Type tableType)
         {
             var nameAttr = tableType
                 .GetCustomAttributes(false)
