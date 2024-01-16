@@ -18,7 +18,7 @@
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.30" />
     <PackageReference Include="Dapper.Contrib" Version="2.0.30" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.7" />
     <PackageReference Include="OneConfig.Standard" Version="1.0.0-beta" />
     <PackageReference Include="sqlite" Version="3.13.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
